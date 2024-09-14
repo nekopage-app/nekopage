@@ -1,4 +1,6 @@
 <script lang="ts">
+	let { settings }: { settings: WidgetSettings } = $props();
+
     let tableRow: HTMLTableRowElement;
     let tableBody: HTMLTableSectionElement;
 
@@ -110,7 +112,7 @@
 </script>
 
 <div id="calendar" class="widget">
-    <h1>calendar</h1>
+    <h1>{settings.title}</h1>
 
     <div class="widget-inner">
         <div class="flex items-center justify-between px-4 h-12">

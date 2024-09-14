@@ -1,9 +1,10 @@
 <script lang="ts">
+	let { settings }: { settings: WidgetSettings } = $props();
+
 	let searchInputValue = $state('');
 
 	function search() {
-		// todo: add more seach engines
-		window.location.href = `https://www.google.com/search?q=${searchInputValue}`;
+		window.location.href = `${settings.url}${searchInputValue}`;
 	}
 
 	function onKeyDown(event: KeyboardEvent) {
@@ -14,7 +15,7 @@
 </script>
 
 <div id="search" class="widget">
-	<h1>search</h1>
+	<h1>{settings.title}</h1>
 
 	<div
 		class="widget-inner !flex-row justify-center items-center gap-2 transition-colors hover:bg-base"
