@@ -20,7 +20,7 @@ export const actions = {
             return fail(401, { username, success: false, incorrect: true });
         }
 
-        if (await database.auth.checkUser(username, password)) {
+        if (await database.auth.checkUserCredentials(username, password)) {
             cookies.set("session_id", "TODO_SESSION_ID", {
                 path: "/",
                 httpOnly: true,

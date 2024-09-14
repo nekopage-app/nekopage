@@ -9,8 +9,14 @@ export const load = async ({ cookies, locals }) => {
         throw redirect(303, "/login");
     }
 
-    return {
-		layout: database.layouts.getParsedLayout(locals.user?.id!),
-        user: locals.user
-	};
+    const layout = database.layouts.getParsedLayout(locals.user?.id!);
+
+    if (layout) {
+        return {
+            layout,
+            user: locals.user
+        };
+    } else {
+        throw redirect(303, "/login");
+    }
 };
