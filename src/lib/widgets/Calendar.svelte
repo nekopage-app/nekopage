@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from "svelte";
+
 	let { settings }: { settings: WidgetSettings } = $props();
 
     let tableRow: HTMLTableRowElement;
@@ -39,7 +41,7 @@
 		}
 	}
 
-    $effect(() => {
+    onMount(() => {
         // Current date
 		const date = new Date();
 		// getMonth() starts at 0 so we add 1 to get the correct month
