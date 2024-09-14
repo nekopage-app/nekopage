@@ -3,8 +3,10 @@ export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
     colors: {
+      transparent: "transparent",
       accent: "var(--accent)",
       "light-accent": "var(--light-accent)",
+      red: "var(--red)",
       text: "var(--text)",
       subtext: "var(--subtext)",
       overlay: "var(--overlay)",
