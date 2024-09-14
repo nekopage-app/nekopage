@@ -45,7 +45,13 @@ export function getWidgets(layoutId: number): DatabaseWidget[] {
 	return row;
 }
 
-/** Combines getLayout() and getWidgets() into one while also getting rid of unused properties */
+/**
+ * Parses widgets and layouts into the Layout type.
+ *
+ * @param {number} layoutId - The layout ID.
+ * 
+ * @returns {Layout}
+ */
 export function getParsedLayout(layoutId: number): Layout {
 	const layout = getLayout(layoutId);
 	const widgets = getWidgets(layoutId);
@@ -89,8 +95,9 @@ export function getParsedLayout(layoutId: number): Layout {
  * @throws {Error}
  */
 export function addWidgetToLayout(layoutId: number, widgetId: number, column: 'left' | 'middle' | 'right'): boolean {
-	// The SQLite library puts quotation marks around the column if I put it with the .get() function 
+	// The SQLite library automatically adds quotation marks around column names when used with the .get() function so we concatenate it
 	const sqlSelect = `SELECT ${column} FROM layouts WHERE id = ?`;
+	// Same here
 	const sqlUpdate = `UPDATE layouts SET ${column} = ? WHERE id = ?`;
 	const rowSelect = database.prepare(sqlSelect).get(layoutId) as DatabaseLayout;
 

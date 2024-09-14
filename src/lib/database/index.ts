@@ -42,8 +42,14 @@ export function init() {
 		);
 	`);
 
-	console.info("Created tables in database");
+	console.info("Checked and created missing tables in database");
 
     // Create default user
-    auth.createUser("neko", "meow");
+	const userCountSql = `SELECT COUNT(*) FROM users`;
+	const userCount = database.prepare(userCountSql).get();
+
+	if (userCount === 0) {
+		auth.createUser("neko", "meow");
+		console.info("Default account created");
+	}
 }
