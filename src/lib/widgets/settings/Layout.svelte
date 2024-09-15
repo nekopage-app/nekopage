@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { showSettings, showSettingsButton } from '$lib/stores';
+	import { inLayoutEditor, showSettings, showSettingsButton } from '$lib/stores';
 
     function enterLayoutEditor() {
         showSettings.set(false);
         showSettingsButton.set(false);
+        inLayoutEditor.set(true);
     }
 </script>
 

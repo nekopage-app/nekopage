@@ -23,8 +23,12 @@
 </div>
 
 <style lang="postcss">
+	:global(.widget) {
+		@apply select-none;
+	}
+
 	:global(.widget > h1) {
-		@apply font-semibold text-overlay p-1 pl-[0.1rem] flex justify-between;
+		@apply font-semibold text-overlay p-1 flex justify-between;
 	}
 
 	:global(.widget > h1 *) {
@@ -43,8 +47,12 @@
 		@apply flex justify-center items-center fixed w-full h-full top-0 left-0 z-10;
 	}
 
+	:global(hr) {
+		@apply my-3 border-surface;
+	}
+
 	:global(button) {
-		@apply font-medium transition duration-300 hover:brightness-90 active:scale-90;
+		@apply font-medium transition duration-[250ms] hover:brightness-90 active:scale-90;
 	}
 
 	:global(select),
@@ -54,5 +62,9 @@
 
 	:global(.input) {
 		@apply flex justify-between items-center gap-1;
+	}
+
+	:global(.button) {
+		@apply bg-text text-mantle px-3 py-1.5 rounded;
 	}
 </style>
