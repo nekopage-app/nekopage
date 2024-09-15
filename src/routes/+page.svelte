@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-	import { fade, fly } from "svelte/transition";
+	import { onMount, type Component } from "svelte";
+	import { fly } from "svelte/transition";
 
-	import { layout } from "$lib/stores/Layout";
+	import { layout, showSettingsButton } from '$lib/stores';
 	import type { PageData } from "./$types";
 
 	import Settings from "$lib/widgets/settings/Settings.svelte";
@@ -15,7 +15,7 @@
 	let { data }: { data: PageData } = $props();
 	layout.set(data.layout);
 
-	const widgetComponents: { [key: string]: any } = {
+	const widgetComponents: { [key: string]: Component<{ settings: WidgetSettings }> } = {
 		Calendar,
 		Search,
 		Text,
@@ -26,12 +26,13 @@
     let show = $state(false);
 
     onMount(() => {
-		show = true
+		show = true;
+		showSettingsButton.set(true);
         return;
     });
 </script>
 
-<Settings showButton={show} />
+<Settings />
 
 {#each ['left', 'middle', 'right'] as column}
 	{#if show}
