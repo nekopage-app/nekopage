@@ -1,29 +1,44 @@
 <script lang="ts">
+	import type { Component } from 'svelte';
 	import { backIn, backOut, quadOut } from 'svelte/easing';
 	import { fade, fly, scale } from 'svelte/transition';
 
-	// tabs
+	import { showSettings, showSettingsButton } from '$lib/stores';
+
+	// Tabs
 	interface Tab {
 		name: string,
-		component: any,
+		component: Component,
 		icon: string
 	}
+
+	import Appearance from './Appearance.svelte';
+	import Layout from './Layout.svelte';
+	import Account from './Account.svelte';
+	import Admin from './Admin.svelte';
 
 	const tabs: Tab[] = [
 		{
 			name: 'appearance',
-			component: 'a',
+			component: Appearance,
 			icon: 'dashicons:admin-appearance'
 		},
 		{
+			name: 'layout',
+			component: Layout,
+			icon: 'mingcute:layout-fill'
+		},
+		{
 			name: 'account',
-			component: 'b',
+			component: Account,
 			icon: 'heroicons:user-solid'
+		},
+		{
+			name: 'admin',
+			component: Admin,
+			icon: 'material-symbols:shield'
 		}
 	];
-
-	let { showButton }: { showButton: boolean } = $props();
-	let showSettings = $state(false);
 
 	let saved = $state(false);
 	let transitioning = $state(false);
@@ -47,22 +62,23 @@
 	}
 </script>
 
-{#if showButton}
+{#if $showSettingsButton}
 	<button
 		id="settings-button"
 		class="widget-inner !fixed top-4 right-4 text-[2rem] !p-1 hover:bg-base"
-		onclick={() => (showSettings = true)}
+		onclick={() => (showSettings.set(true))}
 		in:fade
+		out:fade
 	>
 		<iconify-icon icon="material-symbols:settings"></iconify-icon>
 	</button>
 {/if}
 
-{#if showSettings}
+{#if $showSettings}
 	<div class="flex-container">
 		<button
 			id="blur-container"
-			onclick={() => (showSettings = false)}
+			onclick={() => (showSettings.set(false))}
 			in:fade
 			out:fade
 			class="flex-container backdrop-blur backdrop-brightness-75 z-10 cursor-auto !filter-none active:scale-100"
@@ -72,7 +88,7 @@
 			<h1>
 				settings
 
-				<button onclick={() => (showSettings = false)}>
+				<button onclick={() => (showSettings.set(false))}>
 					<iconify-icon icon="mingcute:close-fill"></iconify-icon>
 					close
 				</button>
@@ -104,8 +120,12 @@
 
 				<main class="col-span-3 p-4">
 					{#if !transitioning}
+						{@const Component = currentTab.component}
+
 						<div in:fly={{ y: 10 }} out:fly={{ y: 10 }}>
 							<h1 class="font-medium text-lg">{currentTab.name}</h1>
+							<hr class="mt-0">
+							<Component />
 						</div>
 					{/if}
 				</main>
