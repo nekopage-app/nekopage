@@ -1,8 +1,11 @@
 <script lang="ts">
-	import { fly } from "svelte/transition";
+	import { onMount } from "svelte";
+	import { fade, fly } from "svelte/transition";
 
 	import { layout } from "$lib/stores/Layout";
 	import type { PageData } from "./$types";
+
+	import Settings from "$lib/widgets/settings/Settings.svelte";
 
 	import Calendar from "$lib/widgets/Calendar.svelte";
 	import Weather from "$lib/widgets/Weather.svelte";
@@ -19,13 +22,16 @@
 		Weather
 	}
 
+	// For the transition on page load
     let show = $state(false);
 
-    $effect(() => {
+    onMount(() => {
 		show = true
         return;
     });
 </script>
+
+<Settings showButton={show} />
 
 {#each ['left', 'middle', 'right'] as column}
 	{#if show}
