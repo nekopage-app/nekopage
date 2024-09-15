@@ -1,11 +1,9 @@
 <script lang="ts">
+	import Widget from "./Widget.svelte";
+
 	let { settings }: { settings: WidgetSettings } = $props();
 </script>
 
-<div id="text" class="widget">
-	<h1>{settings.title}</h1>
-
-	<div class="widget-inner !p-3">
-		<p>{settings.text}</p>
-	</div>
-</div>
+<Widget id="text" class="!p-3" settings={settings}>
+	<p>{settings.text}</p>
+</Widget>

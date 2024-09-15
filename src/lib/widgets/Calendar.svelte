@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
+	import Widget from "./Widget.svelte";
 
 	let { settings }: { settings: WidgetSettings } = $props();
 
@@ -113,32 +114,28 @@
     });
 </script>
 
-<div id="calendar" class="widget">
-    <h1>{settings.title}</h1>
+<Widget id="calendar" settings={settings}>
+	<div class="flex items-center justify-between px-4 h-12">
+		<span class="font-semibold">{weekNumber}</span>
+		<span class="font-medium">{monthYear}</span>
+	</div>
 
-    <div class="widget-inner">
-        <div class="flex items-center justify-between px-4 h-12">
-            <span class="font-semibold">{weekNumber}</span>
-            <span class="font-medium">{monthYear}</span>
-        </div>
+	<table class="w-full h-56 table-fixed">
+		<thead>
+			<tr class="text-overlay text-xs">
+				<th>Mo</th>
+				<th>Tu</th>
+				<th>We</th>
+				<th>Th</th>
+				<th>Fr</th>
+				<th>Sa</th>
+				<th>Su</th>
+			</tr>
+		</thead>
 
-        <table class="w-full h-56 table-fixed">
-            <thead>
-                <tr class="text-overlay text-xs">
-                    <th>Mo</th>
-					<th>Tu</th>
-					<th>We</th>
-					<th>Th</th>
-					<th>Fr</th>
-					<th>Sa</th>
-					<th>Su</th>
-                </tr>
-            </thead>
-
-            <tbody bind:this={tableBody}></tbody>
-        </table>
-    </div>
-</div>
+		<tbody bind:this={tableBody}></tbody>
+	</table>
+</Widget>
 
 <style lang="postcss">
     :global(tr) {

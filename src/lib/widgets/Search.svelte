@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Widget from "./Widget.svelte";
+
 	let { settings }: { settings: WidgetSettings } = $props();
 
 	let searchInputValue = $state('');
@@ -14,23 +16,17 @@
 	}
 </script>
 
-<div id="search" class="widget">
-	<h1>{settings.title}</h1>
+<Widget id="search" class="!flex-row justify-center items-center gap-2 transition-colors hover:bg-base" settings={settings}>
+	<button onclick={search} class="ml-2 bg-transparent border-none outline-none cursor-pointer">
+		<iconify-icon icon="fa:search" class="text-[2rem] text-text"></iconify-icon>
+	</button>
 
-	<div
-		class="widget-inner !flex-row justify-center items-center gap-2 transition-colors hover:bg-base"
-	>
-		<button onclick={search} class="ml-2 bg-transparent border-none outline-none cursor-pointer">
-			<iconify-icon icon="fa:search" class="text-[2rem] text-text"></iconify-icon>
-		</button>
-
-		<input
-			type="text"
-			id="search-input"
-			placeholder="Search here..."
-			bind:value={searchInputValue}
-			onkeydown={onKeyDown}
-			class="w-full outline-none border-none bg-transparent text-2xl text-text p-4 pl-2 placeholder:text-overlay"
-		/>
-	</div>
-</div>
+	<input
+		type="text"
+		id="search-input"
+		placeholder="Search here..."
+		bind:value={searchInputValue}
+		onkeydown={onKeyDown}
+		class="w-full outline-none border-none bg-transparent text-2xl text-text p-4 pl-2 placeholder:text-overlay"
+	/>
+</Widget>
