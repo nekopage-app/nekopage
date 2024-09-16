@@ -8,6 +8,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const user = await database.auth.checkSessionId(sessionId!);
 	
 	if (user) {
+		event.locals.layoutId = await database.layouts.getLayouts(user.id)[0];
 		event.locals.user = {
 			id: user.id,
 			username: user.username

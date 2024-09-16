@@ -1,19 +1,14 @@
 import { database } from '.';
 
 /** Returns layouts for the user and parses column number arrays from string to number[] */
-export function getLayouts(userId: number): DatabaseLayout[] {
-	const sql = `SELECT * FROM layouts WHERE user_id = ?`;
-	let rows = database.prepare(sql).all(userId) as DatabaseLayout[];
+export function getLayouts(userId: number): number[] {
+	const sql = `SELECT id FROM layouts WHERE user_id = ?`;
+	let rows = database.prepare(sql).all(userId) as { id: number }[];
 
 	if (rows) {
-		return rows.map((layout) => {
-			layout.left = JSON.parse(layout.left as unknown as string);
-			layout.middle = JSON.parse(layout.middle as unknown as string);
-			layout.right = JSON.parse(layout.right as unknown as string);
-			return layout;
-		});
+		return rows.map(item => item.id);
 	} else {
-		throw new Error(`No layout found for user ID ${userId}`);
+		throw new Error(`No layouts found for user ID ${userId}`);
 	}
 }
 
@@ -84,34 +79,21 @@ export function getParsedLayout(layoutId: number): Layout {
 }
 
 /**
- * Adds a widget to a layout
+ * Sets the widgets in a column
  *
  * @param {number} layoutId - The layout ID.
- * @param {number} widgetId - The widget ID.
- * @param {("left" | "middle" | "right")} column - The column where the widget should be placed. Valid values are "left", "middle", or "right".
+ * @param {("left" | "middle" | "right")} column - The column for the widget IDs to be set to.
+ * @param {number[]} widgetsArray - The array of widget IDs.
  * 
  * @returns {boolean}
  * 
  * @throws {Error}
  */
-export function addWidgetToLayout(layoutId: number, widgetId: number, column: 'left' | 'middle' | 'right'): boolean {
-	// The SQLite library automatically adds quotation marks around column names when used with the .get() function so we concatenate it
-	const sqlSelect = `SELECT ${column} FROM layouts WHERE id = ?`;
-	// Same here
-	const sqlUpdate = `UPDATE layouts SET ${column} = ? WHERE id = ?`;
-	const rowSelect = database.prepare(sqlSelect).get(layoutId) as DatabaseLayout;
+export function setColumnWidgets(layoutId: number, column: 'left' | 'middle' | 'right', widgetsArray: number[]): boolean {
+	const sql = `UPDATE layouts SET ${column} = ? WHERE id = ?`;
+	const row = database.prepare(sql).run(JSON.stringify(widgetsArray), layoutId);
 
-	if (rowSelect) {
-		let columnArray: number[] = JSON.parse(rowSelect[column].toString());
-		columnArray.push(widgetId);
-
-		const updatedColumnArray = JSON.stringify(columnArray);
-
-		const rowUpdate = database.prepare(sqlUpdate).run(updatedColumnArray, layoutId);
-		return rowUpdate.changes > 0;
-	}
-
-	return false;
+	return row.changes > 0;
 }
 
 /**
@@ -152,8 +134,8 @@ export function createLayout(userId: number): boolean {
 	if (row.changes > 0) {
 		const layoutId = Number(row.lastInsertRowid);
 
-		const widget = createWidget(layoutId, "Text", { title: "getting started", text: "Welcome to nekopage!" });
-		return addWidgetToLayout(layoutId, widget, "left");
+		const widgetId = createWidget(layoutId, "Text", { title: "getting started", text: "Welcome to nekopage!" });
+		return setColumnWidgets(layoutId, "left", [widgetId]);
 	}
 
 	return false;

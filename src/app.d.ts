@@ -4,6 +4,7 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
+			layoutId: number | null,
 			user: {
 				id: number,
 				username: string
