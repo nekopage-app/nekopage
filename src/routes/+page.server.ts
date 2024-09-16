@@ -1,11 +1,8 @@
 import { redirect } from '@sveltejs/kit';
 import * as database from '$lib/database';
 
-export const load = async ({ cookies, locals }) => {
-    const sessionId = cookies.get("session_id");
-
-    // todo: verify session id is correct
-    if (!sessionId) {
+export const load = async ({ locals }) => {
+    if (!locals.user) {
         throw redirect(303, "/login");
     }
 

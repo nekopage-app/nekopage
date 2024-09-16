@@ -20,12 +20,15 @@ export const actions = {
             return fail(401, { username, success: false, incorrect: true });
         }
 
-        if (await database.auth.checkUserCredentials(username, password)) {
-            cookies.set("session_id", "TODO_SESSION_ID", {
+        const userId = await database.auth.checkUserCredentials(username, password);
+        if (userId != -1) {
+            const sessionId = await database.auth.generateSessionId(userId);
+
+            cookies.set("session_id", sessionId, {
                 path: "/",
                 httpOnly: true,
                 sameSite: "strict",
-                maxAge: 60 * 60 * 24 * 30
+                maxAge: 60 * 60 * 24 * 30   // 30 days
             });
 
             throw redirect(303, "/");

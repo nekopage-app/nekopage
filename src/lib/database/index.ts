@@ -4,7 +4,7 @@ import { env } from "$env/dynamic/private";
 import * as auth from "./auth";
 import * as layouts from "./layouts";
 
-export const database = new Database(env.DATABASE_PATH);
+export const database = new Database(env.DATABASE_PATH, { verbose: console.log });
 
 export { auth, layouts };
 
@@ -15,7 +15,9 @@ export function init() {
 		CREATE TABLE IF NOT EXISTS "users" (
 			"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 			"username" VARCHAR(32) NOT NULL UNIQUE,
-			"password" TEXT NOT NULL
+			"password" TEXT NOT NULL,
+			session_id TEXT,
+			session_created DATETIME
 		);
 	`);
 
@@ -42,14 +44,41 @@ export function init() {
 		);
 	`);
 
+	// Settings
+	database.exec(`
+		CREATE TABLE IF NOT EXISTS "settings" (
+			"user_id" INTEGER NOT NULL,
+			"setting_key" VARCHAR(255) NOT NULL,
+			"setting_value" TEXT,
+			PRIMARY KEY ("user_id", "setting_key")
+			FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE
+		);
+	`);
+
+	// Bookmarks
+	database.exec(`
+		CREATE TABLE IF NOT EXISTS "bookmarks" (
+			"user_id" INTEGER NOT NULL,
+			"category" VARCHAR(255) NOT NULL,
+			"name" VARCHAR(255) NOT NULL,
+			"url" VARCHAR(255),
+			"icon" VARCHAR(255),
+			PRIMARY KEY ("user_id", "category")
+			FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE
+		);
+	`);
+
 	console.info("Checked and created missing tables in database");
 
     // Create default user
 	const userCountSql = `SELECT COUNT(*) FROM users`;
-	const userCount = database.prepare(userCountSql).get();
+	const userCountResult = database.prepare(userCountSql).get() as any;
 
-	if (userCount === 0) {
+	if (userCountResult["COUNT(*)"] === 0) {
 		auth.createUser("neko", "meow");
 		console.info("Default account created");
 	}
+
+	// const widget = layouts.createWidget(1, "Search", {title: "search", url: "https://www.google.com/search?q="});
+	// layouts.addWidgetToLayout(1, widget, "middle");
 }

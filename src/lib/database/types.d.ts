@@ -1,7 +1,9 @@
 interface DatabaseUser {
     id: number,
     username: string,
-    password: string
+    password: string,
+    session_id: string,
+    session_created: string
 }
 
 interface DatabaseLayout {

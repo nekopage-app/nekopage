@@ -5,14 +5,13 @@ database.init();
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get("session_id");
-
-	if (sessionId) {
-		// todo: set locals to user information from database
-
+	const user = await database.auth.checkSessionId(sessionId!);
+	
+	if (user) {
 		event.locals.user = {
-			id: 1,
-			username: "admin"
-		}
+			id: user.id,
+			username: user.username
+		};
 	} else {
 		event.locals.user = null;
 	}
