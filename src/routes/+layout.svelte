@@ -55,8 +55,8 @@
 		@apply font-medium transition duration-[250ms] hover:brightness-90 active:scale-90;
 	}
 
-	:global(select),
-	:global(input) {
+	:global(.input > select),
+	:global(.input > input) {
 		@apply bg-base text-text placeholder:text-overlay font-medium text-[0.938rem] border-2 border-solid border-surface rounded-md !outline-none p-1.5 transition duration-300 focus:border-accent focus:ring-[3px] focus:ring-light-accent;
 	}
 

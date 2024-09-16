@@ -27,6 +27,6 @@
 		placeholder="Search here..."
 		bind:value={searchInputValue}
 		onkeydown={onKeyDown}
-		class="w-full outline-none border-none bg-transparent text-2xl text-text p-4 pl-2 placeholder:text-overlay"
+		class="w-full outline-none border-none bg-transparent font-medium text-2xl text-text p-4 pl-2 placeholder:text-overlay"
 	/>
 </Widget>
