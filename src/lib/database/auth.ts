@@ -32,17 +32,19 @@ export async function checkUserCredentials(username: string, password: string): 
  * @returns {Promise<DatabaseUser | null>}
  */
 export async function checkSessionId(sessionId: string): Promise<DatabaseUser | null> {
-	const sql = `SELECT * FROM users WHERE session_id IS NOT NULL AND session_created IS NOT NULL`;
-	const rows = database.prepare(sql).all() as DatabaseUser[];
+	if (sessionId) {
+		const sql = `SELECT * FROM users WHERE session_id IS NOT NULL AND session_created IS NOT NULL`;
+		const rows = database.prepare(sql).all() as DatabaseUser[];
 
-	for (const user of rows) {
-		if (await argon2.verify(user.session_id, sessionId)) {
-			const sessionCreated = new Date(user.session_created);
-			const now = new Date();
-			const expirationDate = new Date(sessionCreated.getTime() + 30 * 24 * 60 * 60 * 1000);	// 30 days
+		for (const user of rows) {
+			if (await argon2.verify(user.session_id, sessionId)) {
+				const sessionCreated = new Date(user.session_created);
+				const now = new Date();
+				const expirationDate = new Date(sessionCreated.getTime() + 30 * 24 * 60 * 60 * 1000);	// 30 days
 
-			if (now <= expirationDate) {
-				return user;
+				if (now <= expirationDate) {
+					return user;
+				}
 			}
 		}
 	}
