@@ -14,6 +14,12 @@
 		show = true;
 		return;
 	});
+
+	function onKeyDown(event: KeyboardEvent) {
+		if (event.key == "Enter") {
+			show = false;
+		}
+	}
 </script>
 
 <svelte:head>
@@ -24,12 +30,14 @@
 	{#if show}
 		<form
 			method="POST"
-			class="widget-inner gap-3 w-[28rem] !p-8"
-			bind:this={formElement}
+			role="presentation"
+			onkeydown={onKeyDown}
 			onoutroend={() => formElement?.submit()}
+			bind:this={formElement}
 			in:fly={{ duration: 1000, y: 100, easing: quintOut }}
 			out:fly={{ duration: 500, y: -100, easing: quadIn }}
 			use:enhance
+			class="widget-inner gap-3 w-[28rem] !p-8"
 		>
 			<div id="title" class="flex justify-between items-center text-[2rem]">
 				<h1 class="text-[2.5rem] font-black">Login</h1>
