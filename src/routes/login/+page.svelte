@@ -13,6 +13,20 @@
 		show = true;
 		return;
 	});
+
+	// Password visibility
+	let passwordInput = $state<HTMLInputElement>();
+	let eyeIcon = $state("mdi:eye-off");
+
+	function togglePasswordVisibility() {
+		if (passwordInput?.type == "password") {
+			passwordInput.type = "text";
+			eyeIcon = "mdi:eye";
+		} else {
+			passwordInput!.type = "password";
+			eyeIcon = "mdi:eye-off";
+		}
+	}
 </script>
 
 <svelte:head>
@@ -35,7 +49,7 @@
 				<iconify-icon icon="mdi:cat"></iconify-icon>
 			</div>
 
-			<div class="input">
+			<div class="input-vertical">
 				<label for="username">Username</label>
 				<input
 					name="username"
@@ -46,9 +60,14 @@
 				/>
 			</div>
 
-			<div class="input">
+			<div class="input-vertical">
 				<label for="password">Password</label>
-				<input name="password" type="password" placeholder="Enter password" required />
+				<div class="relative flex items-center bg-base border-2 border-solid border-surface rounded-md transition duration-300 focus-within:border-accent focus-within:ring-[3px] focus-within:ring-light-accent">
+					<input name="password" type="password" placeholder="Enter password" required bind:this={passwordInput} class="w-full bg-transparent text-text placeholder:text-overlay font-medium text-[0.938rem] p-1.5 !outline-none" />
+					<button type="button" class="flex" onclick={togglePasswordVisibility}>
+						<iconify-icon icon={eyeIcon} class="text-xl text-overlay mr-1.5"></iconify-icon>
+					</button>
+				</div>
 			</div>
 
 			{#if form?.missing}
@@ -61,9 +80,10 @@
 			<button
 				type="button"
 				onclick={() => (show = false)}
-				class="bg-accent text-crust border-none outline-none rounded-sm w-28 h-8 mt-4 cursor-pointer transition-transform hover:scale-105 active:scale-90"
-				>Login</button
-			>
+				class="button !bg-accent w-28 mt-4"
+				>
+				Login
+			</button>
 		</form>
 
 		<footer in:fade out:fade class="absolute bottom-8">
@@ -73,18 +93,6 @@
 </div>
 
 <style lang="postcss">
-	:global(#theme) {
-		@apply flex justify-center items-center;
-	}
-
-	input {
-		@apply w-full;
-	}
-
-	.input {
-		@apply flex-col items-start;
-	}
-
 	.error {
 		@apply text-red font-medium;
 	}

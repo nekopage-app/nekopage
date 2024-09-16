@@ -56,12 +56,18 @@
 	}
 
 	:global(.input > select),
-	:global(.input > input) {
+	:global(.input > input),
+	:global(.input-vertical > select),
+	:global(.input-vertical > input) {
 		@apply bg-base text-text placeholder:text-overlay font-medium text-[0.938rem] border-2 border-solid border-surface rounded-md !outline-none p-1.5 transition duration-300 focus:border-accent focus:ring-[3px] focus:ring-light-accent;
 	}
 
 	:global(.input) {
 		@apply flex justify-between items-center gap-1;
+	}
+
+	:global(.input-vertical) {
+		@apply flex flex-col gap-1;
 	}
 
 	:global(.button) {
