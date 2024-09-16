@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import Widget from "./Widget.svelte";
+	import Widget from "$lib/components/Widget.svelte";
 
 	let { settings }: { settings: WidgetSettings } = $props();
 
