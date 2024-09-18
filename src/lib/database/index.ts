@@ -3,10 +3,11 @@ import { env } from "$env/dynamic/private";
 
 import * as auth from "./auth";
 import * as layouts from "./layouts";
+import * as settings from "./settings";
 
 export const database = new Database(env.DATABASE_PATH, { verbose: console.log });
 
-export { auth, layouts };
+export { auth, layouts, settings };
 
 /** Initalize database - adds tables if not found */
 export function init() {
@@ -51,19 +52,6 @@ export function init() {
 			"setting_key" VARCHAR(255) NOT NULL,
 			"setting_value" TEXT,
 			PRIMARY KEY ("user_id", "setting_key")
-			FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE
-		);
-	`);
-
-	// Bookmarks
-	database.exec(`
-		CREATE TABLE IF NOT EXISTS "bookmarks" (
-			"user_id" INTEGER NOT NULL,
-			"category" VARCHAR(255) NOT NULL,
-			"name" VARCHAR(255) NOT NULL,
-			"url" VARCHAR(255),
-			"icon" VARCHAR(255),
-			PRIMARY KEY ("user_id", "category")
 			FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE
 		);
 	`);

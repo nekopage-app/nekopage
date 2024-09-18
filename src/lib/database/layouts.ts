@@ -82,14 +82,14 @@ export function getParsedLayout(layoutId: number): Layout {
  * Sets the widgets in a column
  *
  * @param {number} layoutId - The layout ID.
- * @param {("left" | "middle" | "right")} column - The column for the widget IDs to be set to.
+ * @param {Column} column - The column for the widget IDs to be set to.
  * @param {number[]} widgetsArray - The array of widget IDs.
  * 
  * @returns {boolean}
  * 
  * @throws {Error}
  */
-export function setColumnWidgets(layoutId: number, column: 'left' | 'middle' | 'right', widgetsArray: number[]): boolean {
+export function setColumnWidgets(layoutId: number, column: Column, widgetsArray: number[]): boolean {
 	const sql = `UPDATE layouts SET ${column} = ? WHERE id = ?`;
 	const row = database.prepare(sql).run(JSON.stringify(widgetsArray), layoutId);
 
