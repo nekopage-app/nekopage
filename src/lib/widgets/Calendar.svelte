@@ -2,7 +2,7 @@
 	import { onMount } from "svelte";
 	import Widget from "$lib/components/Widget.svelte";
 
-	let { settings }: { settings: WidgetSettings } = $props();
+	let { data }: { data: WidgetData } = $props();
 
     let tableRow: HTMLTableRowElement;
     let tableBody: HTMLTableSectionElement;
@@ -114,7 +114,7 @@
     });
 </script>
 
-<Widget id="calendar" settings={settings}>
+<Widget data={data}>
 	<div class="flex items-center justify-between px-4 h-12">
 		<span class="font-semibold">{weekNumber}</span>
 		<span class="font-medium">{monthYear}</span>

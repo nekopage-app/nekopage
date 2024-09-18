@@ -1,12 +1,12 @@
 <script lang="ts">
 	import Widget from "$lib/components/Widget.svelte";
 
-	let { settings }: { settings: WidgetSettings } = $props();
+	let { data }: { data: WidgetData } = $props();
 
 	let searchInputValue = $state('');
 
 	function search() {
-		window.location.href = `${settings.url}${searchInputValue}`;
+		window.location.href = `${data.settings.url}${searchInputValue}`;
 	}
 
 	function onKeyDown(event: KeyboardEvent) {
@@ -16,7 +16,7 @@
 	}
 </script>
 
-<Widget id="search" class="!flex-row justify-center items-center gap-2 transition-colors hover:bg-base" settings={settings}>
+<Widget class="!flex-row justify-center items-center gap-2 transition-colors hover:bg-base" data={data}>
 	<button onclick={search} class="ml-2 bg-transparent border-none outline-none cursor-pointer">
 		<iconify-icon icon="fa:search" class="text-[2rem] text-text"></iconify-icon>
 	</button>

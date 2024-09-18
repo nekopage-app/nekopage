@@ -17,7 +17,7 @@
 	let { data }: { data: PageData } = $props();
 	layout.set(data.layout);
 
-	const widgets: { [key: string]: Component<{ settings: WidgetSettings }> } = {
+	const widgets: { [key: string]: Component<{ data: WidgetData }> } = {
 		Calendar,
 		Search,
 		Text,
@@ -69,8 +69,40 @@
 				]
 			};
 		});
+	}
 
-		console.log($layout.left);
+	function onDragOver(event: DragEvent) {
+		event.preventDefault();
+	}
+
+	async function onDrop(event: DragEvent, targetColumn: string) {
+		event.preventDefault();
+		const id = Number(event.dataTransfer?.getData("text/plain"));
+
+		console.log(targetColumn);
+
+		if (id) {
+			let oldColumn: string | Column = "left";
+
+			for (const column in $layout) {
+				const widget = $layout[column].find(widget => widget.id === id);
+				if (widget) {
+					oldColumn = column;
+				}
+			}
+
+			const formData = new FormData();
+			formData.append("id", id.toString());
+			formData.append("oldColumn", oldColumn);
+			formData.append("column", targetColumn);
+			formData.append("index", "0");
+
+			console.log(formData);
+			// await fetch("?/moveWidget", {
+			// 	method: "POST",
+			// 	body: formData
+			// });
+		}
 	}
 </script>
 
@@ -78,10 +110,10 @@
 
 {#each ['left', 'middle', 'right'] as column}
 	{#if show}
-		<div id={column} in:fly={{ y: 100 }} class="flex flex-col gap-2">
+		<div id={column} role="presentation" ondragover={onDragOver} ondrop={(event) => onDrop(event, column)} in:fly={{ y: 100 }} class="flex flex-col gap-2">
 			{#each $layout[column] as widget}
 				{@const Component = widgets[widget.name]}
-				<Component settings={widget.settings} />
+				<Component data={widget} />
 			{/each}
 		</div>
 	{/if}

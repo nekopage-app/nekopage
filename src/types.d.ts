@@ -1,3 +1,5 @@
+type Column = 'left' | 'middle' | 'right';
+
 interface Layout {
     left: WidgetData[],
     middle: WidgetData[],
