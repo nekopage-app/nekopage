@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { inLayoutEditor } from '$lib/stores';
 	import { type Snippet } from 'svelte';
 
 	interface Props {
@@ -36,22 +37,24 @@
 	}
 
 	function onDragStart(event: DragEvent) {
-		event.dataTransfer?.setData('text/plain', data.id.toString());
+		if ($inLayoutEditor) {
+			event.dataTransfer?.setData('text/plain', data.id.toString());
 
-		const image = new Image();
-		image.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';		// Transparent image
-		event.dataTransfer?.setDragImage(image, 0, 0);
+			const image = new Image();
+			image.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';		// Transparent image
+			event.dataTransfer?.setDragImage(image, 0, 0);
 
-		oldWidth = element.clientWidth;
-		dragging = true;
+			oldWidth = element.clientWidth;
+			dragging = true;
 
-		dragX = event.clientX - element.getBoundingClientRect().x;
-		dragY = event.clientY - element.getBoundingClientRect().y;
+			dragX = event.clientX - element.getBoundingClientRect().x;
+			dragY = event.clientY - element.getBoundingClientRect().y;
 
-		left = targetLeft = event.clientX - dragX;
-		top = targetTop = event.clientY - dragY;
+			left = targetLeft = event.clientX - dragX;
+			top = targetTop = event.clientY - dragY;
 
-		startDragging();
+			startDragging();
+		}
 	}
 
 	function onDragEnd() {
@@ -69,7 +72,7 @@
 
 <div
 	role="presentation"
-	draggable="true"
+	draggable={$inLayoutEditor ? "true" : "false"}
 	bind:this={element}
 	ondragstart={onDragStart}
 	ondragend={onDragEnd}
