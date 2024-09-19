@@ -1,6 +1,12 @@
 import { database } from '.';
 
-/** Returns layouts for the user and parses column number arrays from string to number[] */
+/**
+ * Gets all the layouts for a user.
+ *
+ * @param {number} userId - The user ID.
+ * 
+ * @returns {number[]} - The layout IDs found.
+ */
 export function getLayouts(userId: number): number[] {
 	const sql = `SELECT id FROM layouts WHERE user_id = ?`;
 	let rows = database.prepare(sql).all(userId) as { id: number }[];
@@ -12,7 +18,13 @@ export function getLayouts(userId: number): number[] {
 	}
 }
 
-/** Same as getLayouts() but you can specify a layout id */
+/**
+ * Gets a layout by ID and parses the properties to JSON.
+ *
+ * @param {number} layoutId - The layout ID.
+ * 
+ * @returns {DatabaseLayout}
+ */
 export function getLayout(id: number): DatabaseLayout {
 	const sql = `SELECT * FROM layouts WHERE id = ?`;
 	let row = database.prepare(sql).get(id) as DatabaseLayout;
@@ -28,7 +40,13 @@ export function getLayout(id: number): DatabaseLayout {
 	return row;
 }
 
-/** Returns widgets found by user id and parses the settings property to JSON */
+/**
+ * Returns widgets in a layout and parses the settings property to JSON.
+ *
+ * @param {number} layoutId - The layout ID.
+ * 
+ * @returns {DatabaseWidget[]}
+ */
 export function getWidgets(layoutId: number): DatabaseWidget[] {
 	const sql = `SELECT * FROM widgets WHERE layout_id = ?`;
 	let row = database.prepare(sql).all(layoutId) as DatabaseWidget[];
@@ -86,8 +104,6 @@ export function getParsedLayout(layoutId: number): Layout {
  * @param {number[]} widgetsArray - The array of widget IDs.
  * 
  * @returns {boolean}
- * 
- * @throws {Error}
  */
 export function setColumnWidgets(layoutId: number, column: Column, widgetsArray: number[]): boolean {
 	const sql = `UPDATE layouts SET ${column} = ? WHERE id = ?`;
@@ -104,8 +120,6 @@ export function setColumnWidgets(layoutId: number, column: Column, widgetsArray:
  * @param {object} settings - The settings for the widget. Must include a `title` property with a string value. Can also include other properties.
  * 
  * @returns {number} - The ID of the newly created widget.
- * 
- * @throws {Error}
  */
 export function createWidget(
 	layoutId: number,
@@ -124,8 +138,6 @@ export function createWidget(
  * @param {number} userId - The user ID.
  * 
  * @returns {boolean}
- * 
- * @throws {Error}
  */
 export function createLayout(userId: number): boolean {
 	const sql = `INSERT INTO layouts (user_id) VALUES (?)`;

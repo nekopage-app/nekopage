@@ -4,7 +4,7 @@ import crypto from "crypto";
 import { database, layouts } from ".";
 
 /**
- * Checks if a user's credentials are correct by verifying the hash
+ * Checks if a user's credentials are correct by verifying the hash.
  *
  * @param {string} username - The username.
  * @param {string} password - The password.
@@ -25,7 +25,7 @@ export async function checkUserCredentials(username: string, password: string): 
 }
 
 /**
- * Checks if a user's session ID is correct by verifying the hash and checking if it is expired
+ * Checks if a user's session ID is correct by verifying the hash and checking if it is expired.
  *
  * @param {string} sessionId - The session ID in plain text.
  * 
@@ -53,7 +53,7 @@ export async function checkSessionId(sessionId: string): Promise<DatabaseUser | 
 }
 
 /**
- * Generates a session id and hashes it
+ * Generates a session id and hashes it.
  *
  * @param {number} userId - The user ID.
  * 

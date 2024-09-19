@@ -66,7 +66,4 @@ export function init() {
 		auth.createUser("neko", "meow");
 		console.info("Default account created");
 	}
-
-	// const widget = layouts.createWidget(1, "Search", {title: "search", url: "https://www.google.com/search?q="});
-	// layouts.addWidgetToLayout(1, widget, "middle");
 }
