@@ -2,7 +2,7 @@ import { fail, redirect, type Actions } from "@sveltejs/kit";
 import * as database from '$lib/server/database';
 
 export const actions = {
-    default: async ({ cookies, request }) => {
+    default: async ({ cookies, request, url }) => {
         const data = await request.formData();
         const username = data.get("username")?.toString();
         const password = data.get("password")?.toString();
@@ -27,6 +27,7 @@ export const actions = {
             cookies.set("session_id", sessionId, {
                 path: "/",
                 httpOnly: true,
+                secure: url.protocol == "https:",
                 sameSite: "strict",
                 maxAge: 60 * 60 * 24 * 30   // 30 days
             });
