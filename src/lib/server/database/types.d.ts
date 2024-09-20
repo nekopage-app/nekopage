@@ -13,10 +13,16 @@ interface DatabaseLayout {
     right: number[]
 }
 
-interface DatabaseWidget {
+interface DatabaseWidgetBase {
     id: number,
     user_id: number,
-    column: string,
     name: string,
-    settings: string | WidgetSettings
+}
+
+interface DatabaseWidgetSettingsString extends DatabaseWidgetBase {
+    settings: string
+}
+
+interface DatabaseWidgetSettings extends DatabaseWidgetBase {
+    settings: WidgetSettings
 }

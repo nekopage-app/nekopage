@@ -47,15 +47,33 @@ export function getLayout(id: number): DatabaseLayout {
  * 
  * @returns {DatabaseWidget[]}
  */
-export function getWidgets(layoutId: number): DatabaseWidget[] {
+export function getWidgets(layoutId: number): DatabaseWidgetSettings[] {
 	const sql = `SELECT * FROM widgets WHERE layout_id = ?`;
-	let row = database.prepare(sql).all(layoutId) as DatabaseWidget[];
+	let rows = database.prepare(sql).all(layoutId) as DatabaseWidgetSettingsString[];
 
-	row.forEach((widget) => {
-		widget.settings = JSON.parse(widget.settings as string);
+	rows.forEach((widget) => {
+		widget.settings = JSON.parse(widget.settings);
 	});
 
-	return row;
+	return rows as unknown as DatabaseWidgetSettings[];
+}
+
+/**
+ * Returns every widget by the specified name in the database and parses the settings property to JSON.
+ *
+ * @param {string} name - The widget name to look for.
+ * 
+ * @returns {DatabaseWidget[]}
+ */
+export function getWidgetsByName(name: string): DatabaseWidgetSettings[] {
+	const sql = `SELECT * FROM widgets WHERE name = ?`;
+	let rows = database.prepare(sql).all(name) as DatabaseWidgetSettingsString[];
+
+	rows.forEach((widget) => {
+		widget.settings = JSON.parse(widget.settings);
+	});
+
+	return rows as unknown as DatabaseWidgetSettings[];
 }
 
 /**

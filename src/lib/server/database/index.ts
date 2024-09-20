@@ -56,7 +56,7 @@ export function init() {
 		);
 	`);
 
-	console.info("Checked and created missing tables in database");
+	console.info("[database]: checked and created missing tables in database");
 
     // Create default user
 	const userCountSql = `SELECT COUNT(*) FROM users`;
@@ -64,6 +64,6 @@ export function init() {
 
 	if (userCountResult["COUNT(*)"] === 0) {
 		auth.createUser("neko", "meow");
-		console.info("Default account created");
+		console.info("[database]: default account created");
 	}
 }
