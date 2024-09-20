@@ -1,7 +1,9 @@
 import type { Handle } from '@sveltejs/kit';
-import * as database from '$lib/database';
+import * as database from '$lib/server/database';
+import * as api from '$lib/server/api';
 
 database.init();
+api.requestAll();
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get("session_id");

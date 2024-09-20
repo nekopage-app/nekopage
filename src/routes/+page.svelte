@@ -4,7 +4,7 @@
 	import { quadOut } from 'svelte/easing';
 	import type { PageData } from './$types';
 
-	import { layout, showSettingsButton, showSettings, inLayoutEditor } from '$lib/stores';
+	import { layout, showSettingsButton, showSettings, inLayoutEditor, apiResponses } from '$lib/stores';
 
 	import Settings from '$lib/widgets/settings/Settings.svelte';
 
@@ -16,6 +16,7 @@
 
 	let { data }: { data: PageData } = $props();
 	layout.set(data.layout);
+	apiResponses.set(data.apiResponses);
 
 	const widgets: { [key: string]: Component<{ data: WidgetData }> } = {
 		Calendar,
@@ -34,7 +35,7 @@
 	});
 
 	// Layout editor
-	let showAddMenu = $state(true);
+	let showAddMenu = $state(false);
 
 	function exitLayoutEditor() {
 		showSettings.set(true);

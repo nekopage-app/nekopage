@@ -1,5 +1,6 @@
 import { redirect, type Actions } from '@sveltejs/kit';
-import * as database from '$lib/database';
+import * as database from '$lib/server/database';
+import * as api from '$lib/server/api';
 
 export const load = async ({ locals }) => {
     if (!locals.user) {
@@ -9,11 +10,13 @@ export const load = async ({ locals }) => {
     const layout = database.layouts.getParsedLayout(locals.layoutId!);
 
     if (layout) {
+        const apiResponses = api.getResponsesByLayoutId(locals.layoutId!);
         const settings = database.settings.getSettings(locals.user.id);
 
         return {
             layout,
             settings,
+            apiResponses,
             user: locals.user
         };
     } else {
@@ -28,6 +31,9 @@ export const actions = {
 
         throw redirect(303, "/login");
     },
+    getAPIs: async ({ locals }) => {
+        return api.getResponsesByLayoutId(locals.layoutId!);
+    },
     addWidget: async ({ request, locals }) => {
         const data = await request.formData();
         const name = data.get("name") as string;
@@ -41,7 +47,7 @@ export const actions = {
     moveWidget: async ({ request, locals }) => {
         const data = await request.formData();
 
-        const id = Number(data.get("id"));
+        const widgetId = Number(data.get("id"));
         const index = Number(data.get("index"));
         const oldColumn = data.get("oldColumn") as Column;
         const column = data.get("column") as Column;
@@ -50,12 +56,12 @@ export const actions = {
         let oldColumnArray = layout[oldColumn];
         let newColumnArray = layout[column];
         
-        const oldColumnIndex = oldColumnArray.indexOf(id);
+        const oldColumnIndex = oldColumnArray.indexOf(widgetId);
         if (oldColumnIndex !== -1) {
             oldColumnArray.splice(oldColumnIndex, 1);
         }
 
-        newColumnArray.splice(index, 0, id);
+        newColumnArray.splice(index, 0, widgetId);
         database.layouts.setColumnWidgets(locals.layoutId!, column, newColumnArray);
     }
 } satisfies Actions;

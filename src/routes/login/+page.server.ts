@@ -1,5 +1,5 @@
 import { fail, redirect, type Actions } from "@sveltejs/kit";
-import * as database from '$lib/database';
+import * as database from '$lib/server/database';
 
 export const actions = {
     default: async ({ cookies, request }) => {
