@@ -8,9 +8,7 @@ import { env } from "$env/dynamic/private";
 // Icons
 import weatherapicomIcons from "$lib/data/weather/weatherapi.com.json";
 
-export default async function getWeatherData(settings: WidgetSettings): Promise<WeatherJSON> {
-	let weatherJson = <WeatherJSON>{};
-
+export default async function fetchWeatherData(settings: WidgetSettings): Promise<WeatherJSON | null> {
 	let apiKey = settings.api_key || env.WEATHERAPI_KEY;
 
 	switch (settings.api) {
@@ -20,7 +18,7 @@ export default async function getWeatherData(settings: WidgetSettings): Promise<
 			);
 			const response = await request.json();
 
-            weatherJson = {
+            return {
                 place: response.location.name,
                 country: response.location.country,
                 condition: response.current.condition.text,
@@ -30,11 +28,11 @@ export default async function getWeatherData(settings: WidgetSettings): Promise<
                 wind: response.current.wind_kph,
                 humidity: response.current.humidity
             };
-            break;
+			break;
 
 		default:
 			throw new Error('API property not valid for weather widget');
 	}
 
-	return weatherJson;
+	return null;
 }

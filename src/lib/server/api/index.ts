@@ -1,6 +1,7 @@
 import * as database from '$lib/server/database';
 
-import getWeatherData from './weather';
+import fetchWeatherData from './weather';
+import fetchRssFeed from './rss';
 
 export const responses: ApiResponses = {};
 
@@ -15,10 +16,11 @@ export async function requestAll() {
 		switch (widget.name) {
 			case 'Weather':
 				console.info(`[api]: fetching weather data for widget ID: ${widget.id}`);
-				responses[widget.id] = await getWeatherData(widget.settings);
+				responses[widget.id] = await fetchWeatherData(widget.settings);
 				break;
 			case 'RSS':
 				console.info(`[api]: fetching RSS feed for widget ID: ${widget.id}`);
+				responses[widget.id] = await fetchRssFeed(widget.settings);
 				break;
 		}
 	}

@@ -13,6 +13,7 @@
 	import Weather from '$lib/widgets/Weather.svelte';
 	import Search from '$lib/widgets/Search.svelte';
 	import Text from '$lib/widgets/Text.svelte';
+	import RSS from '$lib/widgets/RSS.svelte';
 
 	let { data }: { data: PageData } = $props();
 	layout.set(data.layout);
@@ -21,7 +22,8 @@
 		Calendar,
 		Search,
 		Text,
-		Weather
+		Weather,
+		RSS
 	};
 
 	// Animation on page load
