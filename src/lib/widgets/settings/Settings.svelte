@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Component } from 'svelte';
-	import { backIn, backOut, quadOut } from 'svelte/easing';
+	import { backIn, backOut, circOut } from 'svelte/easing';
 	import { fade, fly, scale } from 'svelte/transition';
 
 	import { showSettings, showSettingsButton } from '$lib/stores';
@@ -65,7 +65,7 @@
 {#if $showSettingsButton}
 	<button
 		id="settings-button"
-		class="widget-inner !fixed top-4 right-4 text-[2rem] !p-1 hover:bg-base"
+		class="widget-inner !fixed top-4 right-4 text-[2rem] !p-1 z-10 hover:bg-base"
 		onclick={() => (showSettings.set(true))}
 		in:fade
 		out:fade
@@ -84,7 +84,7 @@
 			class="flex-container backdrop-blur backdrop-brightness-75 z-10 cursor-auto !filter-none active:scale-100"
 		></button>
 
-		<div id="settings" class="widget z-10" in:scale={{ easing: quadOut }} out:scale={{ easing: backIn }}>
+		<div id="settings" class="widget z-10" in:scale={{ easing: circOut }} out:scale={{ easing: backIn }}>
 			<h1>
 				settings
 

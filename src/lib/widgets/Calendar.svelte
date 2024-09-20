@@ -143,7 +143,7 @@
     }
 
     :global(td) {
-        @apply rounded-sm transition-colors duration-75 hover:bg-base hover:text-text hover:outline-dashed hover:outline-1 hover:outline-overlay;
+        @apply rounded-sm hover:bg-base hover:text-text hover:outline-dashed hover:outline-1 hover:outline-overlay;
     }
 
     :global(.other-month) {
