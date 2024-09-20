@@ -4,7 +4,7 @@
 	import { quadOut } from 'svelte/easing';
 	import type { PageData } from './$types';
 
-	import { layout, showSettingsButton, showSettings, inLayoutEditor, apiResponses } from '$lib/stores';
+	import { layout, showSettingsButton, showSettings, inLayoutEditor } from '$lib/stores';
 
 	import Settings from '$lib/widgets/settings/Settings.svelte';
 
@@ -16,7 +16,6 @@
 
 	let { data }: { data: PageData } = $props();
 	layout.set(data.layout);
-	apiResponses.set(data.apiResponses);
 
 	const widgets: { [key: string]: Component<{ data: WidgetData }> } = {
 		Calendar,
@@ -45,12 +44,12 @@
 	}
 
 	async function addWidget(widget: string) {
-		const formData = new FormData();
-		formData.append("name", widget);
+		const body = new FormData();
+		body.append("name", widget);
 
 		const request = await fetch("?/addWidget", {
 			method: "POST",
-			body: formData
+			body
 		});
 		const response = await request.json();
 		const widgetId = JSON.parse(response.data)[0];
@@ -92,16 +91,16 @@
 				}
 			}
 
-			const formData = new FormData();
-			formData.append("id", id.toString());
-			formData.append("oldColumn", oldColumn);
-			formData.append("column", targetColumn);
-			formData.append("index", "0");
+			const body = new FormData();
+			body.append("id", id.toString());
+			body.append("oldColumn", oldColumn);
+			body.append("column", targetColumn);
+			body.append("index", "0");
 
-			console.log(formData);
+			console.log(body);
 			// await fetch("?/moveWidget", {
 			// 	method: "POST",
-			// 	body: formData
+			// 	body
 			// });
 		}
 	}

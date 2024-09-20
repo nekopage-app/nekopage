@@ -45,7 +45,7 @@ export function getLayout(id: number): DatabaseLayout {
  *
  * @param {number} layoutId - The layout ID.
  * 
- * @returns {DatabaseWidget[]}
+ * @returns {DatabaseWidgetSettings[]}
  */
 export function getWidgets(layoutId: number): DatabaseWidgetSettings[] {
 	const sql = `SELECT * FROM widgets WHERE layout_id = ?`;
@@ -59,15 +59,13 @@ export function getWidgets(layoutId: number): DatabaseWidgetSettings[] {
 }
 
 /**
- * Returns every widget by the specified name in the database and parses the settings property to JSON.
+ * Returns every widget in the database and parses the settings property to JSON.
  *
- * @param {string} name - The widget name to look for.
- * 
- * @returns {DatabaseWidget[]}
+ * @returns {DatabaseWidgetSettings[]}
  */
-export function getWidgetsByName(name: string): DatabaseWidgetSettings[] {
-	const sql = `SELECT * FROM widgets WHERE name = ?`;
-	let rows = database.prepare(sql).all(name) as DatabaseWidgetSettingsString[];
+export function getAllWidgets(): DatabaseWidgetSettings[] {
+	const sql = `SELECT * FROM widgets`;
+	let rows = database.prepare(sql).all() as DatabaseWidgetSettingsString[];
 
 	rows.forEach((widget) => {
 		widget.settings = JSON.parse(widget.settings);

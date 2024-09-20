@@ -1,52 +1,83 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import Widget from '$lib/components/Widget.svelte';
 
-	import { apiResponses } from '$lib/stores';
-	import weatherIcons from '$lib/data/weather_icons.json';
-
 	let { data }: { data: WidgetData } = $props();
+
+	let loading = $state(true);
+
+	let location = $state('null, undefined');
+	let temperature = $state('??°C');
+
+	let condition = $state('Partly cloudy');
+	let icon = $state('material-symbols:cloudy');
+
+	let rainChance = $state('0%');
+	let wind = $state('?? kph');
+	let humidity = $state('0%');
+
+	async function get() {
+		const request = await fetch(`/api/get-widget-api?widgetId=${data.id}`);
+		const response = await request.json();
+
+		location = `${response.place}, ${response.country}`;
+
+		temperature = `${response.temperature}°C`;
+		if (data.settings.fahrenheit) {
+			temperature = `${(response.temperature * 9) / 5 + 32}°F`;
+		}
+
+		condition = response.condition;
+		icon = response.icon;
+
+		rainChance = `${response.rainChance}%`;
+		wind = `${response.wind} kph`;
+		if (data.settings.mph) {
+			wind = `${response.wind} mph`;
+		}
+		humidity = `${response.humidity}%`;
+
+		loading = false;
+	}
+
+	onMount(() => {
+		get();
+		const interval = setInterval(get, 1000 * 60 * 60 * 12); // Run every 12 hours
+		return clearInterval(interval);
+	});
+
+	let form;
 </script>
 
-<Widget {data}>
+<Widget {loading} {data}>
 	<div id="location" class="p-2 flex items-center gap-2">
 		<iconify-icon icon="mingcute:location-fill" class="text-xl"></iconify-icon>
-		<span>
-            {$apiResponses[data.id]['location']['name']}, {$apiResponses[data.id]['location']['country']}
-        </span>
+		<span>{location}</span>
 	</div>
 
 	<div id="icon" class="flex justify-center items-center mb-4">
 		<div id="icon-text" class="flex flex-col w-40">
-			<!-- todo: add option to use fahrenheit -->
-			<span class="text-5xl font-bold">
-                {Math.floor($apiResponses[data.id]['current']['temp_c'])}°C
-            </span>
-			<span class="font-semibold">{$apiResponses[data.id]['current']['condition']['text']}</span>
+			<span class="text-5xl font-bold">{temperature}</span>
+			<span class="font-semibold">{condition}</span>
 		</div>
 
-		<iconify-icon
-			icon={weatherIcons[$apiResponses[data.id]['current']['condition']['code'] as keyof typeof weatherIcons]}
-			class="text-8xl"
-		></iconify-icon>
+		<iconify-icon {icon} class="text-8xl"></iconify-icon>
 	</div>
 
 	<div id="overview" class="flex justify-evenly items-center mb-4">
 		<div class="overview-div" data-tooltip={'Chance of rain'}>
 			<iconify-icon icon="material-symbols:rainy"></iconify-icon>
-			<span>
-                {$apiResponses[data.id]['forecast']['forecastday'][0]['day']['daily_will_it_rain']}%
-            </span>
+			<span>{rainChance}</span>
 		</div>
 
 		<div class="overview-div" data-tooltip={'Wind'}>
 			<iconify-icon icon="ph:wind-bold"></iconify-icon>
-			<!-- todo: add option to use kph -->
-			<span>{$apiResponses[data.id]['current']['wind_mph']} mph</span>
+			<span>{wind}</span>
 		</div>
 
 		<div class="overview-div" data-tooltip={'Humidity'}>
 			<iconify-icon icon="material-symbols:humidity-high"></iconify-icon>
-			<span>{$apiResponses[data.id]['current']['humidity']}%</span>
+			<span>{humidity}</span>
 		</div>
 	</div>
 </Widget>

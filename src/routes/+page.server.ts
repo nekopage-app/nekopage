@@ -1,4 +1,5 @@
-import { redirect, type Actions } from '@sveltejs/kit';
+import { fail, json, redirect, type Actions } from '@sveltejs/kit';
+
 import * as database from '$lib/server/database';
 import * as api from '$lib/server/api';
 
@@ -10,13 +11,11 @@ export const load = async ({ locals }) => {
     const layout = database.layouts.getParsedLayout(locals.layoutId!);
 
     if (layout) {
-        const apiResponses = api.getResponsesByLayoutId(locals.layoutId!);
         const settings = database.settings.getSettings(locals.user.id);
 
         return {
             layout,
             settings,
-            apiResponses,
             user: locals.user
         };
     } else {
@@ -30,9 +29,6 @@ export const actions = {
         locals.user = null;
 
         throw redirect(303, "/login");
-    },
-    getAPIs: async ({ locals }) => {
-        return api.getResponsesByLayoutId(locals.layoutId!);
     },
     addWidget: async ({ request, locals }) => {
         const data = await request.formData();
