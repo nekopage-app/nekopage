@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
+	import DOMPurify from "dompurify";
+
 	import Widget from "$lib/components/Widget.svelte";
 
 	let { data }: { data: WidgetData } = $props();
@@ -29,7 +31,7 @@
 			<a href={item.link} id="item" class="flex flex-col bg-base rounded p-4 transition hover:ring-2 ring-light-accent">
 				<h1 class="text-xl font-semibold">{item.title}</h1>
 				<hr>
-				<p>{@html item.description}</p>
+				<p>{@html DOMPurify.sanitize(item.description)}</p>
 				
 				<div id="published" class="mt-auto">
 					<hr class="mb-1">
