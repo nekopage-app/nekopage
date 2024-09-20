@@ -24,6 +24,8 @@
 	let dragging = $state(false);
 	let dragX = $state(0);
 	let dragY = $state(0);
+	
+	let cursor = $state("auto");
 
 	let oldWidth = $state(0);
 
@@ -44,6 +46,7 @@
 			image.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';		// Transparent image
 			event.dataTransfer?.setDragImage(image, 0, 0);
 
+			cursor = "grabbing";
 			oldWidth = element.clientWidth;
 			dragging = true;
 
@@ -60,6 +63,7 @@
 	function onDragEnd() {
 		dragging = false;
 		dragX = dragY = 0;
+		cursor = "grab";
 	}
 
 	function onDragOver(event: DragEvent) {
@@ -68,6 +72,14 @@
 			targetTop = event.clientY - dragY;
 		}
 	}
+
+	inLayoutEditor.subscribe((value) => {
+		if (value) {
+			cursor = "grab";
+		} else {
+			cursor = "auto";
+		}
+	});
 </script>
 
 <div
@@ -76,7 +88,7 @@
 	bind:this={element}
 	ondragstart={onDragStart}
 	ondragend={onDragEnd}
-	style="top: {top}px; left: {left}px; cursor: {dragging ? "grabbing" : "grab"}; position: {dragging ? "absolute" : "static"}; width: {dragging ? oldWidth : "auto"}px;"
+	style="top: {top}px; left: {left}px; cursor: {cursor}; position: {dragging ? "absolute" : "static"}; width: {dragging ? oldWidth : "auto"}px;"
 	class="widget"
 >
 	<h1>{data.settings.title}</h1>
