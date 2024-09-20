@@ -85,7 +85,7 @@
 		></button>
 
 		<div id="settings" class="widget z-10" in:scale={{ easing: circOut }} out:scale={{ easing: backIn }}>
-			<h1>
+			<h1 class="!text-subtext">
 				settings
 
 				<button onclick={() => (showSettings.set(false))}>
@@ -94,7 +94,7 @@
 				</button>
 			</h1>
 
-			<div class="widget-inner shadow-xl w-[60rem] h-[40rem] !grid grid-cols-4 !p-0">
+			<div class="widget-inner !shadow-2xl w-[60rem] h-[40rem] !grid grid-cols-4 !p-0">
 				<div id="tabs-list" class="w-full h-full flex flex-col gap-1 bg-base p-2">
 					{#each tabs as tab}
 						<button
