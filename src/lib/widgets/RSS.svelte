@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-	import DOMPurify from "dompurify";
+	import { onMount } from 'svelte';
+	import DOMPurify from 'dompurify';
 
-	import Widget from "$lib/components/Widget.svelte";
+	import Widget from '$lib/components/Widget.svelte';
 
 	let { data }: { data: WidgetData } = $props();
 
@@ -13,7 +13,7 @@
 		const request = await fetch(`/api/get-widget-api?widgetId=${data.id}`);
 		const response = await request.json();
 
-		rssItems = response["rss"]["channel"]["item"].slice(0, data.settings.items);
+		rssItems = response['rss']['channel']['item'].slice(0, data.settings.items);
 
 		loading = false;
 	}
@@ -25,19 +25,41 @@
 	});
 </script>
 
-<Widget loading={loading} data={data} class="!grid grid-cols-3 gap-2">
-	{#if data.settings.style == "cozy"}
-		{#each rssItems as item}
-			<a href={item.link} id="item" class="flex flex-col bg-base rounded p-4 transition hover:ring-2 ring-light-accent">
+<Widget
+	{loading}
+	{data}
+	style="grid-template-columns: repeat({data.settings.columns}, 1fr);"
+	class="!grid gap-2"
+>
+	{#each rssItems as item}
+		<a
+			href={item.link}
+			id="item"
+			class="flex flex-col bg-base rounded transition hover:ring-2 ring-light-accent shadow-md"
+		>
+			{#if data.settings.images}
+				<img
+					src={item['media:thumbnail']['@_url']}
+					alt="rss item thumbnail"
+					class="rounded rounded-b-none object-cover h-32"
+				/>
+			{/if}
+
+			<div id="item-information" class="p-4 h-full flex flex-col">
 				<h1 class="text-xl font-semibold">{item.title}</h1>
-				<hr>
-				<p>{@html DOMPurify.sanitize(item.description)}</p>
-				
-				<div id="published" class="mt-auto">
-					<hr class="mb-1">
-					<sub class="text-overlay">{item.pubDate}</sub>
-				</div>
-			</a>
-		{/each}
-	{/if}
+
+				{#if data.settings.showDescription}
+					<hr />
+					<p>{@html DOMPurify.sanitize(item.description)}</p>
+				{/if}
+
+				{#if data.settings.showPublished}
+					<div id="published" class="mt-auto">
+						<hr class="mb-1" />
+						<sub class="text-overlay">{item.pubDate}</sub>
+					</div>
+				{/if}
+			</div>
+		</a>
+	{/each}
 </Widget>

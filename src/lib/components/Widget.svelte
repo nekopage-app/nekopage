@@ -4,12 +4,13 @@
 
 	interface Props {
 		children: Snippet;
-		class?: string;
 		loading?: boolean;
 		data: WidgetData;
+		class?: string;
+		style?: string;
 	}
 
-	let { children, class: clazz, loading, data }: Props = $props();
+	let { children, loading, data, class: clazz, style }: Props = $props();
 
 	// Layout editor
 	let element: HTMLDivElement;
@@ -24,8 +25,8 @@
 	let dragging = $state(false);
 	let dragX = $state(0);
 	let dragY = $state(0);
-	
-	let cursor = $state("auto");
+
+	let cursor = $state('auto');
 
 	let oldWidth = $state(0);
 
@@ -43,10 +44,10 @@
 			event.dataTransfer?.setData('text/plain', data.id.toString());
 
 			const image = new Image();
-			image.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';		// Transparent image
+			image.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='; // Transparent image
 			event.dataTransfer?.setDragImage(image, 0, 0);
 
-			cursor = "grabbing";
+			cursor = 'grabbing';
 			oldWidth = element.clientWidth;
 			dragging = true;
 
@@ -63,7 +64,7 @@
 	function onDragEnd() {
 		dragging = false;
 		dragX = dragY = 0;
-		cursor = "grab";
+		cursor = 'grab';
 	}
 
 	function onDragOver(event: DragEvent) {
@@ -75,25 +76,31 @@
 
 	inLayoutEditor.subscribe((value) => {
 		if (value) {
-			cursor = "grab";
+			cursor = 'grab';
 		} else {
-			cursor = "auto";
+			cursor = 'auto';
 		}
 	});
 </script>
 
 <div
 	role="presentation"
-	draggable={$inLayoutEditor ? "true" : "false"}
+	draggable={$inLayoutEditor ? 'true' : 'false'}
 	bind:this={element}
 	ondragstart={onDragStart}
 	ondragend={onDragEnd}
-	style="top: {top}px; left: {left}px; cursor: {cursor}; position: {dragging ? "absolute" : "static"}; width: {dragging ? oldWidth : "auto"}px;"
+	style="
+		top: {top}px;
+		left: {left}px;
+		cursor: {cursor};
+		position: {dragging ? 'absolute' : 'static'};
+		width: {dragging ? oldWidth : 'auto'}px;
+	"
 	class="widget"
 >
 	<h1>{data.settings.title}</h1>
 
-	<div class="widget-inner {clazz}">
+	<div class="widget-inner {clazz}" {style}>
 		{#if loading}
 			<div class="loading-container">
 				<iconify-icon icon="line-md:loading-loop"></iconify-icon>

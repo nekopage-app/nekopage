@@ -6,7 +6,7 @@ export default async function fetchRssFeed(settings: WidgetSettings) {
     const request = await fetch(settings.url);
     const response = await request.text();
 
-    const parser = new XMLParser();
+    const parser = new XMLParser({ ignoreAttributes: false });
     const rss = parser.parse(response);
 
     return rss;
