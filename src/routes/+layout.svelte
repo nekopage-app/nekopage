@@ -39,10 +39,6 @@
 		@apply relative flex flex-col bg-mantle outline outline-2 outline-base rounded-md p-2 shadow-md;
 	}
 
-	:global(.loading-container) {
-		@apply absolute top-0 left-0 flex justify-center items-center w-full h-full z-10 rounded-md backdrop-blur text-6xl;
-	}
-
 	:global(.flex-container) {
 		@apply flex justify-center items-center fixed w-full h-full top-0 left-0 z-10;
 	}

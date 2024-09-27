@@ -102,7 +102,7 @@
 
 	<div class="widget-inner {clazz}" {style}>
 		{#if loading}
-			<div class="loading-container">
+			<div class="absolute top-0 left-0 flex justify-center items-center w-full h-full z-10 rounded-md backdrop-blur text-6xl">
 				<iconify-icon icon="line-md:loading-loop"></iconify-icon>
 			</div>
 		{/if}
