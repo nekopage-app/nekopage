@@ -69,4 +69,28 @@
 	:global(.button) {
 		@apply bg-text text-mantle px-3 py-1.5 rounded;
 	}
+
+	:global([data-tooltip]) {
+		@apply relative;
+	}
+
+	:global([data-tooltip]:before),
+	:global([data-tooltip]:after) {
+		@apply opacity-0 pointer-events-none -translate-x-1/2 translate-y-1 transition-all ease-out;
+	}
+
+	:global([data-tooltip]:before) {
+		@apply absolute top-[125%] left-1/2 px-2 py-1.5 rounded bg-subtext text-crust shadow-lg text-center text-sm font-normal whitespace-nowrap;
+		content: attr(data-tooltip);
+	}
+
+	:global([data-tooltip]:after) {
+		@apply absolute left-1/2 -bottom-1/4 w-0 text-[0] border-b-4 border-b-subtext border-x-4 border-x-transparent;
+		content: '';
+	}
+
+	:global([data-tooltip]:hover:before),
+	:global([data-tooltip]:hover:after) {
+		@apply opacity-100 -translate-x-1/2 translate-y-0;
+	}
 </style>
