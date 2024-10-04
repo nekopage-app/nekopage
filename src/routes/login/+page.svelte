@@ -71,13 +71,13 @@
 				type="button"
 				onclick={() => (show = false)}
 				class="button !bg-accent w-28 mt-4"
-				>
+			>
 				Login
 			</button>
 		</form>
 
 		<footer in:fade out:fade class="absolute bottom-8">
-			<a href="https://github.com/axolotlmaid/nekopage" class="text-overlay">nekopage</a>
+			<a href="https://github.com/trafficlunar/nekopage" class="text-overlay">nekopage</a>
 		</footer>
 	{/if}
 </div>

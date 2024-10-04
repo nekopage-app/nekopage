@@ -27,7 +27,7 @@
 		</div>
 
         <footer in:fade out:fade class="absolute bottom-8">
-			<a href="https://github.com/axolotlmaid/nekopage" class="text-overlay">nekopage</a>
+			<a href="https://github.com/trafficlunar/nekopage" class="text-overlay">nekopage</a>
 		</footer>
 	{/if}
 </div>
