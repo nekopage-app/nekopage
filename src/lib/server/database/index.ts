@@ -26,6 +26,7 @@ export function init() {
 	database.exec(`
 		CREATE TABLE IF NOT EXISTS "layouts" (
 			"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+			"name" VARCHAR(32),
 			"user_id" INTEGER NOT NULL,
 			"left" TEXT NOT NULL DEFAULT '[]',
 			"middle" TEXT NOT NULL DEFAULT '[]',

@@ -1,4 +1,4 @@
-import type { Column } from '$lib/enums';
+import { Column } from '$lib/enums';
 import { database } from '.';
 
 /**
@@ -6,17 +6,13 @@ import { database } from '.';
  *
  * @param {number} userId - The user ID.
  * 
- * @returns {number[]} - The layout IDs found.
+ * @returns {DatabaseGetLayout[]} - The layout IDs and names found.
  */
-export function getLayouts(userId: number): number[] {
-	const sql = `SELECT id FROM layouts WHERE user_id = ?`;
-	let rows = database.prepare(sql).all(userId) as { id: number }[];
+export function getLayouts(userId: number): DatabaseGetLayout[] {
+	const sql = `SELECT id, name FROM layouts WHERE user_id = ?`;
+	const rows = database.prepare(sql).all(userId) as DatabaseGetLayout[];
 
-	if (rows) {
-		return rows.map(item => item.id);
-	} else {
-		throw new Error(`No layouts found for user ID ${userId}`);
-	}
+	return rows;
 }
 
 /**
@@ -28,7 +24,7 @@ export function getLayouts(userId: number): number[] {
  */
 export function getLayout(id: number): DatabaseLayout {
 	const sql = `SELECT * FROM layouts WHERE id = ?`;
-	let row = database.prepare(sql).get(id) as DatabaseLayout;
+	const row = database.prepare(sql).get(id) as DatabaseLayout;
 
 	if (row) {
 		row.left = JSON.parse(row.left as unknown as string);
@@ -50,7 +46,7 @@ export function getLayout(id: number): DatabaseLayout {
  */
 export function getWidgets(layoutId: number): DatabaseWidgetSettings[] {
 	const sql = `SELECT * FROM widgets WHERE layout_id = ?`;
-	let rows = database.prepare(sql).all(layoutId) as DatabaseWidgetSettingsString[];
+	const rows = database.prepare(sql).all(layoutId) as DatabaseWidgetSettingsString[];
 
 	rows.forEach((widget) => {
 		widget.settings = JSON.parse(widget.settings);
@@ -66,7 +62,7 @@ export function getWidgets(layoutId: number): DatabaseWidgetSettings[] {
  */
 export function getAllWidgets(): DatabaseWidgetSettings[] {
 	const sql = `SELECT * FROM widgets`;
-	let rows = database.prepare(sql).all() as DatabaseWidgetSettingsString[];
+	const rows = database.prepare(sql).all() as DatabaseWidgetSettingsString[];
 
 	rows.forEach((widget) => {
 		widget.settings = JSON.parse(widget.settings);
@@ -86,7 +82,7 @@ export function getParsedLayout(layoutId: number): Layout {
 	const layout = getLayout(layoutId);
 	const widgets = getWidgets(layoutId);
 
-	let parsedLayout: Layout = {
+	const parsedLayout: Layout = {
 		left: [],
 		middle: [],
 		right: []
@@ -130,6 +126,21 @@ export function setColumnWidgets(layoutId: number, column: Column, widgetsArray:
 }
 
 /**
+ * Renames the specified layout
+ *
+ * @param {number} layoutId - The layout ID.
+ * @param {string} name - The new name for the layout.
+ * 
+ * @returns {boolean}
+ */
+export function renameLayout(layoutId: number, name: string): boolean {
+	const sql = `UPDATE layouts SET name = ? WHERE id = ?`;
+	const row = database.prepare(sql).run(name, layoutId);
+
+	return row.changes > 0;
+}
+
+/**
  * Creates a new widget
  *
  * @param {number} layoutId - The layout ID for the widget.
@@ -157,14 +168,16 @@ export function createWidget(
  * @returns {boolean}
  */
 export function createLayout(userId: number): boolean {
-	const sql = `INSERT INTO layouts (user_id) VALUES (?)`;
-	const row = database.prepare(sql).run(userId);
+	const layouts = getLayouts(userId);
+
+	const sql = `INSERT INTO layouts (name, user_id) VALUES (?, ?)`;
+	const row = database.prepare(sql).run(`My layout #${layouts.length + 1}`, userId);
 	
 	if (row.changes > 0) {
 		const layoutId = Number(row.lastInsertRowid);
 
 		const widgetId = createWidget(layoutId, "Text", { title: "getting started", text: "Welcome to nekopage!" });
-		return setColumnWidgets(layoutId, "left", [widgetId]);
+		return setColumnWidgets(layoutId, Column.Left, [widgetId]);
 	}
 
 	return false;

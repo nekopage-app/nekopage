@@ -32,7 +32,7 @@ export const actions = {
                 maxAge: 60 * 60 * 24 * 30   // 30 days
             });
 
-            throw redirect(303, "/");
+            throw redirect(303, "/choose-layout");
         }
 
         return fail(401, { username, success: false, incorrect: true });

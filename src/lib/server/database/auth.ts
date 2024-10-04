@@ -53,6 +53,22 @@ export async function checkSessionId(sessionId: string): Promise<DatabaseUser | 
 }
 
 /**
+ * Removes the session from the database
+ *
+ * @param {number} userId - The user ID.
+ * 
+ * @returns {boolean}
+ * 
+ * @throws {Error}
+ */
+export function removeSession(userId: number): boolean {
+	const sql = `UPDATE users SET session_id = NULL, session_created = NULL WHERE id = ?`;
+	const row = database.prepare(sql).run(userId);
+
+	return row.changes > 0;
+}
+
+/**
  * Generates a session id and hashes it.
  *
  * @param {number} userId - The user ID.

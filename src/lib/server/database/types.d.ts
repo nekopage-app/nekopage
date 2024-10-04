@@ -7,10 +7,18 @@ interface DatabaseUser {
 }
 
 interface DatabaseLayout {
+    id: number,
+    name: string,
     user_id: number,
     left: number[],
     middle: number[],
-    right: number[]
+    right: number[],
+    [key: string]: number[]
+}
+
+interface DatabaseGetLayout {
+    name: string,
+    id: number
 }
 
 interface DatabaseWidgetBase {
