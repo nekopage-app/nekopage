@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { fade, fly } from 'svelte/transition';
     import { quintOut } from 'svelte/easing';
+	import Footer from '$lib/components/Footer.svelte';
 
 	let show = $state(false);
 
@@ -26,8 +27,6 @@
 			<span>{$page.error?.message}</span>
 		</div>
 
-        <footer in:fade out:fade class="absolute bottom-8">
-			<a href="https://github.com/trafficlunar/nekopage" class="text-overlay">nekopage</a>
-		</footer>
+        <Footer />
 	{/if}
 </div>

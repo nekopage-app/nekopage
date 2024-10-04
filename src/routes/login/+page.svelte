@@ -3,7 +3,9 @@
 	import { quadIn, quintOut } from 'svelte/easing';
 	import { fade, fly } from 'svelte/transition';
 	import type { ActionData } from './$types';
+	
 	import PasswordInput from '$lib/components/PasswordInput.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 
 	let { form }: { form: ActionData } = $props();
 
@@ -76,9 +78,7 @@
 			</button>
 		</form>
 
-		<footer in:fade out:fade class="absolute bottom-8">
-			<a href="https://github.com/trafficlunar/nekopage" class="text-overlay">nekopage</a>
-		</footer>
+		<Footer />
 	{/if}
 </div>
 
