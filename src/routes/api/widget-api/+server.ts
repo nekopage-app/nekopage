@@ -10,7 +10,7 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 
 	if (widgetId) {
 		return json(api.responses[widgetId]);
+	} else {
+		return json({ success: false, error: 'No widget ID was found' }, { status: 400 });
 	}
-
-	return json({ success: false, error: 'No widget ID was found' }, { status: 400 });
 };

@@ -38,25 +38,6 @@ export const actions = {
         // Redirect to login
         throw redirect(303, "/login");
     },
-    addWidget: async ({ request, locals }) => {
-        // Get widget name from form data
-        const data = await request.formData();
-        const name = data.get("name") as string;
-
-        if (locals.layout) {
-            // Get current layout
-            const layout = database.layouts.getLayout(locals.layout.id);
-    
-            // Create widget
-            const widgetId = database.layouts.createWidget(locals.layout.id!, name);
-            // Add widget to the left column
-            database.layouts.setColumnWidgets(locals.layout.id!, Column.Left, [...layout.left, widgetId]);
-    
-            return widgetId;
-        }
-
-        return null;
-    },
     deleteWidget: async ({ request, locals }) => {
         // Get widget ID from form data
         const data = await request.formData();

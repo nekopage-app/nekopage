@@ -48,32 +48,29 @@
 		showAddMenu = false;
 	}
 
-	async function addWidget(widget: string) {
-		const body = new FormData();
-		body.append("name", widget);
-
-		const request = await fetch("?/addWidget", {
+	async function addWidget(widgetName: string) {
+		const request = await fetch(`/api/add-widget?name=${widgetName}`, {
 			method: "POST",
-			body
 		});
 		const response = await request.json();
-		const widgetId = JSON.parse(response.data)[0];
+		
+		if (response.id) {
+			const settings = default_widget_settings[widgetName];
 
-		const settings = default_widget_settings[widget];
-
-		layout.update(currentLayout => {
-			return {
-				...currentLayout,
-				left: [
-					...currentLayout.left,
-					{
-						id: widgetId,
-						name: widget,
-						settings
-					}
-				]
-			};
-		});
+			layout.update(currentLayout => {
+				return {
+					...currentLayout,
+					left: [
+						...currentLayout.left,
+						{
+							id: response.id,
+							name: widgetName,
+							settings
+						}
+					]
+				};
+			});
+		}
 	}
 
 	function onDragOver(event: DragEvent) {
