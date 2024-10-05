@@ -114,7 +114,7 @@
     });
 </script>
 
-<Widget data={data}>
+<Widget {data}>
 	<div class="flex items-center justify-between px-4 h-12">
 		<span class="font-semibold">{weekNumber}</span>
 		<span class="font-medium">{monthYear}</span>

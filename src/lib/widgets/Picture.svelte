@@ -4,6 +4,6 @@
 	let { data }: { data: WidgetData } = $props();
 </script>
 
-<Widget class="!p-3" {data}>
-	<p>{data.settings.text}</p>
+<Widget class="!p-0" {data}>
+	<img src={data.settings.image} alt={data.settings.title} class="rounded">
 </Widget>

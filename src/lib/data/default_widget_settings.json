@@ -2,6 +2,10 @@
 	"Calendar": {
 		"title": "calendar"
 	},
+	"Picture": {
+		"title": "picture",
+		"image": "https://placehold.co/600x400"
+	},
 	"RSS": {
 		"title": "rss",
 		"url": "https://feeds.bbci.co.uk/news/rss.xml",
