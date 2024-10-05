@@ -5,28 +5,32 @@
 import weatherapicomIcons from "$lib/data/weather/weatherapi.com.json";
 
 export default async function fetchWeatherData(settings: WidgetSettings): Promise<WeatherJSON | null> {
-	const apiKey = settings.api_key;
-
 	switch (settings.api) {
 		case 'weatherapi.com': {
 			const request = await fetch(
-				`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${settings.location}&days=1&aqi=no&alerts=false`
+				`http://api.weatherapi.com/v1/forecast.json?key=${settings.api_key}&q=${settings.location}&days=1&aqi=no&alerts=false`
 			);
-			const response = await request.json();
 
-            return {
-                place: response.location.name,
-                country: response.location.country,
-                condition: response.current.condition.text,
-                icon: weatherapicomIcons[response.current.condition.code as keyof typeof weatherapicomIcons],
-                temperature: Math.floor(response.current.temp_c),
-                rainChance: response.forecast.forecastday[0].day.daily_will_it_rain,
-                wind: response.current.wind_kph,
-                humidity: response.current.humidity
-            }
+			if (request.status == 200) {
+				const response = await request.json();
+
+				return {
+					place: response.location.name,
+					country: response.location.country,
+					condition: response.current.condition.text,
+					icon: weatherapicomIcons[response.current.condition.code as keyof typeof weatherapicomIcons],
+					temperature: Math.floor(response.current.temp_c),
+					rainChance: response.forecast.forecastday[0].day.daily_will_it_rain,
+					wind: response.current.wind_kph,
+					humidity: response.current.humidity
+				};
+			}
+			break;
 		};
 
 		default:
 			throw new Error('API property not valid for weather widget');
 	}
+
+	return null;
 }

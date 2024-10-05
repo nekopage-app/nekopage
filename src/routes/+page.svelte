@@ -12,6 +12,7 @@
 	import Settings from '$lib/widgets/settings/Settings.svelte';
 
 	// Widgets and layouts
+	import Astronomy from '$lib/widgets/Astronomy.svelte';
 	import Calendar from '$lib/widgets/Calendar.svelte';
 	import Picture from '$lib/widgets/Picture.svelte';
 	import RSS from '$lib/widgets/RSS.svelte';
@@ -23,6 +24,7 @@
 	layout.set(data.layout!);
 
 	const widgets: { [key: string]: Component<{ data: WidgetData }> } = {
+		Astronomy,
 		Calendar,
 		Picture,
 		RSS,

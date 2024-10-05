@@ -1,7 +1,7 @@
 import { XMLParser } from "fast-xml-parser";
 
-export default async function fetchRssFeed(settings: WidgetSettings) {
-    if (!settings.url) return;
+export default async function fetchRssFeed(settings: WidgetSettings): Promise<object> {
+    if (!settings.url) return {};
 
     const request = await fetch(settings.url);
     const response = await request.text();

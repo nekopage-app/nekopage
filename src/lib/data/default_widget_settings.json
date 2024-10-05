@@ -1,4 +1,10 @@
 {
+	"Astronomy": {
+		"title": "astronomy",
+		"api": "weatherapi.com",
+		"api_key": "",
+		"location": "London"
+	},
 	"Calendar": {
 		"title": "calendar"
 	},
@@ -27,6 +33,7 @@
 		"title": "weather",
 		"api": "weatherapi.com",
 		"api_key": "",
+		"location": "London",
 		"fahrenheit": false,
 		"mph": false
 	}
