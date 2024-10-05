@@ -1,7 +1,8 @@
 import { Column } from '$lib/enums';
 import { database } from '.';
 
-import default_widget_settings from '$lib/data/default_widget_settings.json';
+import default_widget_settings_json from '$lib/data/default_widget_settings.json';
+const default_widget_settings: { [key: string]: WidgetSettings } = default_widget_settings_json;
 
 /**
  * Gets all the layouts for a user.
@@ -150,11 +151,11 @@ export function renameLayout(layoutId: number, name: string): boolean {
  * Sets the widget's settings
  *
  * @param {number} widgetId - The widget ID.
- * @param {object} settings - The new settings for the widget.
+ * @param {WidgetSettings} settings - The new settings for the widget.
  *
  * @returns {boolean}
  */
-export function setWidgetSettings(widgetId: number, settings: object): boolean {
+export function setWidgetSettings(widgetId: number, settings: WidgetSettings): boolean {
 	const sql = `UPDATE widgets SET settings = ? WHERE id = ?`;
 	const row = database.prepare(sql).run(JSON.stringify(settings), widgetId);
 
@@ -170,18 +171,8 @@ export function setWidgetSettings(widgetId: number, settings: object): boolean {
  * @returns {number} - The ID of the newly created widget.
  */
 export function createWidget(layoutId: number, name: string): number {
-	const settings: WidgetSettings = {
-		title: name.toLocaleLowerCase()
-	};
-
-	// Add default settings to widgets
-	const defaultSettings = default_widget_settings[name as keyof typeof default_widget_settings];
-	if (defaultSettings) {
-		Object.assign(settings, defaultSettings);
-	}
-
 	const sql = `INSERT INTO widgets (layout_id, name, settings) VALUES (?, ?, ?)`;
-	const row = database.prepare(sql).run(layoutId, name, JSON.stringify(settings));
+	const row = database.prepare(sql).run(layoutId, name, JSON.stringify(default_widget_settings[name]));
 
 	return Number(row.lastInsertRowid);
 }

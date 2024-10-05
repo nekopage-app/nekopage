@@ -2,9 +2,12 @@
 	import { onMount, type Component } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import { quadOut } from 'svelte/easing';
+	
 	import type { PageData } from './$types';
-
 	import { layout, showSettingsButton, showSettings, inLayoutEditor } from '$lib/stores';
+
+	import default_widget_settings_json from '$lib/data/default_widget_settings.json';
+	const default_widget_settings: { [key: string]: WidgetSettings } = default_widget_settings_json;
 
 	import Settings from '$lib/widgets/settings/Settings.svelte';
 
@@ -16,7 +19,7 @@
 	import RSS from '$lib/widgets/RSS.svelte';
 
 	let { data }: { data: PageData } = $props();
-	layout.set(data.layout);
+	layout.set(data.layout!);
 
 	const widgets: { [key: string]: Component<{ data: WidgetData }> } = {
 		Calendar,
@@ -56,6 +59,8 @@
 		const response = await request.json();
 		const widgetId = JSON.parse(response.data)[0];
 
+		const settings = default_widget_settings[widget];
+
 		layout.update(currentLayout => {
 			return {
 				...currentLayout,
@@ -64,9 +69,7 @@
 					{
 						id: widgetId,
 						name: widget,
-						settings: {
-							title: widget.toLocaleLowerCase()
-						}
+						settings
 					}
 				]
 			};
@@ -84,18 +87,8 @@
 		console.log(targetColumn);
 
 		if (id) {
-			let oldColumn: string | Column = "left";
-
-			for (const column in $layout) {
-				const widget = $layout[column].find(widget => widget.id === id);
-				if (widget) {
-					oldColumn = column;
-				}
-			}
-
 			const body = new FormData();
 			body.append("id", id.toString());
-			body.append("oldColumn", oldColumn);
 			body.append("column", targetColumn);
 			body.append("index", "0");
 
@@ -107,6 +100,10 @@
 		}
 	}
 </script>
+
+<svelte:head>
+	<title>nekopage</title>
+</svelte:head>
 
 <Settings />
 
@@ -126,7 +123,7 @@
 		id="layout-editor"
 		in:fly={{ y: 10 }}
 		out:fly={{ y: 10 }}
-		class="widget-inner !fixed bottom-8 left-8 w-96 h-[3.25rem] !flex-row justify-between items-center !shadow-xl"
+		class="widget-inner !fixed bottom-8 left-8 w-96 h-[3.25rem] z-20 !flex-row justify-between items-center !shadow-xl"
 	>
 		<h1 class="text-xl">Layout Editor</h1>
 
@@ -142,10 +139,10 @@
 		id="add-menu-layout-editor"
 		in:fly={{ x: -10, easing: quadOut }}
 		out:fly={{ x: -10, easing: quadOut }}
-		class="widget-inner !fixed bottom-24 left-8 w-96 h-96 !shadow-xl !grid grid-cols-2 grid-rows-9 gap-1.5"
+		class="widget-inner !fixed bottom-24 left-8 w-96 h-96 z-20 !shadow-xl !grid grid-cols-2 grid-rows-9 gap-1.5"
 	>
 		{#each Object.keys(widgets) as widget}
-			<button class="button !bg-base !text-text hover:brightness-95" onclick={() => addWidget(widget)}>{widget}</button>
+			<button class="button !bg-base !text-text hover:brightness-95 shadow-sm" onclick={() => addWidget(widget)}>{widget}</button>
 		{/each}
 	</div>
 {/if}
