@@ -20,7 +20,7 @@ export const POST: RequestHandler = async ({ locals, url }) => {
             // Add widget to the left column
             database.layouts.setColumnWidgets(locals.layout.id!, Column.Left, [...layout.left, widgetId]);
     
-            return json({ id: widgetId });
+            return json({ success: true, id: widgetId });
         } else {
             return json({ success: false, error: 'No layout was found' }, { status: 400 });
         }

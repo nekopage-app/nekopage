@@ -13,9 +13,10 @@
 		const request = await fetch(`/api/widget-api?id=${data.id}`);
 		const response = await request.json();
 
-		rssItems = response['rss']['channel']['item'].slice(0, data.settings.items);
-
-		loading = false;
+		if (response.api) {
+			rssItems = response.api.rss.channel.item.slice(0, data.settings.items);
+			loading = false;
+		}
 	}
 
 	onMount(() => {

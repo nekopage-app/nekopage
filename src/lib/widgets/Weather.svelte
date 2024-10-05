@@ -17,27 +17,29 @@
 	let humidity = $state('0%');
 
 	async function get() {
-		const request = await fetch(`/get-widget-api?id=${data.id}`);
+		const request = await fetch(`/api/widget-api?id=${data.id}`);
 		const response = await request.json();
 
-		location = `${response.place}, ${response.country}`;
+		if (response.api) {
+			location = `${response.api.place}, ${response.api.country}`;
 
-		temperature = `${response.temperature}°C`;
-		if (data.settings.fahrenheit) {
-			temperature = `${(response.temperature * 9) / 5 + 32}°F`;
+			temperature = `${response.api.temperature}°C`;
+			if (data.settings.fahrenheit) {
+				temperature = `${(response.api.temperature * 9) / 5 + 32}°F`;
+			}
+
+			condition = response.api.condition;
+			icon = response.api.icon;
+
+			rainChance = `${response.api.rainChance}%`;
+			wind = `${response.api.wind} kph`;
+			if (data.settings.mph) {
+				wind = `${response.api.wind} mph`;
+			}
+			humidity = `${response.api.humidity}%`;
+
+			loading = false;
 		}
-
-		condition = response.condition;
-		icon = response.icon;
-
-		rainChance = `${response.rainChance}%`;
-		wind = `${response.wind} kph`;
-		if (data.settings.mph) {
-			wind = `${response.wind} mph`;
-		}
-		humidity = `${response.humidity}%`;
-
-		loading = false;
 	}
 
 	onMount(() => {

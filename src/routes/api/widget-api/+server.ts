@@ -9,7 +9,7 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 	const widgetId = Number(url.searchParams.get('id'));
 
 	if (widgetId) {
-		return json(api.responses[widgetId]);
+		return json({ success: true, api: api.responses[widgetId] });
 	} else {
 		return json({ success: false, error: 'No widget ID was found' }, { status: 400 });
 	}
