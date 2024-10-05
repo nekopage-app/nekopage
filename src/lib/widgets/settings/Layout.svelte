@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { inLayoutEditor, showSettings, showSettingsButton } from '$lib/stores';
 
     function enterLayoutEditor() {
@@ -9,5 +10,4 @@
 </script>
 
 <button class="button" onclick={enterLayoutEditor}>Edit Layout</button>
-
-<hr>
+<button class="button" onclick={() => goto("/choose-layout")}>Swap Layout</button>
