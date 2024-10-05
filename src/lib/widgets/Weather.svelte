@@ -17,7 +17,7 @@
 	let humidity = $state('0%');
 
 	async function get() {
-		const request = await fetch(`/api/widget-api?id=${data.id}`);
+		const request = await fetch(`/api/widget/api?id=${data.id}`);
 		const response = await request.json();
 
 		if (response.api) {

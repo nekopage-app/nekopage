@@ -49,7 +49,7 @@
 	}
 
 	async function addWidget(widgetName: string) {
-		const request = await fetch(`/api/add-widget?name=${widgetName}`, {
+		const request = await fetch(`/api/widget/add?name=${widgetName}`, {
 			method: "POST",
 		});
 		const response = await request.json();
