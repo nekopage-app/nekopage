@@ -35,9 +35,9 @@
 		<a
 			href={item.link}
 			id="item"
-			class="flex flex-col bg-base rounded transition hover:ring-2 ring-light-accent shadow-md"
+			class="flex flex-col bg-base rounded transition duration-200 hover:ring-2 ring-light-accent"
 		>
-			{#if data.settings.images}
+			{#if data.settings.showImages}
 				<img
 					src={item['media:thumbnail']['@_url']}
 					alt="rss item thumbnail"

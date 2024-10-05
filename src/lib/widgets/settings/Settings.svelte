@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Component } from 'svelte';
-	import { backIn, backOut, circOut } from 'svelte/easing';
+	import { backIn, backOut, circOut, quadIn } from 'svelte/easing';
 	import { fade, fly, scale } from 'svelte/transition';
 
 	import { showSettings, showSettingsButton } from '$lib/stores';
@@ -84,7 +84,7 @@
 			class="flex-container backdrop-blur backdrop-brightness-75 z-10 cursor-auto !filter-none active:scale-100"
 		></button>
 
-		<div id="settings" class="widget z-10" in:scale={{ easing: circOut }} out:scale={{ easing: backIn }}>
+		<div id="settings" class="widget z-10" in:scale={{ easing: circOut }} out:scale={{ easing: quadIn }}>
 			<h1 class="!text-subtext">
 				settings
 

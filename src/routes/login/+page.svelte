@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import { quadIn, quintOut } from 'svelte/easing';
-	import { fade, fly } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
+
+	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
 	
 	import PasswordInput from '$lib/components/PasswordInput.svelte';

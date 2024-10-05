@@ -2,17 +2,13 @@
 // This function returns temperature in Celsius and wind speed in KPH.
 // The client will calculate alternative measurements if needed.
 // Additionally, it also maps weather icons to a unified set of icons.
-
-import { env } from "$env/dynamic/private";
-
-// Icons
 import weatherapicomIcons from "$lib/data/weather/weatherapi.com.json";
 
 export default async function fetchWeatherData(settings: WidgetSettings): Promise<WeatherJSON | null> {
-	let apiKey = settings.api_key || env.WEATHERAPI_KEY;
+	const apiKey = settings.api_key;
 
 	switch (settings.api) {
-		case 'weatherapi.com':
+		case 'weatherapi.com': {
 			const request = await fetch(
 				`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${settings.location}&days=1&aqi=no&alerts=false`
 			);
@@ -27,12 +23,10 @@ export default async function fetchWeatherData(settings: WidgetSettings): Promis
                 rainChance: response.forecast.forecastday[0].day.daily_will_it_rain,
                 wind: response.current.wind_kph,
                 humidity: response.current.humidity
-            };
-			break;
+            }
+		};
 
 		default:
 			throw new Error('API property not valid for weather widget');
 	}
-
-	return null;
 }

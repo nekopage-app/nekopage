@@ -31,7 +31,7 @@
 </script>
 
 <svelte:head>
-	<title>login — nekopage</title>
+	<title>choose layout — nekopage</title>
 </svelte:head>
 
 <div class="flex-container">

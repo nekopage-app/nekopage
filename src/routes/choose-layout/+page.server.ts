@@ -1,8 +1,9 @@
 import { redirect, type Actions } from '@sveltejs/kit';
-import * as database from '$lib/server/database';
-import { CHROME_DESKTOP } from '$env/static/private';
+import type { PageServerLoad } from './$types';
 
-export const load = async ({ locals }) => {
+import * as database from '$lib/server/database';
+
+export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
 		throw redirect(303, '/login');
 	}
@@ -26,7 +27,8 @@ export const actions = {
             path: "/",
             httpOnly: true,
             secure: url.protocol == "https:",
-            sameSite: "strict"
+            sameSite: "strict",
+			maxAge: 60 * 60 * 24 * 30   // 30 days
         })
 
 		throw redirect(303, '/');

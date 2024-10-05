@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { fade, fly } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
     import { quintOut } from 'svelte/easing';
 	import Footer from '$lib/components/Footer.svelte';
 
