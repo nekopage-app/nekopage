@@ -87,9 +87,11 @@
 	}
 
 	function onDragEnd() {
-		dragging = false;
-		dragX = dragY = 0;
-		cursor = 'grab';
+		if ($inLayoutEditor) {
+			dragging = false;
+			dragX = dragY = 0;
+			cursor = 'grab';
+		}
 	}
 
 	function onDragOver(event: DragEvent) {
