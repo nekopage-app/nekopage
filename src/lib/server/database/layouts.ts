@@ -1,5 +1,7 @@
 import { Column } from '$lib/enums';
+
 import { database } from '.';
+import * as api from "../api";
 
 import default_widget_settings_json from '$lib/data/default_widget_settings.json';
 const default_widget_settings: { [key: string]: WidgetSettings } = default_widget_settings_json;
@@ -174,7 +176,16 @@ export function createWidget(layoutId: number, name: string): number {
 	const sql = `INSERT INTO widgets (layout_id, name, settings) VALUES (?, ?, ?)`;
 	const row = database.prepare(sql).run(layoutId, name, JSON.stringify(default_widget_settings[name]));
 
-	return Number(row.lastInsertRowid);
+	const id = Number(row.lastInsertRowid);
+
+	// Make request to the widget's specified API
+	api.request({
+		name,
+		id,
+		settings: default_widget_settings[name]
+	});
+
+	return id;
 }
 
 /**
