@@ -83,19 +83,10 @@
 		event.preventDefault();
 		const id = Number(event.dataTransfer?.getData("text/plain"));
 
-		console.log(targetColumn);
-
 		if (id) {
-			const body = new FormData();
-			body.append("id", id.toString());
-			body.append("column", targetColumn);
-			body.append("index", "0");
-
-			console.log(body);
-			// await fetch("?/moveWidget", {
-			// 	method: "POST",
-			// 	body
-			// });
+			await fetch(`/api/widget/move?id=${id}&column=${targetColumn}&index=${0}`, {
+				method: "PATCH",
+			});
 		}
 	}
 </script>
