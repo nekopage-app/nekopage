@@ -38,32 +38,6 @@ export const actions = {
         // Redirect to login
         throw redirect(303, "/login");
     },
-    deleteWidget: async ({ request, locals }) => {
-        // Get widget ID from form data
-        const data = await request.formData();
-        const widgetId = Number(data.get("id"));
-    
-        if (locals.layout) {
-            // Get current layout
-            const layout = database.layouts.getLayout(locals.layout.id);
-
-            // Go through each column
-            Object.values(Column).forEach((column) => {
-                // The column's array
-                let columnArray = layout[column];
-
-                // If widget is in column
-                if (layout[column].includes(widgetId)) {
-                    // Remove widget
-                    columnArray = columnArray.filter(id => id !== widgetId);
-                    // Set column to a new value without the now deleted widget
-                    database.layouts.setColumnWidgets(locals.layout!.id, column, columnArray);
-
-                    return column;
-                }
-            });
-        }
-    },
     moveWidget: async ({ request, locals }) => {
         // Get form data
         const data = await request.formData();

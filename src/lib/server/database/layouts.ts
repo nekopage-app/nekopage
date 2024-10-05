@@ -211,3 +211,17 @@ export function createLayout(userId: number): boolean {
 
 	return false;
 }
+
+/**
+ * Deletes a widget in the database
+ *
+ * @param {number} widgetId - The ID of the widget to be deleted.
+ *
+ * @returns {boolean}
+ */
+export function deleteWidget(widgetId: number): boolean {
+	const sql = `DELETE FROM widgets WHERE id = ?`;
+	const row = database.prepare(sql).run(widgetId);
+
+	return row.changes > 0;
+}
