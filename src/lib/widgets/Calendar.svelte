@@ -138,19 +138,19 @@
 </Widget>
 
 <style lang="postcss">
-    :global(tr) {
+    tr {
         @apply text-text text-[0.85rem] text-center;
     }
 
-    :global(td) {
+    td {
         @apply rounded-sm hover:bg-base hover:text-text hover:outline-dashed hover:outline-1 hover:outline-overlay;
     }
 
-    :global(.other-month) {
+    .other-month {
 		@apply text-overlay;
 	}
 
-	:global(.selected) {
+	.selected {
         @apply bg-text text-crust;
 	}
 </style>
