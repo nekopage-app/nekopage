@@ -1,0 +1,22 @@
+{
+    "Text": {
+        "text": "Meow meow meow meow meow meow meow."
+    },
+    "RSS": {
+        "url": "https://feeds.bbci.co.uk/news/rss.xml",
+        "columns": 2,
+        "items": 4,
+        "showDescription": true,
+        "showPublished": true,
+        "showImages": true
+    },
+    "Search": {
+        "url": "https://www.google.com/search?q="
+    },
+    "Weather": {
+        "api": "weatherapi.com",
+        "api_key": "",
+        "fahrenheit": false,
+        "mph": false
+    }
+}

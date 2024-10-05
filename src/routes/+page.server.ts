@@ -46,19 +46,9 @@ export const actions = {
         if (locals.layout) {
             // Get current layout
             const layout = database.layouts.getLayout(locals.layout.id);
-            const settings: WidgetSettings = {
-                title: name.toLocaleLowerCase()
-            };
-    
-            // Add default settings to widgets
-            switch (name) {
-                case "Text":
-                    settings.text = "Meow meow meow meow meow meow meow";
-                    break;
-            }
     
             // Create widget
-            const widgetId = database.layouts.createWidget(locals.layout.id!, name, settings);
+            const widgetId = database.layouts.createWidget(locals.layout.id!, name);
             // Add widget to the left column
             database.layouts.setColumnWidgets(locals.layout.id!, Column.Left, [...layout.left, widgetId]);
     
