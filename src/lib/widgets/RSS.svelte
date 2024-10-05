@@ -10,7 +10,7 @@
 	let rssItems = $state([] as any[]);
 
 	async function get() {
-		const request = await fetch(`/api/get-widget-api?widgetId=${data.id}`);
+		const request = await fetch(`/api/widget-api?id=${data.id}`);
 		const response = await request.json();
 
 		rssItems = response['rss']['channel']['item'].slice(0, data.settings.items);
