@@ -15,15 +15,15 @@ export async function request(widget: WidgetData) {
 	switch (widget.name) {
 		case 'Astronomy':
 			console.info(`[api]: fetching astronomy data for widget ID: ${widget.id}`);
-			responses[widget.id] = await fetchAstronomyData(widget.settings);
+			responses[widget.id] = await fetchAstronomyData(widget);
 			break;
 		case 'RSS':
 			console.info(`[api]: fetching RSS feed for widget ID: ${widget.id}`);
-			responses[widget.id] = await fetchRssFeed(widget.settings);
+			responses[widget.id] = await fetchRssFeed(widget);
 			break;
 		case 'Weather':
 			console.info(`[api]: fetching weather data for widget ID: ${widget.id}`);
-			responses[widget.id] = await fetchWeatherData(widget.settings);
+			responses[widget.id] = await fetchWeatherData(widget);
 			break;
 	}
 }

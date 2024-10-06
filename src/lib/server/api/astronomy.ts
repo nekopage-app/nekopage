@@ -1,30 +1,52 @@
 // Fetches and parses astronomy data from user's selected APIs into a unified structure (see the AstronomyJSON interface in ./types.d.ts).
 // Additionally, it also maps astronomy icons to a unified set of icons.
-import moonIcons from "$lib/data/moon_icons.json";
+import moonIcons from '$lib/data/moon_icons.json';
 
-export default async function fetchAstronomyData(settings: WidgetSettings): Promise<AstronomyJSON | null> {
-	switch (settings.api) {
+/**
+ * Fetch astronomy data for a widget
+ *
+ * @param {WidgetData} widget - The widget data
+ *
+ * @returns {Promise<AstronomyJSON | null>} - The data returned
+ */
+export default async function fetchAstronomyData(
+	widget: WidgetData
+): Promise<AstronomyJSON | null> {
+	switch (widget.settings.api) {
 		case 'weatherapi.com': {
-			const request = await fetch(
-				`https://api.weatherapi.com/v1/astronomy.json?key=${settings.api_key}&q=${settings.location}`
-			);
+			try {
+				const request = await fetch(
+					`https://api.weatherapi.com/v1/astronomy.json?key=${widget.settings.api_key}&q=${widget.settings.location}`
+				);
 
-			if (request.status == 200) {
+				if (!request.ok) {
+					console.error(
+						`[api]: failed to fetch astronomy data. widget id: ${widget.id}, api: weatherapi.com, status: ${request.status}`
+					);
+					return null;
+				}
+
 				const response = await request.json();
 
+				const sunrise = new Date(`01 Jan 1970 ${response.astronomy.astro.sunrise}`);
+				const sunset = new Date(`01 Jan 1970 ${response.astronomy.astro.sunset}`);
+				
 				return {
-                    moonPhase: response.astronomy.astro.moon_phase,
+					moonPhase: response.astronomy.astro.moon_phase,
 					icon: moonIcons[response.astronomy.astro.moon_phase as keyof typeof moonIcons],
-                    sunrise: response.astronomy.astro.sunrise.toLowerCase(),            // Set the period to lowercase
-                    sunset: response.astronomy.astro.sunset.toLowerCase()               // Set the period to lowercase
+					sunrise: sunrise.getTime(),
+					sunset: sunset.getTime()
 				};
+			} catch (error) {
+				console.error(
+					`[api]: failed to fetch astronomy data. widget id: ${widget.id}, api: weatherapi.com, error: ${error}`
+				);
+				return null;
 			}
-			break;
-		};
+		}
 
 		default:
-			throw new Error('API property not valid for astronomy widget');
+			console.error('[api]: api property not valid for astronomy widget');
+			return null;
 	}
-
-	return null;
 }

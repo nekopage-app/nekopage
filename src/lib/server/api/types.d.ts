@@ -16,6 +16,6 @@ interface WeatherJSON {
 interface AstronomyJSON {
     moonPhase: string,
     icon: string,
-    sunrise: string,
-    sunset: string
+    sunrise: number,
+    sunset: number
 }
