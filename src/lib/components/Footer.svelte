@@ -3,5 +3,5 @@
 </script>
 
 <footer in:fade out:fade class="absolute bottom-8">
-    <a href="https://github.com/trafficlunar/nekopage" class="text-overlay">nekopage</a>
+    <a href="https://github.com/nekopage-app/nekopage" class="text-overlay">nekopage</a>
 </footer>
