@@ -8,7 +8,6 @@
 	class="grid grid-cols-[20rem_auto_20rem] gap-8 bg-crust min-h-screen px-24 pt-4 pb-8 text-text max-xl:grid-cols-2 max-2xl:px-8"
 	style="
         --accent: #f5bde6;
-        --light-accent: #f5bde633;
         --red: #e78284;
         --text: #c6d0f5;
         --subtext: #a5adce;
@@ -55,7 +54,7 @@
 	:global(.input > input),
 	:global(.input-vertical > select),
 	:global(.input-vertical > input) {
-		@apply bg-base text-text placeholder:text-overlay font-medium text-[0.938rem] border-2 border-solid border-surface rounded-md !outline-none p-1.5 transition duration-300 focus:border-accent focus:ring-[3px] focus:ring-light-accent;
+		@apply bg-base text-text placeholder:text-overlay font-medium text-[0.938rem] border-2 border-solid border-surface rounded-md !outline-none p-1.5 transition duration-300 focus:border-accent focus:ring-[2px] ring-[color-mix(in_srgb,var(--accent)_30%,transparent)];
 	}
 
 	:global(.input) {

@@ -36,7 +36,7 @@
 		<a
 			href={item.link}
 			id="item"
-			class="flex flex-col bg-base rounded transition duration-200 hover:ring-2 ring-light-accent"
+			class="flex flex-col bg-base rounded transition duration-200 hover:ring-2 ring-[color-mix(in_srgb,var(--accent)_30%,transparent)]"
 		>
 			{#if data.settings.showImages}
 				<img
