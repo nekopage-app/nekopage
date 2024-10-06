@@ -5,6 +5,19 @@
 		"api_key": "",
 		"location": "London"
 	},
+	"Bookmarks": {
+		"title": "bookmarks",
+		"columns": 4,
+		"icons": true,
+		"bookmarks": {
+			"My Category": {
+				"nekopage": {
+					"url": "https://github.com/nekopage-app/nekopage",
+					"icon": "mdi:git"
+				}
+			}
+		}
+	},
 	"Calendar": {
 		"title": "calendar"
 	},

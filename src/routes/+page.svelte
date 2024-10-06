@@ -13,6 +13,7 @@
 
 	// Widgets and layouts
 	import Astronomy from '$lib/widgets/Astronomy.svelte';
+	import Bookmarks from '$lib/widgets/Bookmarks.svelte';
 	import Calendar from '$lib/widgets/Calendar.svelte';
 	import Picture from '$lib/widgets/Picture.svelte';
 	import RSS from '$lib/widgets/RSS.svelte';
@@ -23,8 +24,9 @@
 	let { data }: { data: PageData } = $props();
 	layout.set(data.layout!);
 
-	const widgets: { [key: string]: Component<{ data: WidgetData }> } = {
+	const widgets: { [key: string]: Component<{ data: WidgetData | any }> } = {
 		Astronomy,
+		Bookmarks,
 		Calendar,
 		Picture,
 		RSS,
