@@ -47,8 +47,6 @@
 		const interval = setInterval(get, 1000 * 60 * 60 * 12); // Run every 12 hours
 		return clearInterval(interval);
 	});
-
-	let form;
 </script>
 
 <Widget {loading} {data}>
