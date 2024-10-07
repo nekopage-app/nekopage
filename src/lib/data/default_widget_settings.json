@@ -1,7 +1,7 @@
 {
 	"Astronomy": {
 		"title": "astronomy",
-		"api": "weatherapi.com",
+		"api": "",
 		"api_key": "",
 		"location": "London"
 	},
@@ -44,7 +44,7 @@
 	},
 	"Weather": {
 		"title": "weather",
-		"api": "weatherapi.com",
+		"api": "",
 		"api_key": "",
 		"location": "London",
 		"fahrenheit": false,
