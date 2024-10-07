@@ -43,37 +43,72 @@ export function getLayout(id: number): DatabaseLayout {
 }
 
 /**
+ * Checks if a user has a layout in the database tied to them.
+ *
+ * @param {number} userId - The user ID.
+ * @param {number} layoutId - The layout ID.
+ *
+ * @returns {boolean}
+ */
+export function hasLayout(userId: number, layoutId: number): boolean {
+	const sql = `SELECT user_id FROM layouts WHERE id = ?`;
+	const row = database.prepare(sql).get(layoutId) as DatabaseLayout;
+
+	return !!row.user_id;
+}
+
+/**
+ * Checks if a user has a widget in the database tied to them.
+ *
+ * @param {number} userId - The user ID.
+ * @param {number} widgetId - The widget ID.
+ *
+ * @returns {boolean}
+ */
+export function hasWidget(userId: number, widgetId: number): boolean {
+	const sql = `SELECT layout_id FROM widgets WHERE id = ?`;
+	const row = database.prepare(sql).get(widgetId) as DatabaseWidgetData;
+
+	if (row) {
+		const layout = getLayout(row.layout_id);
+		return layout.user_id == userId;
+	}
+
+	return false;
+}
+
+/**
  * Returns widgets in a layout and parses the settings property to JSON.
  *
  * @param {number} layoutId - The layout ID.
  *
- * @returns {DatabaseWidgetSettings[]}
+ * @returns {WidgetData[]}
  */
-export function getWidgets(layoutId: number): DatabaseWidgetSettings[] {
+export function getWidgets(layoutId: number): WidgetData[] {
 	const sql = `SELECT * FROM widgets WHERE layout_id = ?`;
-	const rows = database.prepare(sql).all(layoutId) as DatabaseWidgetSettingsString[];
+	const rows = database.prepare(sql).all(layoutId) as DatabaseWidgetData[];
 
 	rows.forEach((widget) => {
 		widget.settings = JSON.parse(widget.settings);
 	});
 
-	return rows as unknown as DatabaseWidgetSettings[];
+	return rows as unknown as WidgetData[];
 }
 
 /**
  * Returns every widget in the database and parses the settings property to JSON.
  *
- * @returns {DatabaseWidgetSettings[]}
+ * @returns {WidgetData[]}
  */
-export function getAllWidgets(): DatabaseWidgetSettings[] {
+export function getAllWidgets(): WidgetData[] {
 	const sql = `SELECT * FROM widgets`;
-	const rows = database.prepare(sql).all() as DatabaseWidgetSettingsString[];
+	const rows = database.prepare(sql).all() as DatabaseWidgetData[];
 
 	rows.forEach((widget) => {
 		widget.settings = JSON.parse(widget.settings);
 	});
 
-	return rows as unknown as DatabaseWidgetSettings[];
+	return rows as unknown as WidgetData[];
 }
 
 /**

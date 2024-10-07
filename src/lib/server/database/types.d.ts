@@ -21,16 +21,9 @@ interface DatabaseGetLayout {
     id: number
 }
 
-interface DatabaseWidgetBase {
+interface DatabaseWidgetData {
     id: number,
-    user_id: number,
+    layout_id: number,
     name: string,
-}
-
-interface DatabaseWidgetSettingsString extends DatabaseWidgetBase {
     settings: string
-}
-
-interface DatabaseWidgetSettings extends DatabaseWidgetBase {
-    settings: WidgetSettings
 }
