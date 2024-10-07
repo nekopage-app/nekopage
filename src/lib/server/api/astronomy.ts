@@ -7,11 +7,11 @@ import moonIcons from '$lib/data/moon_icons.json';
  *
  * @param {WidgetData} widget - The widget data
  *
- * @returns {Promise<AstronomyJSON | null>} - The data returned
+ * @returns {Promise<AstronomyJSON | object>} - The data returned
  */
 export default async function fetchAstronomyData(
 	widget: WidgetData
-): Promise<AstronomyJSON | null> {
+): Promise<AstronomyJSON | object> {
 	switch (widget.settings.api) {
 		case 'weatherapi.com': {
 			try {
@@ -23,14 +23,14 @@ export default async function fetchAstronomyData(
 					console.error(
 						`[api]: failed to fetch astronomy data. widget id: ${widget.id}, api: weatherapi.com, status: ${request.status}`
 					);
-					return null;
+					return {};
 				}
 
 				const response = await request.json();
 
 				const sunrise = new Date(`01 Jan 1970 ${response.astronomy.astro.sunrise}`);
 				const sunset = new Date(`01 Jan 1970 ${response.astronomy.astro.sunset}`);
-				
+
 				return {
 					moonPhase: response.astronomy.astro.moon_phase,
 					icon: moonIcons[response.astronomy.astro.moon_phase as keyof typeof moonIcons],
@@ -41,12 +41,12 @@ export default async function fetchAstronomyData(
 				console.error(
 					`[api]: failed to fetch astronomy data. widget id: ${widget.id}, api: weatherapi.com, error: ${error}`
 				);
-				return null;
+				return {};
 			}
 		}
 
 		default:
 			console.error('[api]: api property not valid for astronomy widget');
-			return null;
+			return {};
 	}
 }

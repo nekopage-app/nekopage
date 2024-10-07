@@ -1,5 +1,12 @@
 interface ApiResponses {
-    [widgetId: string]: object | null
+    [widgetId: string]: object
+}
+
+interface AstronomyJSON {
+    moonPhase: string,
+    icon: string,
+    sunrise: number,
+    sunset: number
 }
 
 interface WeatherJSON {
@@ -11,11 +18,4 @@ interface WeatherJSON {
     rainChance: number,
     wind: number,
     humidity: number,
-}
-
-interface AstronomyJSON {
-    moonPhase: string,
-    icon: string,
-    sunrise: number,
-    sunset: number
 }

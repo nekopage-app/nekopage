@@ -5,14 +5,14 @@ import { XMLParser } from 'fast-xml-parser';
  *
  * @param {WidgetData} widget - The widget data
  *
- * @returns {Promise<object | null>} - The data returned
+ * @returns {Promise<object>} - The data returned
  */
-export default async function fetchRssFeed(widget: WidgetData): Promise<object | null> {
+export default async function fetchRssFeed(widget: WidgetData): Promise<object> {
 	if (!widget.settings.url) {
 		console.error(
 			`[api]: no url property was found when fetching rss feed. widget id: ${widget.id}`
 		);
-		return null;
+		return {};
 	}
 
 	const request = await fetch(widget.settings.url);

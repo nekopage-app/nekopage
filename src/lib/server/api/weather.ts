@@ -9,9 +9,9 @@ import weatherapicomIcons from '$lib/data/weather/weatherapi.com.json';
  *
  * @param {WidgetData} widget - The widget data
  *
- * @returns {Promise<WeatherJSON | null>} - The data returned
+ * @returns {Promise<WeatherJSON | object>} - The data returned
  */
-export default async function fetchWeatherData(widget: WidgetData): Promise<WeatherJSON | null> {
+export default async function fetchWeatherData(widget: WidgetData): Promise<WeatherJSON | object> {
 	switch (widget.settings.api) {
 		case 'weatherapi.com': {
 			try {
@@ -23,7 +23,7 @@ export default async function fetchWeatherData(widget: WidgetData): Promise<Weat
 					console.error(
 						`[api]: failed to fetch weather data. widget id: ${widget.id}, api: weatherapi.com, status: ${request.status}`
 					);
-					return null;
+					return {};
 				}
 
 				const response = await request.json();
@@ -44,12 +44,12 @@ export default async function fetchWeatherData(widget: WidgetData): Promise<Weat
 				console.error(
 					`[api]: failed to fetch weather data. widget id: ${widget.id}, api: weatherapi.com, error: ${error}`
 				);
-				return null;
+				return {};
 			}
 		}
 
 		default:
 			console.error('[api]: api property not valid for weather widget');
-			return null;
+			return {};
 	}
 }
