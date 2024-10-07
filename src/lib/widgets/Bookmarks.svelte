@@ -37,7 +37,9 @@
 
                     {#each Object.entries(bookmarks) as [bookmark, bookmarkData]}
                         <a href={bookmarkData.url} id={bookmark} class="flex items-center gap-1.5 p-1 transition hover:brightness-75">
-                            <iconify-icon icon={bookmarkData.icon} class="text-xl"></iconify-icon>
+                            {#if data.settings.icons}
+                                <iconify-icon icon={bookmarkData.icon} class="text-xl"></iconify-icon>
+                            {/if}
                             <span>{bookmark}</span>
                         </a>
                     {/each}
@@ -53,8 +55,10 @@
                     <div class="grid grid-cols-8 gap-1.5">
                         {#each Object.entries(bookmarks) as [bookmark, bookmarkData]}
                             <a href={bookmarkData.url} id={bookmark} class="flex flex-col justify-center items-center gap-1.5 bg-crust aspect-square rounded-xl transition hover:brightness-75">
-                                <iconify-icon icon={bookmarkData.icon} class="text-6xl"></iconify-icon>
-                                <span>{bookmark}</span>
+                                {#if data.settings.icons}
+                                    <iconify-icon icon={bookmarkData.icon} class="text-6xl"></iconify-icon>
+                                {/if}
+                                <span class="text-center">{bookmark}</span>
                             </a>
                         {/each}
                     </div>
