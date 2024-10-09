@@ -12,7 +12,7 @@ export const PATCH: RequestHandler = async ({ locals, url }) => {
 		return json({ success: false, error: 'No widget ID was was specified' }, { status: 400 });
 	if (!newColumn)
 		return json({ success: false, error: 'No column was specified' }, { status: 400 });
-	if (!newIndex)
+	if (newIndex == null)
 		return json({ success: false, error: 'No column index was specified' }, { status: 400 });
 	if (!locals.layout)
 		return json({ success: false, error: 'No layout was found' }, { status: 400 });
