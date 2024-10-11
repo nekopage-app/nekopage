@@ -13,7 +13,7 @@
 		const request = await fetch(`/api/widget/api?id=${data.id}`);
 		const response = await request.json();
 
-		if (response.api) {
+		if (Object.keys(response.api).length > 0) {
 			rssItems = response.api.rss.channel.item.slice(0, data.settings.items);
 			loading = false;
 		}

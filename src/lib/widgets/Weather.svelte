@@ -20,7 +20,7 @@
 		const request = await fetch(`/api/widget/api?id=${data.id}`);
 		const response = await request.json();
 
-		if (response.api) {
+		if (Object.keys(response.api).length > 0) {
 			location = `${response.api.place}, ${response.api.country}`;
 
 			temperature = `${response.api.temperature}°C`;

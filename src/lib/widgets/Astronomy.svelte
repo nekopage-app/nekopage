@@ -15,7 +15,7 @@
 		const request = await fetch(`/api/widget/api?id=${data.id}`);
 		const response = await request.json();
 
-		if (response.api.length > 0) {
+		if (Object.keys(response.api).length > 0) {
 			moonPhaseIcon = response.api.icon;
 			moonPhase = response.api.moonPhase;
 			sunrise = new Date(response.api.sunrise)
