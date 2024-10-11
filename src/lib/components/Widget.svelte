@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { inLayoutEditor, layout } from '$lib/stores';
 	import { type Snippet } from 'svelte';
+
+	import type { Column } from '$lib/enums';
+	import { inLayoutEditor, inWidgetEditor, layout } from '$lib/stores';
 
 	interface Props {
 		children: Snippet;
@@ -21,7 +23,7 @@
 
 		if (response.column) {
 			layout.update((currentLayout) => {
-				const updatedColumn = currentLayout[response.column].filter(
+				const updatedColumn = currentLayout[response.column as Column].filter(
 					(widget) => widget.id !== data.id
 				);
 
@@ -35,7 +37,10 @@
 		}
 	}
 
-	function openWidgetEditor() {}
+	function openWidgetEditor() {
+		// todo
+		inWidgetEditor.set(true);
+	}
 </script>
 
 <div class="widget select-none">

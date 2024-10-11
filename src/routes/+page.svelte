@@ -11,8 +11,9 @@
 	import { layout, showSettingsButton, inLayoutEditor } from '$lib/stores';
 	import { widgets } from '$lib/widgets';
 
-	import Settings from '$lib/widgets/settings/Settings.svelte';
+	import Settings from '$lib/components/settings/Settings.svelte';
 	import LayoutEditor from '$lib/components/LayoutEditor.svelte';
+	import SaveMessage from '$lib/components/SaveMessage.svelte';
 
 	// Set layout
 	let { data }: { data: PageData } = $props();
@@ -56,6 +57,7 @@
 
 <Settings />
 <LayoutEditor />
+<SaveMessage />
 
 {#each Object.values(Column) as column}
 	{#if show}
