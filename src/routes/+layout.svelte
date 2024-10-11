@@ -5,7 +5,7 @@
 
 <div
 	id="theme"
-	class="grid grid-cols-[20rem_max-content_20rem] gap-4 bg-crust min-h-screen px-24 pt-2 pb-8 text-text max-xl:grid-cols-2 max-2xl:px-8"
+	class="grid grid-cols-[20rem_auto_20rem] gap-4 bg-crust min-h-screen px-24 pt-2 pb-8 text-text max-xl:grid-cols-2 max-2xl:px-8"
 	style="
         --accent: #f5bde6;
         --red: #e78284;
@@ -39,7 +39,7 @@
 	}
 
 	:global(.flex-container) {
-		@apply flex justify-center items-center fixed w-full h-full top-0 left-0 z-20;
+		@apply flex justify-center items-center fixed w-full h-full top-0 left-0 z-30;
 	}
 
 	:global(hr) {
@@ -51,9 +51,7 @@
 	}
 
 	:global(.input > select),
-	:global(.input > input),
-	:global(.input-vertical > select),
-	:global(.input-vertical > input) {
+	:global(.input > input) {
 		@apply bg-base text-text placeholder:text-overlay font-medium text-[0.938rem] border-2 border-solid border-surface rounded-md !outline-none p-1.5 transition duration-300 focus:border-accent focus:ring-[2px] ring-[color-mix(in_srgb,var(--accent)_30%,transparent)];
 	}
 
@@ -62,7 +60,19 @@
 	}
 
 	:global(.input-vertical) {
-		@apply flex flex-col gap-1;
+		@apply flex flex-col items-stretch gap-1;
+	}
+
+	:global(.input-helper) {
+		@apply grid grid-cols-2;
+	}
+
+	:global(.input-helper div label) {
+		@apply font-medium;
+	}
+
+	:global(.input-helper div p) {
+		@apply text-sm text-overlay;
 	}
 
 	:global(.button) {

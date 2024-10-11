@@ -47,7 +47,7 @@
 				<iconify-icon icon="mdi:cat"></iconify-icon>
 			</div>
 
-			<div class="input-vertical">
+			<div class="input input-vertical">
 				<label for="username">Username</label>
 				<input
 					name="username"
@@ -58,7 +58,7 @@
 				/>
 			</div>
 
-			<div class="input-vertical">
+			<div class="input input-vertical">
 				<label for="password">Password</label>
 				<PasswordInput placeholder="Enter password" />
 			</div>
