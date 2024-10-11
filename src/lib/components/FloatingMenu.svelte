@@ -8,32 +8,36 @@
 		children: Snippet;
 		show: Writable<boolean>;
 		id: string;
+		class?: string;
+		title: string;
 	}
 
-	let { children, show, id }: Props = $props();
+	let { children, show, id, class: clazz, title }: Props = $props();
 </script>
 
-<div class="flex-container">
-	<button
-		id="blur-container"
-		onclick={() => show.set(false)}
-		in:fade
-		out:fade
-		class="flex-container backdrop-blur backdrop-brightness-75 cursor-auto !filter-none active:scale-100"
-	></button>
+{#if $show}
+	<div class="flex-container">
+		<button
+			id="blur-container"
+			onclick={() => show.set(false)}
+			in:fade
+			out:fade
+			class="flex-container backdrop-blur backdrop-brightness-75 cursor-auto !filter-none active:scale-100"
+		></button>
 
-	<div {id} class="widget z-20" in:scale={{ easing: circOut }} out:scale={{ easing: sineIn }}>
-		<h1 class="!text-subtext">
-			settings
+		<div {id} class="widget z-30" in:scale={{ easing: circOut }} out:scale={{ easing: sineIn }}>
+			<h1 class="!text-subtext">
+				{title}
 
-			<button onclick={() => show.set(false)}>
-				<iconify-icon icon="mingcute:close-fill"></iconify-icon>
-				close
-			</button>
-		</h1>
+				<button onclick={() => show.set(false)}>
+					<iconify-icon icon="mingcute:close-fill"></iconify-icon>
+					close
+				</button>
+			</h1>
 
-		<div class="widget-inner !shadow-2xl w-[60rem] h-[40rem] !grid grid-cols-4 !p-0">
-			{@render children()}
+			<div class="widget-inner !shadow-2xl w-[60rem] h-[40rem] {clazz}">
+				{@render children()}
+			</div>
 		</div>
 	</div>
-</div>
+{/if}
