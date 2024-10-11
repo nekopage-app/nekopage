@@ -1,21 +1,25 @@
 interface ApiResponses {
-    [widgetId: string]: object
+	[widgetId: string]: object;
 }
 
 interface AstronomyJSON {
-    moonPhase: string,
-    icon: string,
-    sunrise: number,
-    sunset: number
+	moonPhase: string;
+	icon: string;
+	sunrise: number;
+	sunset: number;
+}
+
+interface JellyfinJSON {
+	items: number;
 }
 
 interface WeatherJSON {
-    place: string,
-    country: string,
-    condition: string,
-    icon: string,
-    temperature: number,
-    rainChance: number,
-    wind: number,
-    humidity: number,
+	place: string;
+	country: string;
+	condition: string;
+	icon: string;
+	temperature: number;
+	rainChance: number;
+	wind: number;
+	humidity: number;
 }

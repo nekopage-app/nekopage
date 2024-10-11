@@ -5,7 +5,7 @@
 
 <div
 	id="theme"
-	class="grid grid-cols-[20rem_auto_20rem] gap-8 bg-crust min-h-screen px-24 pt-4 pb-8 text-text max-xl:grid-cols-2 max-2xl:px-8"
+	class="grid grid-cols-[20rem_max-content_20rem] gap-4 bg-crust min-h-screen px-24 pt-2 pb-8 text-text max-xl:grid-cols-2 max-2xl:px-8"
 	style="
         --accent: #f5bde6;
         --red: #e78284;
@@ -39,7 +39,7 @@
 	}
 
 	:global(.flex-container) {
-		@apply flex justify-center items-center fixed w-full h-full top-0 left-0 z-10;
+		@apply flex justify-center items-center fixed w-full h-full top-0 left-0 z-20;
 	}
 
 	:global(hr) {

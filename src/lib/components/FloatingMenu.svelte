@@ -19,10 +19,10 @@
 		onclick={() => show.set(false)}
 		in:fade
 		out:fade
-		class="flex-container backdrop-blur backdrop-brightness-75 z-10 cursor-auto !filter-none active:scale-100"
+		class="flex-container backdrop-blur backdrop-brightness-75 cursor-auto !filter-none active:scale-100"
 	></button>
 
-	<div {id} class="widget z-10" in:scale={{ easing: circOut }} out:scale={{ easing: sineIn }}>
+	<div {id} class="widget z-20" in:scale={{ easing: circOut }} out:scale={{ easing: sineIn }}>
 		<h1 class="!text-subtext">
 			settings
 

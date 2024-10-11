@@ -9,7 +9,7 @@
 	const default_widget_settings: { [key: string]: WidgetSettings } = default_widget_settings_json;
 
 	// Layout editor
-	let showAddMenu = $state(true);
+	let showAddMenu = $state(false);
 
 	function exitLayoutEditor() {
 		showSettings.set(true);
