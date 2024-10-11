@@ -75,7 +75,7 @@
 			class="flex flex-col gap-2 rounded p-2 {$inLayoutEditor ? "outline-2 outline-overlay outline-dashed" : ""}"
 		>
 			{#each $layout[column] as widget (widget.id)}
-				{@const Component = widgets[widget.name]}
+				{@const Component = widgets[widget.type]}
 				<div animate:flip={{ duration: 400 }}>
 					<Component data={widget} />
 				</div>

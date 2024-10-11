@@ -40,7 +40,7 @@ export function init() {
 		CREATE TABLE IF NOT EXISTS "widgets" (
 			"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 			"layout_id" INTEGER NOT NULL,
-			"name" VARCHAR(32) NOT NULL,
+			"type" VARCHAR(32) NOT NULL,
 			"settings" TEXT NOT NULL DEFAULT '{"title":""}',
 			FOREIGN KEY ("layout_id") REFERENCES "layouts"("id") ON DELETE CASCADE
 		);

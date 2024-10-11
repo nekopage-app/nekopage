@@ -12,7 +12,7 @@ export const responses: ApiResponses = {};
  * @param {WidgetData} widget - The widget data
  */
 export async function request(widget: WidgetData) {
-	switch (widget.name) {
+	switch (widget.type) {
 		case 'Astronomy':
 			console.info(`[api]: fetching astronomy data for widget ID: ${widget.id}`);
 			responses[widget.id] = await fetchAstronomyData(widget);

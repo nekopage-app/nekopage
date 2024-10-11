@@ -136,9 +136,9 @@ export function getParsedLayout(layoutId: number): Layout {
 				const widget = widgets.find((widget) => widget.id === id);
 
 				if (widget) {
-					parsedLayout[column].push({
+					parsedLayout[column as Column].push({
 						id,
-						name: widget.name,
+						type: widget.type,
 						settings: widget.settings as WidgetSettings
 					});
 				}
@@ -203,21 +203,21 @@ export function setWidgetSettings(widgetId: number, settings: WidgetSettings): b
  * Creates a new widget with default settings
  *
  * @param {number} layoutId - The layout ID for the widget.
- * @param {string} name - The name of the widget.
+ * @param {string} type - The type of widget.
  *
  * @returns {number} - The ID of the newly created widget.
  */
-export function createWidget(layoutId: number, name: string): number {
-	const sql = `INSERT INTO widgets (layout_id, name, settings) VALUES (?, ?, ?)`;
-	const row = database.prepare(sql).run(layoutId, name, JSON.stringify(default_widget_settings[name]));
+export function createWidget(layoutId: number, type: string): number {
+	const sql = `INSERT INTO widgets (layout_id, type, settings) VALUES (?, ?, ?)`;
+	const row = database.prepare(sql).run(layoutId, type, JSON.stringify(default_widget_settings[type]));
 
 	const id = Number(row.lastInsertRowid);
 
 	// Make request to the widget's specified API
 	api.request({
-		name,
+		type,
 		id,
-		settings: default_widget_settings[name]
+		settings: default_widget_settings[type]
 	});
 
 	return id;

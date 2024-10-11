@@ -47,7 +47,7 @@
 				class="absolute top-0 left-0 flex flex-col justify-center items-center gap-2 w-full h-full z-20 rounded-md transition duration-300 text-2xl hover:backdrop-blur hover:backdrop-brightness-[0.8] group"
 			>
 				<h1 class="font-semibold opacity-0 transition duration-300 group-hover:opacity-100">
-					{data.name}
+					{data.type}
 				</h1>
 
 				<div class="flex gap-8 text-5xl opacity-0 transition duration-300 group-hover:opacity-100">

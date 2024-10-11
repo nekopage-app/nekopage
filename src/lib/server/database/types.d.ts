@@ -24,7 +24,7 @@ interface DatabaseGetLayout {
 interface DatabaseWidgetData {
 	id: number;
 	layout_id: number;
-	name: string;
+	type: string;
 	settings: string;
 }
 

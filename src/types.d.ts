@@ -2,12 +2,11 @@ interface Layout {
 	left: WidgetData[];
 	middle: WidgetData[];
 	right: WidgetData[];
-	[key: string]: WidgetData[];
 }
 
 interface WidgetData {
 	id: number;
-	name: string;
+	type: string;
 	settings: WidgetSettings;
 }
 

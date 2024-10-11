@@ -18,14 +18,14 @@
 		showAddMenu = false;
 	}
 
-	async function addWidget(widgetName: string) {
-		const request = await fetch(`/api/widget/add?name=${widgetName}`, {
+	async function addWidget(widgetType: string) {
+		const request = await fetch(`/api/widget/add?type=${widgetType}`, {
 			method: 'POST'
 		});
 		const response = await request.json();
 
 		if (response.id) {
-			const settings = default_widget_settings[widgetName];
+			const settings = default_widget_settings[widgetType];
 
 			layout.update((currentLayout) => {
 				return {
@@ -34,7 +34,7 @@
 						...currentLayout.left,
 						{
 							id: response.id,
-							name: widgetName,
+							type: widgetType,
 							settings
 						}
 					]
@@ -46,28 +46,38 @@
 	}
 </script>
 
-{#if $inLayoutEditor}
-    <div id="layout-editor-menu" class="widget select-none fixed bottom-4 left-1/2 -translate-x-1/2 z-20" in:fly={{ y: 10 }} out:fly={{ y: 10 }}>
-        <h1 class="!justify-center">layout editor</h1>
+{#if showAddMenu}
+	<div
+		id="add-widget-menu"
+		class="widget select-none fixed bottom-28 left-1/2 -translate-x-1/2 z-20"
+		in:fly={{ y: 10, easing: quadOut }}
+		out:fly={{ y: 10, easing: quadOut }}
+	>
+		<h1 class="!justify-center">add widgets</h1>
 
-        <div class="widget-inner !flex-row gap-1">
-            <button class="button" onclick={() => (showAddMenu = !showAddMenu)}> add </button>
-            <button class="button" onclick={exitLayoutEditor}> exit </button>
-        </div>
-    </div>
+		<div class="widget-inner !grid grid-cols-2 gap-1.5 w-72 h-48 overflow-auto">
+			{#each Object.keys(widgets) as widget}
+				<button
+					class="button !bg-base !text-text hover:brightness-95 shadow-sm"
+					onclick={() => addWidget(widget)}>{widget}</button
+				>
+			{/each}
+		</div>
+	</div>
 {/if}
 
-{#if showAddMenu}
-<div id="add-widget-menu" class="widget select-none fixed bottom-28 left-1/2 -translate-x-1/2 z-20" in:fly={{ y: 10, easing: quadOut }} out:fly={{ y: 10, easing: quadOut }}>
-    <h1 class="!justify-center">add widgets</h1>
+{#if $inLayoutEditor}
+	<div
+		id="layout-editor-menu"
+		class="widget select-none fixed bottom-4 left-1/2 -translate-x-1/2 z-20"
+		in:fly={{ y: 10 }}
+		out:fly={{ y: 10 }}
+	>
+		<h1 class="!justify-center">layout editor</h1>
 
-    <div class="widget-inner !grid grid-cols-2 gap-1.5 w-72 h-48 overflow-auto">
-        {#each Object.keys(widgets) as widget}
-			<button
-				class="button !bg-base !text-text hover:brightness-95 shadow-sm"
-				onclick={() => addWidget(widget)}>{widget}</button
-			>
-		{/each}
-    </div>
-</div>
+		<div class="widget-inner !flex-row gap-1">
+			<button class="button" onclick={() => (showAddMenu = !showAddMenu)}> add </button>
+			<button class="button" onclick={exitLayoutEditor}> exit </button>
+		</div>
+	</div>
 {/if}
