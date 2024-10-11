@@ -36,7 +36,7 @@
 		"svelte-dnd-action": "^0.9.51",
 		"tailwindcss": "^3.4.12",
 		"typescript": "^5.6.2",
-		"typescript-eslint": "^8.6.0",
+		"typescript-eslint": "^8.8.1",
 		"vite": "^5.4.7"
 	},
 	"type": "module"
