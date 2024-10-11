@@ -2,9 +2,13 @@
 	import { onMount, type Component } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import { quadOut } from 'svelte/easing';
-	
+	import { flip } from 'svelte/animate';
+
+	import { dndzone } from 'svelte-dnd-action';
+
 	import type { PageData } from './$types';
 	import { layout, showSettingsButton, showSettings, inLayoutEditor } from '$lib/stores';
+	import { Column } from '$lib/enums';
 
 	import default_widget_settings_json from '$lib/data/default_widget_settings.json';
 	const default_widget_settings: { [key: string]: WidgetSettings } = default_widget_settings_json;
@@ -56,14 +60,14 @@
 
 	async function addWidget(widgetName: string) {
 		const request = await fetch(`/api/widget/add?name=${widgetName}`, {
-			method: "POST",
+			method: 'POST'
 		});
 		const response = await request.json();
-		
+
 		if (response.id) {
 			const settings = default_widget_settings[widgetName];
 
-			layout.update(currentLayout => {
+			layout.update((currentLayout) => {
 				return {
 					...currentLayout,
 					left: [
@@ -81,19 +85,25 @@
 		}
 	}
 
-	function onDragOver(event: DragEvent) {
-		event.preventDefault();
+	function updateLayout(event: any) {
+		layout.update((currentLayout) => {
+			return {
+				...currentLayout,
+				[event.target.id]: event.detail.items
+			};
+		});
 	}
 
-	async function onDrop(event: DragEvent, targetColumn: string) {
-		event.preventDefault();
-		const id = Number(event.dataTransfer?.getData("text/plain"));
+	async function onFinalize(event: any) {
+		updateLayout(event);
 
-		if (id) {
-			await fetch(`/api/widget/move?id=${id}&column=${targetColumn}&index=${0}`, {
-				method: "PATCH",
-			});
-		}
+		// Convert widgets to an array of their IDs
+		const ids = event.detail.items.map((widget: WidgetData) => widget.id);
+
+		// Set the new layout to the database
+		await fetch(`/api/column/set?column=${event.target.id}&widgets=${JSON.stringify(ids)}`, {
+			method: 'PATCH'
+		});
 	}
 </script>
 
@@ -103,12 +113,26 @@
 
 <Settings />
 
-{#each ['left', 'middle', 'right'] as column}
+{#each Object.values(Column) as column}
 	{#if show}
-		<div id={column} role="presentation" ondragover={onDragOver} ondrop={(event) => onDrop(event, column)} in:fly={{ y: 100 }} class="flex flex-col gap-2">
-			{#each $layout[column] as widget}
+		<div
+			id={column}
+			use:dndzone={{
+				items: $layout[column],
+				morphDisabled: true,
+				dragDisabled: !$inLayoutEditor,
+				flipDurationMs: 400
+			}}
+			onconsider={updateLayout}
+			onfinalize={onFinalize}
+			in:fly={{ y: 100 }}
+			class="flex flex-col gap-2"
+		>
+			{#each $layout[column] as widget (widget.id)}
 				{@const Component = widgets[widget.name]}
-				<Component data={widget} />
+				<div animate:flip={{ duration: 400 }}>
+					<Component data={widget} />
+				</div>
 			{/each}
 		</div>
 	{/if}
@@ -138,7 +162,10 @@
 		class="widget-inner !fixed bottom-24 left-8 w-96 h-96 z-20 !shadow-xl !grid grid-cols-2 grid-rows-9 gap-1.5"
 	>
 		{#each Object.keys(widgets) as widget}
-			<button class="button !bg-base !text-text hover:brightness-95 shadow-sm" onclick={() => addWidget(widget)}>{widget}</button>
+			<button
+				class="button !bg-base !text-text hover:brightness-95 shadow-sm"
+				onclick={() => addWidget(widget)}>{widget}</button
+			>
 		{/each}
 	</div>
 {/if}
