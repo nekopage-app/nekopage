@@ -23,6 +23,7 @@
 	},
 	"Picture": {
 		"title": "picture",
+		"height": 200,
 		"image": "https://placehold.co/600x400"
 	},
 	"RSS": {

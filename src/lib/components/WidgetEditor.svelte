@@ -13,6 +13,7 @@
 	import FloatingMenu from './FloatingMenu.svelte';
 
 	import TitleOnly from './widget-editor/TitleOnly.svelte';
+    import Picture from './widget-editor/Picture.svelte';
 	import Search from './widget-editor/Search.svelte';
 
 	let widgetType = $state('');
@@ -40,7 +41,8 @@
 
 	const widgetComponents: { [key: string]: Component } = {
 		Calendar: TitleOnly,
-		Search: Search
+        Picture: Picture,
+		Search: Search,
 	};
 
 	async function onSave() {

@@ -5,5 +5,5 @@
 </script>
 
 <Widget class="!p-0" {data}>
-	<img src={data.settings.image} alt={data.settings.title} class="rounded">
+	<img src={data.settings.image} alt="not found!" style="height: {data.settings.height}px;" class="rounded object-cover">
 </Widget>
