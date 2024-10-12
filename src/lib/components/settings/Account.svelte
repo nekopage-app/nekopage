@@ -1,6 +1,6 @@
 <script lang="ts">
     import { page } from '$app/stores';
-	import PasswordInput from '$lib/components/PasswordInput.svelte';
+	import PasswordInput from '$lib/components/inputs/PasswordInput.svelte';
 </script>
 
 <div class="flex justify-between items-center">

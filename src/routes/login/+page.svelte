@@ -5,7 +5,7 @@
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
 	
-	import PasswordInput from '$lib/components/PasswordInput.svelte';
+	import PasswordInput from '$lib/components/inputs/PasswordInput.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 
 	let { form }: { form: ActionData } = $props();
