@@ -98,8 +98,6 @@ export async function generateSessionId(userId: number): Promise<string> {
  * @param {string} password - The password for the new user in plain text.
  * 
  * @returns {Promise<number>} - The ID for the new user.
- * 
- * @throws {Error}
  */
 export async function createUser(username: string, password: string): Promise<number> {
 	try {
@@ -113,6 +111,7 @@ export async function createUser(username: string, password: string): Promise<nu
 
 		return userId;
 	} catch (error) {
-		throw new Error(`Unable to create user: ${error}`);
+		console.error(`Unable to create user under name ${username}: ${error}`);
+		return -1;
 	}
 }

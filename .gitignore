@@ -22,3 +22,4 @@ vite.config.ts.timestamp-*
 
 # nekopage
 nekopage.db
+/static/uploads/

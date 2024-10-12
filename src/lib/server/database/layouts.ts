@@ -54,7 +54,7 @@ export function hasLayout(userId: number, layoutId: number): boolean {
 	const sql = `SELECT user_id FROM layouts WHERE id = ?`;
 	const row = database.prepare(sql).get(layoutId) as DatabaseLayout;
 
-	return !!row.user_id;
+	return userId == row.user_id;
 }
 
 /**

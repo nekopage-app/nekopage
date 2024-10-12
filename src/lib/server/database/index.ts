@@ -4,10 +4,11 @@ import { env } from "$env/dynamic/private";
 import * as auth from "./auth";
 import * as layouts from "./layouts";
 import * as settings from "./settings";
+import * as uploads from "./uploads";
 
 export const database = new Database(env.DATABASE_PATH, { verbose: console.log });
 
-export { auth, layouts, settings };
+export { auth, layouts, settings, uploads };
 
 /** Initalize database - adds tables if not found */
 export function init() {
@@ -52,7 +53,16 @@ export function init() {
 			"user_id" INTEGER NOT NULL,
 			"setting_key" VARCHAR(255) NOT NULL,
 			"setting_value" TEXT,
-			PRIMARY KEY ("user_id", "setting_key")
+			PRIMARY KEY ("setting_key")
+			FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE
+		);
+	`);
+
+	// Uploads
+	database.exec(`
+		CREATE TABLE IF NOT EXISTS "uploads" (
+			"user_id" INTEGER NOT NULL,
+			"file" VARCHAR(255) NOT NULL,
 			FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE
 		);
 	`);
