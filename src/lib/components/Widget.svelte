@@ -53,16 +53,16 @@
 			<div
 				class="absolute top-0 left-0 flex flex-col justify-center items-center gap-2 w-full h-full z-20 rounded-md transition duration-300 text-2xl hover:backdrop-blur hover:backdrop-brightness-[0.8] group"
 			>
-				<h1 class="font-semibold opacity-0 transition duration-300 group-hover:opacity-100">
+				<h1 class="font-semibold opacity-0 transition duration-300 drop-shadow group-hover:opacity-100">
 					{data.type}
 				</h1>
 
-				<div class="flex gap-8 text-5xl opacity-0 transition duration-300 group-hover:opacity-100">
+				<div class="flex gap-4 text-4xl opacity-0 transition duration-300 group-hover:opacity-100">
 					<button data-tooltip={'Delete'} onclick={deleteWidget}>
-						<iconify-icon icon="material-symbols:delete"></iconify-icon>
+						<iconify-icon icon="material-symbols:delete" class="drop-shadow"></iconify-icon>
 					</button>
 					<button data-tooltip={'Edit'} onclick={openWidgetEditor}>
-						<iconify-icon icon="material-symbols:edit"></iconify-icon>
+						<iconify-icon icon="material-symbols:edit" class="drop-shadow"></iconify-icon>
 					</button>
 				</div>
 			</div>
