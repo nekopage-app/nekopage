@@ -3,6 +3,8 @@
 
 	import type { Column } from '$lib/enums';
 	import { inLayoutEditor, inWidgetEditor, layout, widgetEditorId } from '$lib/stores';
+	
+	import Loading from '$lib/components/Loading.svelte';
 
 	interface Props {
 		children: Snippet;
@@ -67,11 +69,7 @@
 		{/if}
 
 		{#if loading}
-			<div
-				class="absolute top-0 left-0 flex justify-center items-center w-full h-full z-10 rounded-md backdrop-blur text-6xl"
-			>
-				<iconify-icon icon="line-md:loading-loop"></iconify-icon>
-			</div>
+			<Loading {loading} />
 		{/if}
 
 		{@render children()}
