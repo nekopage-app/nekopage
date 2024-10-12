@@ -2,7 +2,7 @@
 	import { type Snippet } from 'svelte';
 
 	import type { Column } from '$lib/enums';
-	import { inLayoutEditor, inWidgetEditor, layout } from '$lib/stores';
+	import { inLayoutEditor, inWidgetEditor, layout, widgetEditorId } from '$lib/stores';
 
 	interface Props {
 		children: Snippet;
@@ -38,8 +38,8 @@
 	}
 
 	function openWidgetEditor() {
-		// todo
 		inWidgetEditor.set(true);
+		widgetEditorId.set(data.id);
 	}
 </script>
 
