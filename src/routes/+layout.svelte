@@ -52,7 +52,7 @@
 
 	:global(.input > select),
 	:global(.input > input) {
-		@apply bg-base text-text placeholder:text-overlay font-medium text-[0.938rem] border-2 border-solid border-surface rounded-md !outline-none p-1.5 transition duration-300 focus:border-accent focus:ring-[2px] ring-[color-mix(in_srgb,var(--accent)_30%,transparent)];
+		@apply bg-base text-text placeholder:text-overlay h-9 font-medium text-[0.938rem] border-2 border-solid border-surface rounded-md !outline-none p-1.5 transition duration-300 focus:border-accent focus:ring-[3px] ring-[color-mix(in_srgb,var(--accent)_30%,transparent)];
 	}
 
 	:global(.input) {
@@ -72,7 +72,7 @@
 	}
 
 	:global(.input-helper div p) {
-		@apply text-sm text-overlay;
+		@apply text-[0.8rem] text-overlay;
 	}
 
 	:global(.button) {
