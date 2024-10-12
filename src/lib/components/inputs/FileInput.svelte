@@ -53,6 +53,7 @@
             selectedFileName = "";
             loading = false;
 			dropped = false;
+            files = undefined;
 		}
 	}
 
