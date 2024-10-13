@@ -47,7 +47,7 @@
 	}
 
 	:global(button) {
-		@apply font-medium transition duration-[250ms] hover:brightness-90 active:scale-90;
+		@apply font-medium transition duration-[250ms] hover:brightness-75 active:scale-90;
 	}
 
 	:global(.input > select),
