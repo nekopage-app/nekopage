@@ -6,7 +6,7 @@
 	import { widgets } from '$lib/widgets';
 
 	import default_widget_settings_json from '$lib/data/default_widget_settings.json';
-	import WidgetEditor from './WidgetEditor.svelte';
+	import WidgetEditor from './widget-editor/WidgetEditor.svelte';
 	const default_widget_settings: { [key: string]: WidgetSettings } = default_widget_settings_json;
 
 	// Layout editor

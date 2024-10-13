@@ -10,11 +10,11 @@
 		widgetEditorSettings
 	} from '$lib/stores';
 
-	import FloatingMenu from './FloatingMenu.svelte';
+	import FloatingMenu from '../FloatingMenu.svelte';
 
-	import TitleOnly from './widget-editor/TitleOnly.svelte';
-    import Picture from './widget-editor/Picture.svelte';
-	import Search from './widget-editor/Search.svelte';
+	import TitleOnly from './TitleOnly.svelte';
+    import Picture from './Picture.svelte';
+	import Search from './Search.svelte';
 
 	let widgetType = $state('');
 	let widgetColumn = $state('left' as Column);
@@ -39,13 +39,13 @@
 		}
 	});
 
-	const widgetComponents: { [key: string]: Component } = {
+	const widgetComponents: { [key: string]: Component<WidgetEditorComponentProps> } = {
 		Calendar: TitleOnly,
         Picture: Picture,
 		Search: Search,
 	};
 
-	async function onSave() {
+	export async function onClickSave() {
 		showSaveMessage.set(true);
 
 		await fetch(
@@ -88,7 +88,7 @@
 			<h1 class="text-lg">{$widgetEditorId}</h1>
 		</div>
 
-		<button class="button ml-auto" onclick={onSave}>
+		<button class="button ml-auto" onclick={onClickSave}>
 			<iconify-icon icon="ic:baseline-save" class="text-xl"></iconify-icon>
 			save
 		</button>
@@ -99,6 +99,6 @@
 	{@const Component = widgetComponents[widgetType]}
 
 	<div class="flex flex-col gap-1">
-		<Component />
+		<Component onClickSave={onClickSave} />
 	</div>
 </FloatingMenu>

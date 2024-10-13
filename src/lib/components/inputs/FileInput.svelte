@@ -5,6 +5,8 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import Loading from '$lib/components/Loading.svelte';
 
+	let { onInput }: { onInput: () => void } = $props();
+
     let loading = $state(false);
 	let files: FileList | undefined = $state();
 
@@ -24,6 +26,8 @@
         if (files) {
             dropped = true;
             selectedFileName = files![0].name;
+
+			onInput();
         }
     }
 
@@ -32,6 +36,8 @@
         selectedFileName = `${fileName}.webp`;
         viewingUploads = false;
         dropped = true;
+
+		onInput();
     }
 
 	async function upload() {
@@ -68,8 +74,8 @@
 
 <div
 	class="flex justify-center items-center flex-col relative border-2 border-surface transition duration-300 p-4 rounded-md bg-base
-        {draggingOver ? 'shadow-[0px_0px_20px_-5px] shadow-accent border-accent' : ''} {dropped
-		? 'border-accent'
+        {draggingOver ? 'shadow-[0px_0px_20px_-5px] shadow-accent !border-accent' : ''} {dropped
+		? '!border-accent'
 		: ''}"
 >
     <Loading {loading} />

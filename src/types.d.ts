@@ -14,3 +14,7 @@ interface WidgetSettings {
 	title: string;
 	[key: string]: any;
 }
+
+interface WidgetEditorComponentProps {
+	onClickSave: () => void
+}
