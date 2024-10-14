@@ -31,9 +31,9 @@
 		"url": "https://feeds.bbci.co.uk/news/rss.xml",
 		"columns": 2,
 		"items": 4,
-		"showDescription": true,
-		"showPublished": true,
-		"showImages": true
+		"showImages": true,
+		"showDescriptions": true,
+		"showPublished": true
 	},
 	"Search": {
 		"title": "search",

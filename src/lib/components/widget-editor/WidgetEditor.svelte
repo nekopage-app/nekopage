@@ -13,6 +13,7 @@
 
 	import TitleOnly from './TitleOnly.svelte';
     import Picture from './Picture.svelte';
+	import RSS from './RSS.svelte';
 	import Search from './Search.svelte';
 
 	let widgetColumn = $state('left' as Column);
@@ -37,6 +38,7 @@
 	const widgetComponents: { [key: string]: Component<WidgetEditorComponentProps> } = {
 		Calendar: TitleOnly,
         Picture: Picture,
+		RSS: RSS,
 		Search: Search,
 	};
 
