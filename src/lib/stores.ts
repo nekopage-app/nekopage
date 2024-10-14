@@ -10,5 +10,4 @@ export const showSettingsButton = writable(false);
 export const inLayoutEditor = writable(false);
 
 export const inWidgetEditor = writable(false);
-export const widgetEditorId = writable(-1);
-export const widgetEditorSettings = writable({} as WidgetSettings);
+export const widgetEditorData = writable({} as WidgetData);

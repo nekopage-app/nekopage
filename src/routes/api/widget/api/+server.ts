@@ -1,4 +1,5 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
+
 import * as api from '$lib/server/api';
 import * as database from '$lib/server/database';
 

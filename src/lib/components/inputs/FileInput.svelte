@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { widgetEditorSettings } from '$lib/stores';
+	import { widgetEditorData } from '$lib/stores';
 	import { onMount } from 'svelte';
 
 	import Modal from '$lib/components/Modal.svelte';
@@ -32,7 +32,7 @@
     }
 
     function selectImage(fileName: string) {
-        $widgetEditorSettings.image = `/uploads/${fileName}.webp`;
+        $widgetEditorData.settings.image = `/uploads/${fileName}.webp`;
         selectedFileName = `${fileName}.webp`;
         viewingUploads = false;
         dropped = true;
@@ -53,7 +53,7 @@
 			});
 			const response = await request.json();
 
-			$widgetEditorSettings.image = `/uploads/${response.file}.webp`;
+			$widgetEditorData.settings.image = `/uploads/${response.file}.webp`;
 			uploads.push(response.file);
 
             selectedFileName = "";

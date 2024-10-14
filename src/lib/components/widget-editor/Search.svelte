@@ -1,20 +1,20 @@
 <script lang="ts">
-	import { showSaveMessage, widgetEditorSettings } from '$lib/stores';
+	import { showSaveMessage, widgetEditorData } from '$lib/stores';
 	import UnsavedMessage from '../UnsavedMessage.svelte';
 
 	let { onClickSave }: WidgetEditorComponentProps = $props();
 
-	let oldWidgetSettings = { ...$widgetEditorSettings };
+	let oldWidgetData = { ...$widgetEditorData };
 	let unsaved = $state(false);
 
 	function onInput() {
 		unsaved = true;
 	}
 
-	// Update oldWidgetSettings on save
+	// Update oldWidgetData on save
 	showSaveMessage.subscribe((value) => {
 		if (value) {
-			oldWidgetSettings = { ...$widgetEditorSettings };
+			oldWidgetData = { ...$widgetEditorData };
 		}
 	});
 
@@ -25,39 +25,39 @@
 
 		switch (searchEngine) {
 			case 'google':
-				$widgetEditorSettings.url = 'https://www.google.com/search?q=';
+				$widgetEditorData.settings.url = 'https://www.google.com/search?q=';
 				break;
 			case 'bing':
-				$widgetEditorSettings.url = 'https://www.bing.com/search?q=';
+				$widgetEditorData.settings.url = 'https://www.bing.com/search?q=';
 				break;
 			case 'yahoo':
-				$widgetEditorSettings.url = 'https://search.yahoo.com/search?p=';
+				$widgetEditorData.settings.url = 'https://search.yahoo.com/search?p=';
 				break;
 			case 'duckduckgo':
-				$widgetEditorSettings.url = 'https://duckduckgo.com/?q=';
+				$widgetEditorData.settings.url = 'https://duckduckgo.com/?q=';
 				break;
 			case 'startpage':
-				$widgetEditorSettings.url = 'https://www.startpage.com/sp/search?query=';
+				$widgetEditorData.settings.url = 'https://www.startpage.com/sp/search?query=';
 				break;
 		}
 	});
 </script>
 
 <!-- Weird bug where clicking reset for the second time doesn't work so I have to stringify then parse it?? -->
-<UnsavedMessage bind:show={unsaved} onClickSave={onClickSave} onClickReset={() => widgetEditorSettings.set(JSON.parse(JSON.stringify(oldWidgetSettings)))} />
+<UnsavedMessage bind:show={unsaved} onClickSave={onClickSave} onClickReset={() => widgetEditorData.set(JSON.parse(JSON.stringify(oldWidgetData)))} />
 
 <div class="input input-helper">
 	<div>
 		<label for="title">Title</label>
 		<p>The title of the widget (the text at top)</p>
 	</div>
-	<input type="text" name="title" oninput={onInput} bind:value={$widgetEditorSettings.title} />
+	<input type="text" name="title" oninput={onInput} bind:value={$widgetEditorData.settings.title} />
 </div>
 
 <div class="input input-helper">
 	<div>
 		<label for="url">Search Engine</label>
-		<p>The search engine.</p>
+		<p>The search engine. Choosing custom will allow you to put your own URL.</p>
 	</div>
 	<select name="url" oninput={onInput} bind:value={searchEngine}>
 		<option value="google">Google</option>
@@ -77,7 +77,7 @@
 	<input
 		type="text"
 		name="title"
-		bind:value={$widgetEditorSettings.url}
+		bind:value={$widgetEditorData.settings.url}
 		oninput={() => { searchEngine = 'custom'; onInput() }}
 	/>
 </div>

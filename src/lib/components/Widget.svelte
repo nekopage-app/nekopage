@@ -2,7 +2,7 @@
 	import { type Snippet } from 'svelte';
 
 	import type { Column } from '$lib/enums';
-	import { inLayoutEditor, inWidgetEditor, layout, widgetEditorId } from '$lib/stores';
+	import { inLayoutEditor, inWidgetEditor, layout, widgetEditorData } from '$lib/stores';
 	
 	import Loading from '$lib/components/Loading.svelte';
 
@@ -41,7 +41,7 @@
 
 	function openWidgetEditor() {
 		inWidgetEditor.set(true);
-		widgetEditorId.set(data.id);
+		widgetEditorData.set(data);
 	}
 </script>
 
