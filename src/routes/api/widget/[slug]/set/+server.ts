@@ -1,6 +1,6 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
 
-import * as api from "$lib/server/api";
+import * as api from '$lib/server/api';
 import * as database from '$lib/server/database';
 
 export const PATCH: RequestHandler = async ({ locals, params, url }) => {
@@ -13,7 +13,11 @@ export const PATCH: RequestHandler = async ({ locals, params, url }) => {
 		return json({ success: false, error: 'No widget data was specified' }, { status: 400 });
 	if (!locals.layout)
 		return json({ success: false, error: 'No layout was found' }, { status: 400 });
-	if (locals.user && !database.layouts.hasLayout(locals.user.id, locals.layout.id))
+	if (
+		locals.user &&
+		!database.layouts.hasLayout(locals.user.id, locals.layout.id) &&
+		!database.layouts.hasWidget(locals.user.id, widgetId)
+	)
 		return json({ success: false, error: 'Unauthorized' }, { status: 401 });
 
 	const data = JSON.parse(dataParam) as WidgetData;

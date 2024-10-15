@@ -29,6 +29,7 @@
 <Widget
 	{loading}
 	{data}
+	onRefresh={get}
 	style="grid-template-columns: repeat({data.settings.columns}, 1fr);"
 	class="!grid gap-2"
 >

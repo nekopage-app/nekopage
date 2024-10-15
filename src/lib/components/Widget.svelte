@@ -12,9 +12,19 @@
 		data: WidgetData;
 		class?: string;
 		style?: string;
+		onRefresh?: () => void;
 	}
 
-	let { children, loading, data, class: clazz, style }: Props = $props();
+	let { children, loading, data, class: clazz, style, onRefresh: onRefreshProp }: Props = $props();
+
+	async function onRefresh() {
+		// Tell API to fetch the widget's API again
+		await fetch(`/api/widget/${data.id}/api?data=${JSON.stringify(data)}`, {
+			method: 'PUT'
+		});
+
+		if (onRefreshProp) onRefreshProp();
+	}
 
 	// Buttons
 	async function deleteWidget() {
@@ -46,7 +56,16 @@
 </script>
 
 <div class="widget select-none">
-	<h1>{data.settings.title}</h1>
+	<h1>
+		{data.settings.title}
+
+		{#if onRefreshProp}
+			<button onclick={onRefresh}>
+				<iconify-icon icon="material-symbols:refresh"></iconify-icon>
+				refresh
+			</button>
+		{/if}
+	</h1>
 
 	<div class="widget-inner {clazz}" {style}>
 		{#if $inLayoutEditor}
