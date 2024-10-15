@@ -14,7 +14,7 @@
 		const response = await request.json();
 
 		if (Object.keys(response.api).length > 0) {
-			rssItems = response.api.rss.channel.item.slice(0, data.settings.items);
+			rssItems = response.api;
 			loading = false;
 		}
 	}
