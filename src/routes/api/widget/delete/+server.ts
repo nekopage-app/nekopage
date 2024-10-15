@@ -6,12 +6,16 @@ import * as database from '$lib/server/database';
 export const DELETE: RequestHandler = async ({ locals, url }) => {
 	const widgetId = Number(url.searchParams.get('id'));
 
-	if (!locals.layout)
-		return json({ success: false, error: 'No layout was found' }, { status: 400 });
-	if (locals.user && !database.layouts.hasLayout(locals.user.id, locals.layout.id))
-		return json({ success: false, error: 'Unauthorized' }, { status: 401 });
 	if (!widgetId)
 		return json({ success: false, error: 'No widget ID was specified' }, { status: 400 });
+	if (!locals.layout)
+		return json({ success: false, error: 'No layout was found' }, { status: 400 });
+	if (
+		locals.user &&
+		!database.layouts.hasLayout(locals.user.id, locals.layout.id) &&
+		!database.layouts.hasWidget(locals.user.id, widgetId)
+	)
+		return json({ success: false, error: 'Unauthorized' }, { status: 401 });
 
 	// Get current layout
 	const layout = database.layouts.getLayout(locals.layout.id);

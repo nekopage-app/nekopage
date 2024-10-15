@@ -6,12 +6,12 @@ import * as database from '$lib/server/database';
 export const POST: RequestHandler = async ({ locals, url }) => {
 	const widgetType = url.searchParams.get('type');
 
+	if (!widgetType)
+		return json({ success: false, error: 'No widget type was specified' }, { status: 400 });
 	if (!locals.layout)
 		return json({ success: false, error: 'No layout was found' }, { status: 400 });
 	if (locals.user && !database.layouts.hasLayout(locals.user.id, locals.layout.id))
 		return json({ success: false, error: 'Unauthorized' }, { status: 401 });
-	if (!widgetType)
-		return json({ success: false, error: 'No widget type was specified' }, { status: 400 });
 
 	// Get current layout and create widget
 	const layout = database.layouts.getLayout(locals.layout.id);
