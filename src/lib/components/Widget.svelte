@@ -18,7 +18,7 @@
 
 	// Buttons
 	async function deleteWidget() {
-		const request = await fetch(`/api/widget/delete?id=${data.id}`, {
+		const request = await fetch(`/api/widget/${data.id}/delete`, {
 			method: 'DELETE'
 		});
 		const response = await request.json();

@@ -3,9 +3,12 @@ import { json, type RequestHandler } from '@sveltejs/kit';
 import * as api from "$lib/server/api";
 import * as database from '$lib/server/database';
 
-export const PATCH: RequestHandler = async ({ locals, url }) => {
+export const PATCH: RequestHandler = async ({ locals, params, url }) => {
+	const widgetId = Number(params.slug);
 	const dataParam = url.searchParams.get('data');
 
+	if (!widgetId)
+		return json({ success: false, error: 'No widget ID was specified' }, { status: 400 });
 	if (!dataParam)
 		return json({ success: false, error: 'No widget data was specified' }, { status: 400 });
 	if (!locals.layout)

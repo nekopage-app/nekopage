@@ -3,8 +3,8 @@ import { json, type RequestHandler } from '@sveltejs/kit';
 import { Column } from '$lib/enums';
 import * as database from '$lib/server/database';
 
-export const DELETE: RequestHandler = async ({ locals, url }) => {
-	const widgetId = Number(url.searchParams.get('id'));
+export const DELETE: RequestHandler = async ({ locals, params }) => {
+	const widgetId = Number(params.slug);
 
 	if (!widgetId)
 		return json({ success: false, error: 'No widget ID was specified' }, { status: 400 });

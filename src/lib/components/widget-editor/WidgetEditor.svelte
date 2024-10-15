@@ -46,7 +46,7 @@
 		showSaveMessage.set(true);
 
 		await fetch(
-			`/api/widget/set?data=${widgetEditorData}`,
+			`/api/widget/${$widgetEditorData.id}/set?data=${widgetEditorData}`,
 			{
 				method: 'PATCH'
 			}
