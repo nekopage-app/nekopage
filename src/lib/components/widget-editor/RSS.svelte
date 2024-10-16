@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { showSaveMessage, widgetEditorData } from '$lib/stores';
+	import Toggle from '../inputs/Toggle.svelte';
 	import UnsavedMessage from '../UnsavedMessage.svelte';
 
 	let { onClickSave }: WidgetEditorComponentProps = $props();
@@ -79,7 +80,7 @@
 		<label for="show-images">Show Images</label>
 		<p>Toggle to show images taken from the RSS feed</p>
 	</div>
-	<input type="checkbox" name="show-images" oninput={onInput} bind:checked={$widgetEditorData.settings.showImages} />
+	<Toggle name="show-images" onInput={onInput} bind:checked={$widgetEditorData.settings.showImages} />
 </div>
 
 <div class="input input-helper">
@@ -87,7 +88,7 @@
 		<label for="show-descriptions">Show Descriptions</label>
 		<p>Toggle to show descriptions taken from the RSS feed</p>
 	</div>
-	<input type="checkbox" name="show-descriptions" oninput={onInput} bind:checked={$widgetEditorData.settings.showDescriptions} />
+	<Toggle name="show-descriptions" onInput={onInput} bind:checked={$widgetEditorData.settings.showDescriptions} />
 </div>
 
 <div class="input input-helper">
@@ -95,7 +96,7 @@
 		<label for="show-published">Show Published Dates</label>
 		<p>Toggle to show published dates taken from the RSS feed</p>
 	</div>
-	<input type="checkbox" name="show-published" oninput={onInput} bind:checked={$widgetEditorData.settings.showPublished} />
+	<Toggle name="show-published" onInput={onInput} bind:checked={$widgetEditorData.settings.showPublished} />
 </div>
 
 <hr>
