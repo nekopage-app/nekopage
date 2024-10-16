@@ -50,11 +50,11 @@
 {#if showAddMenu}
 	<div
 		id="add-widget-menu"
-		class="widget select-none fixed bottom-28 left-1/2 -translate-x-1/2 z-20"
+		class="widget select-none fixed bottom-28 left-1/2 -translate-x-1/2 z-30 !shadow-lg"
 		in:fly={{ y: 10, easing: quadOut }}
 		out:fly={{ y: 10, easing: quadOut }}
 	>
-		<h1 class="!justify-center">add widgets</h1>
+		<h1 class="!justify-center !text-subtext">add widgets</h1>
 
 		<div class="widget-inner !grid grid-cols-2 gap-1.5 w-72 h-48 overflow-auto">
 			{#each Object.keys(widgets) as widget}
@@ -70,11 +70,11 @@
 {#if $inLayoutEditor}
 	<div
 		id="layout-editor-menu"
-		class="widget select-none fixed bottom-4 left-1/2 -translate-x-1/2 z-20"
+		class="widget select-none fixed bottom-4 left-1/2 -translate-x-1/2 z-30"
 		in:fly={{ y: 10 }}
 		out:fly={{ y: 10 }}
 	>
-		<h1 class="!justify-center">layout editor</h1>
+		<h1 class="!justify-center !text-subtext">layout editor</h1>
 
 		<div class="widget-inner !flex-row gap-1">
 			<button class="button" onclick={() => (showAddMenu = !showAddMenu)}> add </button>
