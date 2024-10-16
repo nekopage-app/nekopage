@@ -5,6 +5,8 @@
 	import { inLayoutEditor, inWidgetEditor, layout, widgetEditorData } from '$lib/stores';
 	
 	import Loading from '$lib/components/Loading.svelte';
+	import Modal from './Modal.svelte';
+	import ConfirmModal from './ConfirmModal.svelte';
 
 	interface Props {
 		children: Snippet;
@@ -26,7 +28,9 @@
 		if (onRefreshProp) onRefreshProp();
 	}
 
-	// Buttons
+	// Layout editor
+	let showDeleteModal = $state(false);
+
 	async function deleteWidget() {
 		const request = await fetch(`/api/widget/${data.id}/delete`, {
 			method: 'DELETE'
@@ -77,7 +81,7 @@
 				</h1>
 
 				<div class="flex gap-4 text-4xl opacity-0 transition duration-300 group-hover:opacity-100">
-					<button data-tooltip={'Delete'} onclick={deleteWidget}>
+					<button data-tooltip={'Delete'} onclick={() => showDeleteModal = true}>
 						<iconify-icon icon="material-symbols:delete" class="drop-shadow"></iconify-icon>
 					</button>
 					<button data-tooltip={'Edit'} onclick={openWidgetEditor}>
@@ -94,3 +98,7 @@
 		{@render children()}
 	</div>
 </div>
+
+{#if $inLayoutEditor}
+	<ConfirmModal bind:show={showDeleteModal} id="delete-widget-modal" description="Are you sure you want to delete this {data.type} widget? This is irreversible!" onClickYes={deleteWidget} />
+{/if}
