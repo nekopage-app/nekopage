@@ -37,7 +37,7 @@
 		<a
 			href={item.link}
 			id="item"
-			class="flex flex-col bg-base rounded transition duration-200 hover:ring-2 ring-[color-mix(in_srgb,var(--accent)_30%,transparent)]"
+			class="flex flex-col bg-base rounded transition duration-200 border-2 border-base hover:border-accent hover:ring-[3px] ring-[color-mix(in_srgb,var(--accent)_30%,transparent)]"
 		>
 			{#if data.settings.showImages}
 				{#if item['media:thumbnail']}
@@ -49,10 +49,10 @@
 				{/if}
 			{/if}
 
-			<div id="item-information" class="p-4 h-full flex flex-col">
+			<div id="item-information" class="p-3 h-full flex flex-col">
 				<h1 class="text-lg font-semibold">{item.title}</h1>
 
-				{#if data.settings.showDescription}
+				{#if data.settings.showDescriptions}
 					{#if item.description}
 						<hr />
 						<p class="text-sm">{@html DOMPurify.sanitize(item.description)}</p>
