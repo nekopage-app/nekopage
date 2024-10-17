@@ -78,7 +78,7 @@
 				onclick={() => changeTab(tab)}
 				style:background-color={currentTab.name == tab.name ? 'var(--text)' : ''}
 				style:color={currentTab.name == tab.name ? 'var(--base)' : ''}
-				class="flex items-center gap-2 p-1.5 text-overlay rounded hover:text-subtext"
+				class="flex items-center gap-2 p-1.5 text-overlay rounded hover:text-subtext hover:brightness-100"
 			>
 				<iconify-icon icon={tab.icon} class="text-xl"></iconify-icon>
 				{tab.name}
