@@ -72,11 +72,11 @@
 	<div class="flex gap-8 *:flex *:gap-2 *:items-center">
 		<div id="widget-type" data-tooltip="Widget type">
 			<iconify-icon icon="solar:widget-bold" class="text-3xl"></iconify-icon>
-			<h1 class="text-lg">{$widgetEditorData.type.toLocaleLowerCase()}</h1>
+			<h1 class="text-lg">{$widgetEditorData.type}</h1>
 		</div>
 		<div id="widget-column" data-tooltip="Widget column">
 			<iconify-icon icon="mingcute:column-fill" class="text-3xl"></iconify-icon>
-			<h1 class="text-lg">{widgetColumn}</h1>
+			<h1 class="text-lg">{widgetColumn.charAt(0).toLocaleUpperCase() + widgetColumn.slice(1)}</h1>
 		</div>
 		<div id="widget-id" data-tooltip="Widget ID">
 			<iconify-icon icon="solar:key-bold" class="text-3xl"></iconify-icon>
