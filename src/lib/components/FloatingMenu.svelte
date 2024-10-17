@@ -22,7 +22,7 @@
 			onclick={() => show.set(false)}
 			in:fade
 			out:fade
-			class="flex-container backdrop-blur backdrop-brightness-75 cursor-auto !filter-none active:scale-100"
+			class="fixed w-full h-full top-0 left-0 backdrop-blur backdrop-brightness-75 cursor-auto !filter-none active:scale-100"
 		></button>
 
 		<div {id} class="widget z-30" in:scale={{ easing: circOut }} out:scale={{ easing: sineIn }}>
@@ -35,7 +35,7 @@
 				</button>
 			</h1>
 
-			<div class="widget-inner !shadow-2xl w-[60rem] h-[40rem] {clazz}">
+			<div class="widget-inner !shadow-2xl w-[60rem] h-[40rem] overflow-auto {clazz}">
 				{@render children()}
 			</div>
 		</div>
