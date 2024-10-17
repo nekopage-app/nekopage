@@ -4,6 +4,6 @@
 	let { data }: { data: WidgetData } = $props();
 </script>
 
-<Widget class="!p-3" {data}>
+<Widget class="!p-3 whitespace-pre-line" {data}>
 	<p>{data.settings.text}</p>
 </Widget>
