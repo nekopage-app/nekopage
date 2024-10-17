@@ -15,6 +15,7 @@
     import Picture from './Picture.svelte';
 	import RSS from './RSS.svelte';
 	import Search from './Search.svelte';
+	import Text from './Text.svelte';
 
 	let widgetColumn = $state('left' as Column);
 
@@ -40,6 +41,7 @@
         Picture: Picture,
 		RSS: RSS,
 		Search: Search,
+		Text: Text
 	};
 
 	export async function onClickSave() {
