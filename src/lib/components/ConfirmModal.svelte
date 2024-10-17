@@ -25,7 +25,7 @@
         <button class="button" onclick={() => show = false}>
             cancel
         </button>
-        <button class="button" onclick={onClickYes}>
+        <button class="button !bg-red" onclick={onClickYes}>
             yes
         </button>
     </div>
