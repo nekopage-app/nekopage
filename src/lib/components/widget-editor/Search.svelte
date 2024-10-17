@@ -46,16 +46,16 @@
 <!-- Weird bug where clicking reset for the second time doesn't work so I have to stringify then parse it?? -->
 <UnsavedMessage bind:show={unsaved} onClickSave={onClickSave} onClickReset={() => widgetEditorData.set(JSON.parse(JSON.stringify(oldWidgetData)))} />
 
-<div class="input input-helper">
-	<div>
+	<div class="input input-helper-parent">
+		<div class="input-helper">
 		<label for="title">Title</label>
 		<p>The title of the widget (the text at top)</p>
 	</div>
 	<input type="text" name="title" oninput={onInput} bind:value={$widgetEditorData.settings.title} />
 </div>
 
-<div class="input input-helper">
-	<div>
+<div class="input input-helper-parent">
+	<div class="input-helper">
 		<label for="url">Search Engine</label>
 		<p>The search engine. Choosing custom will allow you to put your own URL.</p>
 	</div>
@@ -69,8 +69,8 @@
 	</select>
 </div>
 
-<div class="input input-helper">
-	<div>
+<div class="input input-helper-parent">
+	<div class="input-helper">
 		<label for="url">Search Engine URL</label>
 		<p>User input will be inserted at the end of the URL.</p>
 	</div>

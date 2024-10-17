@@ -47,8 +47,8 @@
 <!-- Weird bug where clicking reset for the second time doesn't work so I have to stringify then parse it?? -->
 <UnsavedMessage bind:show={unsaved} onClickSave={onClickSave} onClickReset={() => widgetEditorData.set(JSON.parse(JSON.stringify(oldWidgetData)))} />
 
-<div class="input input-helper">
-	<div>
+	<div class="input input-helper-parent">
+		<div class="input-helper">
 		<label for="title">Title</label>
 		<p>The title of the widget (the text at top)</p>
 	</div>
@@ -57,16 +57,16 @@
 
 <hr>
 
-<div class="input input-helper">
-	<div>
+<div class="input input-helper-parent">
+	<div class="input-helper">
 		<label for="columns">Columns</label>
 		<p>The amount of columns to show in the widget</p>
 	</div>
 	<input type="number" name="columns" oninput={onInput} bind:value={$widgetEditorData.settings.columns} />
 </div>
 
-<div class="input input-helper">
-	<div>
+<div class="input input-helper-parent">
+	<div class="input-helper">
 		<label for="items">Items</label>
 		<p>The amount of items to show in the widget</p>
 	</div>
@@ -75,24 +75,24 @@
 
 <hr>
 
-<div class="input input-helper">
-	<div>
+<div class="input input-helper-parent">
+	<div class="input-helper">
 		<label for="show-images">Show Images</label>
 		<p>Toggle to show images taken from the RSS feed</p>
 	</div>
 	<Toggle name="show-images" onInput={onInput} bind:checked={$widgetEditorData.settings.showImages} />
 </div>
 
-<div class="input input-helper">
-	<div>
+<div class="input input-helper-parent">
+	<div class="input-helper">
 		<label for="show-descriptions">Show Descriptions</label>
 		<p>Toggle to show descriptions taken from the RSS feed</p>
 	</div>
 	<Toggle name="show-descriptions" onInput={onInput} bind:checked={$widgetEditorData.settings.showDescriptions} />
 </div>
 
-<div class="input input-helper">
-	<div>
+<div class="input input-helper-parent">
+	<div class="input-helper">
 		<label for="show-published">Show Published Dates</label>
 		<p>Toggle to show published dates taken from the RSS feed</p>
 	</div>
@@ -101,8 +101,8 @@
 
 <hr>
 
-<div class="input input-helper">
-	<div>
+<div class="input input-helper-parent">
+	<div class="input-helper">
 		<label for="url">Feed</label>
 		<p>The RSS feed. Choosing custom will allow you to put your own URL.</p>
 	</div>
@@ -116,8 +116,8 @@
 	</select>
 </div>
 
-<div class="input input-helper">
-	<div>
+<div class="input input-helper-parent">
+	<div class="input-helper">
 		<label for="url">Feed URL</label>
 		<p>The URL for the RSS feed.</p>
 	</div>

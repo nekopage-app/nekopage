@@ -63,15 +63,15 @@
 		@apply flex flex-col items-stretch gap-1;
 	}
 
-	:global(.input-helper) {
+	:global(.input-helper-parent) {
 		@apply grid grid-cols-2;
 	}
 
-	:global(.input-helper div label) {
+	:global(.input-helper label) {
 		@apply font-medium;
 	}
 
-	:global(.input-helper div p) {
+	:global(.input-helper p) {
 		@apply text-[0.8rem] text-overlay;
 	}
 
