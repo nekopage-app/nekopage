@@ -50,6 +50,7 @@
 		@apply font-medium transition duration-[250ms] hover:brightness-75 active:scale-90;
 	}
 
+	:global(.input > textarea),
 	:global(.input > select),
 	:global(.input > input) {
 		@apply bg-base text-text placeholder:text-overlay h-9 font-medium text-[0.938rem] border-2 border-solid border-surface rounded-md !outline-none p-1.5 transition duration-300 focus:border-accent focus:ring-[3px] ring-[color-mix(in_srgb,var(--accent)_30%,transparent)];
