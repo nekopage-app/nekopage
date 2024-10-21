@@ -17,26 +17,26 @@
 	let humidity = $state('0%');
 
 	async function get() {
-		const request = await fetch(`/api/widget/${data.id}/api`);
-		const response = await request.json();
+		const response = await fetch(`/api/widget/${data.id}/api`);
+		const responseData = await response.json();
 
-		if (Object.keys(response.api).length > 0) {
-			location = `${response.api.place}, ${response.api.country}`;
+		if (Object.keys(responseData.api).length > 0) {
+			location = `${responseData.api.place}, ${responseData.api.country}`;
 
-			temperature = `${response.api.temperature}°C`;
+			temperature = `${responseData.api.temperature}°C`;
 			if (data.settings.fahrenheit) {
-				temperature = `${(response.api.temperature * 9) / 5 + 32}°F`;
+				temperature = `${(responseData.api.temperature * 9) / 5 + 32}°F`;
 			}
 
-			condition = response.api.condition;
-			icon = response.api.icon;
+			condition = responseData.api.condition;
+			icon = responseData.api.icon;
 
-			rainChance = `${response.api.rainChance}%`;
-			wind = `${response.api.wind} kph`;
+			rainChance = `${responseData.api.rainChance}%`;
+			wind = `${responseData.api.wind} kph`;
 			if (data.settings.mph) {
-				wind = `${response.api.wind} mph`;
+				wind = `${responseData.api.wind} mph`;
 			}
-			humidity = `${response.api.humidity}%`;
+			humidity = `${responseData.api.humidity}%`;
 
 			loading = false;
 		}

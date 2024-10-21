@@ -5,7 +5,6 @@
 	import { inLayoutEditor, inWidgetEditor, layout, widgetEditorData } from '$lib/stores';
 	
 	import Loading from '$lib/components/Loading.svelte';
-	import Modal from './Modal.svelte';
 	import ConfirmModal from './ConfirmModal.svelte';
 
 	interface Props {
@@ -21,7 +20,7 @@
 
 	async function onRefresh() {
 		// Tell API to fetch the widget's API again
-		await fetch(`/api/widget/${data.id}/api?data=${JSON.stringify(data)}`, {
+		await fetch(`/api/widget/api?data=${JSON.stringify(data)}`, {
 			method: 'PUT'
 		});
 
@@ -32,20 +31,20 @@
 	let showDeleteModal = $state(false);
 
 	async function deleteWidget() {
-		const request = await fetch(`/api/widget/${data.id}/delete`, {
+		const response = await fetch(`/api/widget/${data.id}/delete`, {
 			method: 'DELETE'
 		});
-		const response = await request.json();
+		const responseData = await response.json();
 
-		if (response.column) {
+		if (responseData.column) {
 			layout.update((currentLayout) => {
-				const updatedColumn = currentLayout[response.column as Column].filter(
+				const updatedColumn = currentLayout[responseData.column as Column].filter(
 					(widget) => widget.id !== data.id
 				);
 
 				return {
 					...currentLayout,
-					[response.column]: updatedColumn
+					[responseData.column]: updatedColumn
 				};
 			});
 		} else {

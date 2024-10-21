@@ -12,16 +12,16 @@
 	let sunset = $state('10:04 pm');
 
 	async function get() {
-		const request = await fetch(`/api/widget/${data.id}/api`);
-		const response = await request.json();
+		const response = await fetch(`/api/widget/${data.id}/api`);
+		const responseData = await response.json();
 
-		if (Object.keys(response.api).length > 0) {
-			moonPhaseIcon = response.api.icon;
-			moonPhase = response.api.moonPhase;
-			sunrise = new Date(response.api.sunrise)
+		if (Object.keys(responseData.api).length > 0) {
+			moonPhaseIcon = responseData.api.icon;
+			moonPhase = responseData.api.moonPhase;
+			sunrise = new Date(responseData.api.sunrise)
 				.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
 				.toLocaleLowerCase();
-			sunset = new Date(response.api.sunset)
+			sunset = new Date(responseData.api.sunset)
 				.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
 				.toLocaleLowerCase();
 

@@ -20,12 +20,12 @@
 	}
 
 	async function addWidget(widgetType: string) {
-		const request = await fetch(`/api/widget/add?type=${widgetType}`, {
+		const response = await fetch(`/api/widget/add?type=${widgetType}`, {
 			method: 'POST'
 		});
-		const response = await request.json();
+		const data = await response.json();
 
-		if (response.id) {
+		if (data.id) {
 			const settings = default_widget_settings[widgetType];
 
 			layout.update((currentLayout) => {
@@ -34,7 +34,7 @@
 					left: [
 						...currentLayout.left,
 						{
-							id: response.id,
+							id: data.id,
 							type: widgetType,
 							settings
 						}

@@ -10,11 +10,11 @@
 	let rssItems = $state([] as any[]);
 
 	async function get() {
-		const request = await fetch(`/api/widget/${data.id}/api`);
-		const response = await request.json();
+		const response = await fetch(`/api/widget/${data.id}/api`);
+		const responseData = await response.json();
 
-		if (Object.keys(response.api).length > 0) {
-			rssItems = response.api;
+		if (Object.keys(responseData.api).length > 0) {
+			rssItems = responseData.api;
 			loading = false;
 		}
 	}

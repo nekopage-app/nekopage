@@ -47,14 +47,14 @@
 
             loading = true;
 
-			const request = await fetch('/api/upload', {
+			const response = await fetch('/api/upload', {
 				method: 'POST',
 				body: formData
 			});
-			const response = await request.json();
+			const data = await response.json();
 
-			$widgetEditorData.settings.image = `/uploads/${response.file}.webp`;
-			uploads.push(response.file);
+			$widgetEditorData.settings.image = `/uploads/${data.file}.webp`;
+			uploads.push(data.file);
 
             selectedFileName = "";
             loading = false;
@@ -64,10 +64,10 @@
 	}
 
 	onMount(async () => {
-		const request = await fetch('/api/uploads');
-		const response = await request.json();
+		const response = await fetch('/api/uploads');
+		const data = await response.json();
 
-		if (response.uploads) uploads = response.uploads;
+		if (data.uploads) uploads = data.uploads;
 		return;
 	});
 </script>
