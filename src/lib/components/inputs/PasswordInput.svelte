@@ -1,5 +1,11 @@
 <script lang="ts">
-	let { placeholder }: { placeholder: string } = $props();
+	interface Props {
+		placeholder: string,
+		value: string,
+		onInput: () => void
+	}
+
+	let { placeholder, value = $bindable(), onInput }: Props = $props();
 
 	let passwordInput = $state<HTMLInputElement>();
 	let eyeIcon = $state('mdi:eye-off');
@@ -24,6 +30,8 @@
 		{placeholder}
 		required
 		bind:this={passwordInput}
+		bind:value={value}
+		oninput={onInput}
 		class="w-full bg-transparent text-text placeholder:text-overlay font-medium text-[0.938rem] p-1.5 !outline-none"
 	/>
 	<button type="button" class="flex" onclick={togglePasswordVisibility}>
