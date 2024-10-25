@@ -20,7 +20,11 @@
 </script>
 
 <!-- Weird bug where clicking reset for the second time doesn't work so I have to stringify then parse it?? -->
-<UnsavedMessage bind:show={unsaved} onClickSave={onClickSave} onClickReset={() => widgetEditorData.set(JSON.parse(JSON.stringify(oldWidgetData)))} />
+<UnsavedMessage
+	bind:show={unsaved}
+	{onClickSave}
+	onClickReset={() => widgetEditorData.set(JSON.parse(JSON.stringify(oldWidgetData)))}
+/>
 
 <div class="input input-helper-parent">
 	<div class="input-helper">

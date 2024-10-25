@@ -45,24 +45,33 @@
 </script>
 
 <!-- Weird bug where clicking reset for the second time doesn't work so I have to stringify then parse it?? -->
-<UnsavedMessage bind:show={unsaved} onClickSave={onClickSave} onClickReset={() => widgetEditorData.set(JSON.parse(JSON.stringify(oldWidgetData)))} />
+<UnsavedMessage
+	bind:show={unsaved}
+	{onClickSave}
+	onClickReset={() => widgetEditorData.set(JSON.parse(JSON.stringify(oldWidgetData)))}
+/>
 
-	<div class="input input-helper-parent">
-		<div class="input-helper">
+<div class="input input-helper-parent">
+	<div class="input-helper">
 		<label for="title">Title</label>
 		<p>The title of the widget (the text at top)</p>
 	</div>
 	<input type="text" name="title" oninput={onInput} bind:value={$widgetEditorData.settings.title} />
 </div>
 
-<hr>
+<hr />
 
 <div class="input input-helper-parent">
 	<div class="input-helper">
 		<label for="columns">Columns</label>
 		<p>The amount of columns to show in the widget</p>
 	</div>
-	<input type="number" name="columns" oninput={onInput} bind:value={$widgetEditorData.settings.columns} />
+	<input
+		type="number"
+		name="columns"
+		oninput={onInput}
+		bind:value={$widgetEditorData.settings.columns}
+	/>
 </div>
 
 <div class="input input-helper-parent">
@@ -70,17 +79,22 @@
 		<label for="items">Items</label>
 		<p>The amount of items to show in the widget</p>
 	</div>
-	<input type="number" name="items" oninput={onInput} bind:value={$widgetEditorData.settings.items} />
+	<input
+		type="number"
+		name="items"
+		oninput={onInput}
+		bind:value={$widgetEditorData.settings.items}
+	/>
 </div>
 
-<hr>
+<hr />
 
 <div class="input input-helper-parent">
 	<div class="input-helper">
 		<label for="show-images">Show Images</label>
 		<p>Toggle to show images taken from the RSS feed</p>
 	</div>
-	<Toggle name="show-images" onInput={onInput} bind:checked={$widgetEditorData.settings.showImages} />
+	<Toggle name="show-images" {onInput} bind:checked={$widgetEditorData.settings.showImages} />
 </div>
 
 <div class="input input-helper-parent">
@@ -88,7 +102,11 @@
 		<label for="show-descriptions">Show Descriptions</label>
 		<p>Toggle to show descriptions taken from the RSS feed</p>
 	</div>
-	<Toggle name="show-descriptions" onInput={onInput} bind:checked={$widgetEditorData.settings.showDescriptions} />
+	<Toggle
+		name="show-descriptions"
+		{onInput}
+		bind:checked={$widgetEditorData.settings.showDescriptions}
+	/>
 </div>
 
 <div class="input input-helper-parent">
@@ -96,10 +114,10 @@
 		<label for="show-published">Show Published Dates</label>
 		<p>Toggle to show published dates taken from the RSS feed</p>
 	</div>
-	<Toggle name="show-published" onInput={onInput} bind:checked={$widgetEditorData.settings.showPublished} />
+	<Toggle name="show-published" {onInput} bind:checked={$widgetEditorData.settings.showPublished} />
 </div>
 
-<hr>
+<hr />
 
 <div class="input input-helper-parent">
 	<div class="input-helper">
@@ -125,6 +143,9 @@
 		type="text"
 		name="title"
 		bind:value={$widgetEditorData.settings.url}
-		oninput={() => { feed = 'custom'; onInput() }}
+		oninput={() => {
+			feed = 'custom';
+			onInput();
+		}}
 	/>
 </div>
