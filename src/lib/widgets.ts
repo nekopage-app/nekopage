@@ -10,7 +10,7 @@ import Text from '$lib/widgets/Text.svelte';
 import Weather from '$lib/widgets/Weather.svelte';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const widgets: { [key: string]: Component<{ data: WidgetData | any }> } = {
+export const widgets: Record<string, Component<{ data: WidgetData | any }>> = {
 	Astronomy,
 	Bookmarks,
 	Calendar,

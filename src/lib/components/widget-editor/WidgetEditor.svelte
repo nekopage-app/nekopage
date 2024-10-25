@@ -36,7 +36,7 @@
 		}
 	});
 
-	const widgetComponents: { [key: string]: Component<WidgetEditorComponentProps> } = {
+	const widgetComponents: Record<string, Component<WidgetEditorComponentProps>> = {
 		Calendar: TitleOnly,
         Picture: Picture,
 		RSS: RSS,

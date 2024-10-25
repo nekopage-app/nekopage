@@ -7,7 +7,7 @@
 
 	import default_widget_settings_json from '$lib/data/default_widget_settings.json';
 	import WidgetEditor from './widget-editor/WidgetEditor.svelte';
-	const default_widget_settings: { [key: string]: WidgetSettings } = default_widget_settings_json;
+	const default_widget_settings: Record<string, WidgetSettings> = default_widget_settings_json;
 
 	// Layout editor
 	let showAddMenu = $state(false);

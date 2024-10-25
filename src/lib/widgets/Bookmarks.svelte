@@ -9,15 +9,7 @@
         columns: number,
         icons: boolean,
         type: "grid" | "columns",
-        bookmarks: Bookmarks
-    }
-
-    interface Bookmarks {
-        [key: string]: Category
-    }
-
-    interface Category {
-        [key: string]: Bookmark
+        bookmarks: Record<string, Record<string, Bookmark>>
     }
 
     interface Bookmark {
