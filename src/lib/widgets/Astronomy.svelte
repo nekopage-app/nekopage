@@ -11,7 +11,7 @@
 	let sunrise = $state('04:29 am');
 	let sunset = $state('10:04 pm');
 
-	async function get() {
+	async function onRefresh() {
 		const response = await fetch(`/api/widget/${data.id}/api`);
 		const responseData = await response.json();
 
@@ -30,13 +30,13 @@
 	}
 
 	onMount(() => {
-		get();
-		const interval = setInterval(get, 1000 * 60 * 60 * 12); // Run every 12 hours
+		onRefresh();
+		const interval = setInterval(onRefresh, 1000 * 60 * 60 * 12); // Run every 12 hours
 		return clearInterval(interval);
 	});
 </script>
 
-<Widget class="!p-4 items-center bg-gradient-to-t from-transparent to-[#00000048]" {loading} {data}>
+<Widget class="!p-4 items-center bg-gradient-to-t from-transparent to-[#00000048]" {loading} {data} {onRefresh}>
 	<iconify-icon icon="line-md:moon-filled-alt-loop" class="absolute left-4 text-4xl"></iconify-icon>
 	<iconify-icon icon={moonPhaseIcon} class="text-8xl"></iconify-icon>
 	<span class="text-[1.3rem] font-bold">{moonPhase}</span>

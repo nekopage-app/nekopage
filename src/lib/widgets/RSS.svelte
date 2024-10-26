@@ -9,7 +9,7 @@
 	let loading = $state(true);
 	let rssItems = $state([] as any[]);
 
-	async function get() {
+	async function onRefresh() {
 		const response = await fetch(`/api/widget/${data.id}/api`);
 		const responseData = await response.json();
 
@@ -20,8 +20,8 @@
 	}
 
 	onMount(() => {
-		get();
-		const interval = setInterval(get, 1000 * 60 * 60 * 4); // Run every 4 hours
+		onRefresh();
+		const interval = setInterval(onRefresh, 1000 * 60 * 60 * 4); // Run every 4 hours
 		return clearInterval(interval);
 	});
 </script>
@@ -29,7 +29,7 @@
 <Widget
 	{loading}
 	{data}
-	onRefresh={get}
+	{onRefresh}
 	style="grid-template-columns: repeat({data.settings.columns}, 1fr);"
 	class="!grid gap-2"
 >

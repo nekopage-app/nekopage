@@ -16,7 +16,7 @@
 	let wind = $state('?? kph');
 	let humidity = $state('0%');
 
-	async function get() {
+	async function onRefresh() {
 		const response = await fetch(`/api/widget/${data.id}/api`);
 		const responseData = await response.json();
 
@@ -43,13 +43,13 @@
 	}
 
 	onMount(() => {
-		get();
-		const interval = setInterval(get, 1000 * 60 * 60 * 12); // Run every 12 hours
+		onRefresh();
+		const interval = setInterval(onRefresh, 1000 * 60 * 60 * 12); // Run every 12 hours
 		return clearInterval(interval);
 	});
 </script>
 
-<Widget {loading} {data}>
+<Widget {loading} {data} {onRefresh}>
 	<div id="location" class="p-2 flex items-center gap-2">
 		<iconify-icon icon="mingcute:location-fill" class="text-xl"></iconify-icon>
 		<span>{location}</span>
@@ -84,7 +84,7 @@
 
 <style lang="postcss">
 	.overview-div {
-		@apply bg-text text-mantle flex items-center gap-1 p-1 rounded-sm;
+		@apply bg-text text-mantle flex items-center gap-1 p-1 rounded;
 	}
 
 	:global(.overview-div iconify-icon) {
