@@ -25,19 +25,19 @@
 
 		switch (searchEngine) {
 			case 'google':
-				$widgetEditorData.settings.url = 'https://www.google.com/search?q=';
+				$widgetEditorData.settings.redirect = 'https://www.google.com/search?q=';
 				break;
 			case 'bing':
-				$widgetEditorData.settings.url = 'https://www.bing.com/search?q=';
+				$widgetEditorData.settings.redirect = 'https://www.bing.com/search?q=';
 				break;
 			case 'yahoo':
-				$widgetEditorData.settings.url = 'https://search.yahoo.com/search?p=';
+				$widgetEditorData.settings.redirect = 'https://search.yahoo.com/search?p=';
 				break;
 			case 'duckduckgo':
-				$widgetEditorData.settings.url = 'https://duckduckgo.com/?q=';
+				$widgetEditorData.settings.redirect = 'https://duckduckgo.com/?q=';
 				break;
 			case 'startpage':
-				$widgetEditorData.settings.url = 'https://www.startpage.com/sp/search?query=';
+				$widgetEditorData.settings.redirect = 'https://www.startpage.com/sp/search?query=';
 				break;
 		}
 	});
@@ -60,10 +60,10 @@
 
 <div class="input input-helper-parent">
 	<div class="input-helper">
-		<label for="url">Search Engine</label>
+		<label for="redirect">Search Engine</label>
 		<p>The search engine. Choosing custom will allow you to put your own URL.</p>
 	</div>
-	<select name="url" oninput={onInput} bind:value={searchEngine}>
+	<select name="redirect" oninput={onInput} bind:value={searchEngine}>
 		<option value="google">Google</option>
 		<option value="bing">Bing</option>
 		<option value="yahoo">Yahoo</option>
@@ -75,13 +75,13 @@
 
 <div class="input input-helper-parent">
 	<div class="input-helper">
-		<label for="url">Search Engine URL</label>
+		<label for="redirect-url">Search Engine URL</label>
 		<p>User input will be inserted at the end of the URL.</p>
 	</div>
 	<input
 		type="text"
 		name="title"
-		bind:value={$widgetEditorData.settings.url}
+		bind:value={$widgetEditorData.settings.redirect}
 		oninput={() => {
 			searchEngine = 'custom';
 			onInput();

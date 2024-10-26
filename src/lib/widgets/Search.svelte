@@ -6,7 +6,7 @@
 	let searchInputValue = $state('');
 
 	function search() {
-		window.location.href = `${data.settings.url}${searchInputValue}`;
+		window.location.href = `${data.settings.redirect}${searchInputValue}`;
 	}
 
 	function onKeyDown(event: KeyboardEvent) {

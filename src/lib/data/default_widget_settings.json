@@ -37,7 +37,7 @@
 	},
 	"Search": {
 		"title": "search",
-		"url": "https://www.google.com/search?q="
+		"redirect": "https://www.google.com/search?q="
 	},
 	"Text": {
 		"title": "text",
