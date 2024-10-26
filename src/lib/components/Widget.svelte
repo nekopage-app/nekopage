@@ -80,10 +80,10 @@
 				</h1>
 
 				<div class="flex gap-4 text-4xl opacity-0 transition duration-300 group-hover:opacity-100">
-					<button data-tooltip={'Delete'} onclick={() => showDeleteModal = true}>
+					<button aria-label="Delete Widget" data-tooltip={'Delete'} onclick={() => showDeleteModal = true}>
 						<iconify-icon icon="material-symbols:delete" class="drop-shadow"></iconify-icon>
 					</button>
-					<button data-tooltip={'Edit'} onclick={openWidgetEditor}>
+					<button aria-label="Edit Widget" data-tooltip={'Edit'} onclick={openWidgetEditor}>
 						<iconify-icon icon="material-symbols:edit" class="drop-shadow"></iconify-icon>
 					</button>
 				</div>

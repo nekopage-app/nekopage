@@ -19,6 +19,7 @@
 	<div class="flex-container">
 		<button
 			id="blur-container"
+			aria-labelledby="close-settings"
 			onclick={() => show.set(false)}
 			in:fade
 			out:fade
@@ -29,7 +30,7 @@
 			<h1 class="!text-subtext">
 				{title}
 
-				<button onclick={() => show.set(false)}>
+				<button id="close-settings" aria-label="Close Settings" onclick={() => show.set(false)}>
 					<iconify-icon icon="mingcute:close-fill"></iconify-icon>
 					close
 				</button>

@@ -17,7 +17,7 @@
 </script>
 
 <Widget class="!flex-row justify-center items-center gap-2 transition-colors hover:bg-base" {data}>
-	<button onclick={search} class="ml-2 bg-transparent border-none outline-none cursor-pointer">
+	<button onclick={search} aria-label="Submit Search" class="ml-2 bg-transparent border-none outline-none cursor-pointer">
 		<iconify-icon icon="fa:search" class="text-[2rem] text-text"></iconify-icon>
 	</button>
 

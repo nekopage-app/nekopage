@@ -62,6 +62,7 @@
 {#if $showSettingsButton}
 	<button
 		id="settings-button"
+		aria-label="Settings Button"
 		class="widget-inner !fixed top-4 right-4 text-[2rem] !p-1 z-10 hover:bg-base"
 		onclick={() => showSettings.set(true)}
 		in:fade

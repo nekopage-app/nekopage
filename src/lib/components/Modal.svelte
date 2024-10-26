@@ -17,6 +17,7 @@
     <div class="flex-container">
         <button
             id="blur-container"
+            aria-hidden="true"
             onclick={() => show = false}
             in:fade
             out:fade

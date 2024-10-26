@@ -34,7 +34,7 @@
 		oninput={onInput}
 		class="w-full bg-transparent text-text placeholder:text-overlay font-medium text-[0.938rem] p-1.5 !outline-none"
 	/>
-	<button type="button" class="flex" onclick={togglePasswordVisibility}>
+	<button type="button" aria-label="Toggle Password Visibility" class="flex" onclick={togglePasswordVisibility}>
 		<iconify-icon icon={eyeIcon} class="text-xl text-overlay mr-1.5"></iconify-icon>
 	</button>
 </div>
