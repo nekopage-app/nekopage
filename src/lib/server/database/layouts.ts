@@ -4,7 +4,42 @@ import { database } from '.';
 import * as api from "../api";
 
 import default_widget_settings_json from '$lib/data/default_widget_settings.json';
-const default_widget_settings: { [key: string]: WidgetSettings } = default_widget_settings_json;
+const default_widget_settings: Record<string, WidgetSettings> = default_widget_settings_json;
+
+/**
+ * Checks if a user has a layout in the database tied to them.
+ *
+ * @param {number} userId - The user ID.
+ * @param {number} layoutId - The layout ID.
+ *
+ * @returns {boolean}
+ */
+export function hasLayout(userId: number, layoutId: number): boolean {
+	const sql = `SELECT user_id FROM layouts WHERE id = ?`;
+	const row = database.prepare(sql).get(layoutId) as DatabaseLayout;
+
+	return userId == row.user_id;
+}
+
+/**
+ * Checks if a user has a widget in the database tied to them.
+ *
+ * @param {number} userId - The user ID.
+ * @param {number} widgetId - The widget ID.
+ *
+ * @returns {boolean}
+ */
+export function hasWidget(userId: number, widgetId: number): boolean {
+	const sql = `SELECT layout_id FROM widgets WHERE id = ?`;
+	const row = database.prepare(sql).get(widgetId) as DatabaseWidgetData;
+
+	if (row) {
+		const layout = getLayout(row.layout_id);
+		return layout.user_id == userId;
+	}
+
+	return false;
+}
 
 /**
  * Gets all the layouts for a user.
@@ -43,38 +78,18 @@ export function getLayout(id: number): DatabaseLayout {
 }
 
 /**
- * Checks if a user has a layout in the database tied to them.
+ * Get a widget's data by specifying an ID
  *
- * @param {number} userId - The user ID.
- * @param {number} layoutId - The layout ID.
- *
- * @returns {boolean}
- */
-export function hasLayout(userId: number, layoutId: number): boolean {
-	const sql = `SELECT user_id FROM layouts WHERE id = ?`;
-	const row = database.prepare(sql).get(layoutId) as DatabaseLayout;
-
-	return userId == row.user_id;
-}
-
-/**
- * Checks if a user has a widget in the database tied to them.
- *
- * @param {number} userId - The user ID.
  * @param {number} widgetId - The widget ID.
  *
- * @returns {boolean}
+ * @returns {WidgetData}
  */
-export function hasWidget(userId: number, widgetId: number): boolean {
-	const sql = `SELECT layout_id FROM widgets WHERE id = ?`;
+export function getWidget(widgetId: number): WidgetData {
+	const sql = `SELECT * FROM widgets WHERE id = ?`;
 	const row = database.prepare(sql).get(widgetId) as DatabaseWidgetData;
-
-	if (row) {
-		const layout = getLayout(row.layout_id);
-		return layout.user_id == userId;
-	}
-
-	return false;
+	
+	row.settings = JSON.parse(row.settings);
+	return row as unknown as WidgetData;
 }
 
 /**
@@ -218,7 +233,7 @@ export function createWidget(layoutId: number, type: string): number {
 		type,
 		id,
 		settings: default_widget_settings[type]
-	});
+	}, true);
 
 	return id;
 }

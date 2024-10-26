@@ -2,7 +2,7 @@
 	"Astronomy": {
 		"title": "astronomy",
 		"api": "",
-		"api_key": "",
+		"apiKey": "",
 		"location": "London"
 	},
 	"Bookmarks": {
@@ -46,7 +46,7 @@
 	"Weather": {
 		"title": "weather",
 		"api": "",
-		"api_key": "",
+		"apiKey": "",
 		"location": "London",
 		"fahrenheit": false,
 		"mph": false

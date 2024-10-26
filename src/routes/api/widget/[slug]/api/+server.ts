@@ -11,31 +11,33 @@ export const GET: RequestHandler = async ({ locals, params }) => {
 	if (locals.user && !database.layouts.hasWidget(locals.user.id, widgetId))
 		return json({ success: false, error: 'Unauthorized' }, { status: 401 });
 
-	// Return API responses tied to the widget ID
-	return json({ success: true, api: api.responses[widgetId] });
+	const widgetData = database.layouts.getWidget(widgetId);
+
+	if (widgetData) {
+		const apiData = await api.parsers[widgetData.type as keyof typeof api.parsers](widgetData);
+
+		if (apiData) {
+			return json({ success: true, api: apiData });
+		}
+	} else {
+		return json({ success: false, error: "Could not find widget in database!" }, { status: 500 });
+	}
 };
 
-export const PUT: RequestHandler = async ({ locals, params, url }) => {
+export const PUT: RequestHandler = async ({ locals, params }) => {
 	const widgetId = Number(params.slug);
-	const dataParam = url.searchParams.get('data');
 
 	if (!widgetId)
 		return json({ success: false, error: 'No widget ID was specified' }, { status: 400 });
-	if (!dataParam)
-		return json({ success: false, error: 'No widget data was specified' }, { status: 400 });
-	if (!locals.layout)
-		return json({ success: false, error: 'No layout was found' }, { status: 400 });
-	if (
-		locals.user &&
-		!database.layouts.hasLayout(locals.user.id, locals.layout.id) &&
-		!database.layouts.hasWidget(locals.user.id, widgetId)
-	)
+	if (locals.user && !database.layouts.hasWidget(locals.user.id, widgetId))
 		return json({ success: false, error: 'Unauthorized' }, { status: 401 });
 
-	const data = JSON.parse(dataParam) as WidgetData;
-	if (!data)
-		return json({ success: false, error: 'The widget data specified is invalid' }, { status: 400 });
+	const widgetData = database.layouts.getWidget(widgetId);
 
-	api.request(data);
-	return json({ success: true });
+	if (widgetData) {
+		api.request(widgetData);
+		return json({ success: true });
+	} else {
+		return json({ success: false, error: "Could not find widget in database!" }, { status: 500 });
+	}
 };

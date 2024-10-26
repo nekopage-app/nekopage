@@ -1,6 +1,14 @@
-interface ApiResponses {
-	[widgetId: string]: object;
-}
+type WidgetAPIsList = Record<
+	string,
+	Record<
+		string,
+		{
+			url: string;
+			headers: Record<string, string>;
+			[key: string]: any;
+		}
+	>
+>;
 
 interface AstronomyJSON {
 	moonPhase: string;

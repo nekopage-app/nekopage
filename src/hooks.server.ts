@@ -3,7 +3,7 @@ import * as database from '$lib/server/database';
 import * as api from '$lib/server/api';
 
 database.init();
-api.requestAll();
+api.init();
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get("session_id");

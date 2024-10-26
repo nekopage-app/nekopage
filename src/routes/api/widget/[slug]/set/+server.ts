@@ -24,7 +24,7 @@ export const PATCH: RequestHandler = async ({ locals, params, url }) => {
 	if (!data)
 		return json({ success: false, error: 'The widget data specified is invalid' }, { status: 400 });
 
-	api.request(data);
+	api.request(data, true);
 	database.layouts.setWidgetSettings(data.id, data.settings);
 	return json({ success: true });
 };
