@@ -6,10 +6,6 @@ import { database } from '.';
 
 /**
  * Gets all of the uploads tied to a user
- *
- * @param {number} userId - The user ID.
- *
- * @returns {string[]} - The file names
  */
 export function getUploads(userId: number): string[] {
     const sql = `SELECT file FROM uploads WHERE user_id = ?`;
@@ -22,10 +18,7 @@ export function getUploads(userId: number): string[] {
 /**
  * Uploads an image, compresses it, generates a file name, and keeps a record of it in the database
  *
- * @param {number} userId - The user ID.
- * @param {string} buffer - The file buffer.
- *
- * @returns {Promise<string | boolean>} - The new file name. Returns false if not uploaded.
+ * @returns The new file name. Returns false if not uploaded.
  */
 export async function uploadImage(userId: number, buffer: Buffer): Promise<string | boolean> {
     try {

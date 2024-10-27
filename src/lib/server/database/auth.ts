@@ -5,11 +5,6 @@ import { database, layouts } from ".";
 
 /**
  * Checks if a user's credentials are correct by verifying the hash.
- *
- * @param {string} username - The username.
- * @param {string} password - The password.
- * 
- * @returns {Promise<number>} - The ID for the user.
  */
 export async function checkUserCredentials(username: string, password: string): Promise<number> {
 	const sql = `SELECT * FROM users WHERE username = ?`;
@@ -26,10 +21,6 @@ export async function checkUserCredentials(username: string, password: string): 
 
 /**
  * Checks if a user's session ID is correct by verifying the hash and checking if it is expired.
- *
- * @param {string} sessionId - The session ID in plain text.
- * 
- * @returns {Promise<DatabaseUser | null>}
  */
 export async function checkSessionId(sessionId: string): Promise<DatabaseUser | null> {
 	if (sessionId) {
@@ -54,12 +45,6 @@ export async function checkSessionId(sessionId: string): Promise<DatabaseUser | 
 
 /**
  * Removes the session from the database
- *
- * @param {number} userId - The user ID.
- * 
- * @returns {boolean}
- * 
- * @throws {Error}
  */
 export function removeSession(userId: number): boolean {
 	const sql = `UPDATE users SET session_id = NULL, session_created = NULL WHERE id = ?`;
@@ -71,10 +56,6 @@ export function removeSession(userId: number): boolean {
 /**
  * Generates a session id and hashes it.
  *
- * @param {number} userId - The user ID.
- * 
- * @returns {Promise<string>} - The plain text session ID.
- * 
  * @throws {Error}
  */
 export async function generateSessionId(userId: number): Promise<string> {
@@ -93,11 +74,6 @@ export async function generateSessionId(userId: number): Promise<string> {
 
 /**
  * Creates a new user with a hashed password.
- *
- * @param {string} username - The username for the new user.
- * @param {string} password - The password for the new user in plain text.
- * 
- * @returns {Promise<number>} - The ID for the new user.
  */
 export async function createUser(username: string, password: string): Promise<number> {
 	try {

@@ -10,7 +10,9 @@ export const database = new Database(env.DATABASE_PATH, { verbose: console.log }
 
 export { auth, layouts, settings, uploads };
 
-/** Initalize database - adds tables if not found */
+/**
+ * Initalize database - adds tables if not found
+ */
 export function init() {
 	// Users
 	database.exec(`
@@ -18,8 +20,8 @@ export function init() {
 			"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 			"username" VARCHAR(32) NOT NULL UNIQUE,
 			"password" TEXT NOT NULL,
-			session_id TEXT,
-			session_created DATETIME
+			"session_id" TEXT,
+			"session_created" DATETIME
 		);
 	`);
 

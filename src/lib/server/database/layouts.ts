@@ -8,11 +8,6 @@ const default_widget_settings: Record<string, WidgetSettings> = default_widget_s
 
 /**
  * Checks if a user has a layout in the database tied to them.
- *
- * @param {number} userId - The user ID.
- * @param {number} layoutId - The layout ID.
- *
- * @returns {boolean}
  */
 export function hasLayout(userId: number, layoutId: number): boolean {
 	const sql = `SELECT user_id FROM layouts WHERE id = ?`;
@@ -23,11 +18,6 @@ export function hasLayout(userId: number, layoutId: number): boolean {
 
 /**
  * Checks if a user has a widget in the database tied to them.
- *
- * @param {number} userId - The user ID.
- * @param {number} widgetId - The widget ID.
- *
- * @returns {boolean}
  */
 export function hasWidget(userId: number, widgetId: number): boolean {
 	const sql = `SELECT layout_id FROM widgets WHERE id = ?`;
@@ -57,10 +47,6 @@ export function getLayouts(userId: number): DatabaseGetLayout[] {
 
 /**
  * Gets a layout by ID and parses the properties to JSON.
- *
- * @param {number} layoutId - The layout ID.
- *
- * @returns {DatabaseLayout}
  */
 export function getLayout(id: number): DatabaseLayout {
 	const sql = `SELECT * FROM layouts WHERE id = ?`;
@@ -79,10 +65,6 @@ export function getLayout(id: number): DatabaseLayout {
 
 /**
  * Get a widget's data by specifying an ID
- *
- * @param {number} widgetId - The widget ID.
- *
- * @returns {WidgetData}
  */
 export function getWidget(widgetId: number): WidgetData {
 	const sql = `SELECT * FROM widgets WHERE id = ?`;
@@ -94,10 +76,6 @@ export function getWidget(widgetId: number): WidgetData {
 
 /**
  * Returns widgets in a layout and parses the settings property to JSON.
- *
- * @param {number} layoutId - The layout ID.
- *
- * @returns {WidgetData[]}
  */
 export function getWidgets(layoutId: number): WidgetData[] {
 	const sql = `SELECT * FROM widgets WHERE layout_id = ?`;
@@ -112,8 +90,6 @@ export function getWidgets(layoutId: number): WidgetData[] {
 
 /**
  * Returns every widget in the database and parses the settings property to JSON.
- *
- * @returns {WidgetData[]}
  */
 export function getAllWidgets(): WidgetData[] {
 	const sql = `SELECT * FROM widgets`;
@@ -128,10 +104,6 @@ export function getAllWidgets(): WidgetData[] {
 
 /**
  * Parses widgets and layouts into the Layout type.
- *
- * @param {number} layoutId - The layout ID.
- *
- * @returns {Layout}
  */
 export function getParsedLayout(layoutId: number): Layout {
 	const layout = getLayout(layoutId);
@@ -166,12 +138,6 @@ export function getParsedLayout(layoutId: number): Layout {
 
 /**
  * Sets the widgets in a column
- *
- * @param {number} layoutId - The layout ID.
- * @param {Column} column - The column for the widget IDs to be set to.
- * @param {number[]} widgetsArray - The array of widget IDs.
- *
- * @returns {boolean}
  */
 export function setColumnWidgets(
 	layoutId: number,
@@ -186,11 +152,6 @@ export function setColumnWidgets(
 
 /**
  * Renames the specified layout
- *
- * @param {number} layoutId - The layout ID.
- * @param {string} name - The new name for the layout.
- *
- * @returns {boolean}
  */
 export function renameLayout(layoutId: number, name: string): boolean {
 	const sql = `UPDATE layouts SET name = ? WHERE id = ?`;
@@ -201,11 +162,6 @@ export function renameLayout(layoutId: number, name: string): boolean {
 
 /**
  * Sets the widget's settings
- *
- * @param {number} widgetId - The widget ID.
- * @param {WidgetSettings} settings - The new settings for the widget.
- *
- * @returns {boolean}
  */
 export function setWidgetSettings(widgetId: number, settings: WidgetSettings): boolean {
 	const sql = `UPDATE widgets SET settings = ? WHERE id = ?`;
@@ -216,11 +172,6 @@ export function setWidgetSettings(widgetId: number, settings: WidgetSettings): b
 
 /**
  * Creates a new widget with default settings
- *
- * @param {number} layoutId - The layout ID for the widget.
- * @param {string} type - The type of widget.
- *
- * @returns {number} - The ID of the newly created widget.
  */
 export function createWidget(layoutId: number, type: string): number {
 	const sql = `INSERT INTO widgets (layout_id, type, settings) VALUES (?, ?, ?)`;
@@ -240,10 +191,6 @@ export function createWidget(layoutId: number, type: string): number {
 
 /**
  * Creates a layout
- *
- * @param {number} userId - The user ID.
- *
- * @returns {boolean}
  */
 export function createLayout(userId: number): boolean {
 	const layouts = getLayouts(userId);
@@ -264,10 +211,6 @@ export function createLayout(userId: number): boolean {
 
 /**
  * Deletes a widget in the database
- *
- * @param {number} widgetId - The ID of the widget to be deleted.
- *
- * @returns {boolean}
  */
 export function deleteWidget(widgetId: number): boolean {
 	const sql = `DELETE FROM widgets WHERE id = ?`;
