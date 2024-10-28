@@ -4,8 +4,23 @@
 </script>
 
 <div class="flex justify-between items-center">
-    <p>Hey there, {$page.data.user.username}</p>
-    
+    <table>
+        <tbody>
+            <tr>
+                <td class="w-8">
+                    <iconify-icon icon="mdi:hand-wave" class="text-xl"></iconify-icon>
+                </td>
+                <td>Hey there, <b class="font-semibold">{$page.data.user.username}</b></td>
+            </tr>
+            <tr>
+                <td>
+                    <iconify-icon icon="teenyicons:id-solid" class="text-xl"></iconify-icon>
+                </td>
+                <td>Your ID is <b class="font-semibold">{$page.data.user.id}</b></td>
+            </tr>
+        </tbody>
+    </table>
+
     <form method="POST" action="?/logout">
         <button class="button">Log out</button>
     </form>
