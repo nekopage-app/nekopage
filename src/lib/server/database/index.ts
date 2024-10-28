@@ -5,10 +5,11 @@ import * as auth from "./auth";
 import * as layouts from "./layouts";
 import * as settings from "./settings";
 import * as uploads from "./uploads";
+import * as permissions from "./permissions";
 
 export const database = new Database(env.DATABASE_PATH, { verbose: console.log });
 
-export { auth, layouts, settings, uploads };
+export { auth, layouts, settings, uploads, permissions };
 
 /**
  * Initalize database - adds tables if not found
@@ -22,6 +23,15 @@ export function init() {
 			"password" TEXT NOT NULL,
 			"session_id" TEXT,
 			"session_created" DATETIME
+		);
+	`);
+
+	// Permissions
+	database.exec(`
+		CREATE TABLE IF NOT EXISTS "permissions" (
+			"user_id" INTEGER NOT NULL UNIQUE,
+			"permission" VARCHAR(64) NOT NULL UNIQUE,
+			FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE
 		);
 	`);
 
@@ -53,9 +63,9 @@ export function init() {
 	database.exec(`
 		CREATE TABLE IF NOT EXISTS "settings" (
 			"user_id" INTEGER NOT NULL,
-			"setting_key" VARCHAR(255) NOT NULL,
-			"setting_value" TEXT,
-			PRIMARY KEY ("setting_key")
+			"key" VARCHAR(255) NOT NULL,
+			"value" TEXT,
+			PRIMARY KEY ("key")
 			FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE
 		);
 	`);

@@ -33,3 +33,8 @@ interface DatabaseSetting {
 	setting_key: string;
 	setting_value: string;
 }
+
+interface DatabasePermission {
+	user_id: number;
+	permission: string;
+}

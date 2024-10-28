@@ -74,6 +74,8 @@ export async function generateSessionId(userId: number): Promise<string> {
 
 /**
  * Creates a new user with a hashed password.
+ * 
+ * @returns The user ID. Returns -1 if failed to create.
  */
 export async function createUser(username: string, password: string): Promise<number> {
 	try {

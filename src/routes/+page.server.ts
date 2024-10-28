@@ -12,10 +12,12 @@ export const load: PageServerLoad = async ({ locals }) => {
         const layout = database.layouts.getParsedLayout(locals.layout.id);
         if (layout) {
             const settings = database.settings.getSettings(locals.user.id);
+            const permissions = database.permissions.getPermissions(locals.user.id);
 
             return {
                 layout,
                 settings,
+                permissions,
                 user: locals.user
             };
         } else {
