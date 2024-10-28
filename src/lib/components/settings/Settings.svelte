@@ -1,7 +1,8 @@
 <script lang="ts">
-	import type { Component } from 'svelte';
+	import { onMount, type Component } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 
+	import { page } from '$app/stores';
 	import { showSaveMessage, showSettings, showSettingsButton } from '$lib/stores';
 
 	import FloatingMenu from '$lib/components/FloatingMenu.svelte';
@@ -17,6 +18,7 @@
 	import Layout from './Layout.svelte';
 	import Account from './Account.svelte';
 	import Admin from './Admin.svelte';
+	import { UserPermission } from '$lib/enums';
 
 	const tabs: Tab[] = [
 		{
@@ -33,11 +35,6 @@
 			name: 'account',
 			component: Account,
 			icon: 'heroicons:user-solid'
-		},
-		{
-			name: 'admin',
-			component: Admin,
-			icon: 'material-symbols:shield'
 		}
 	];
 
@@ -57,6 +54,16 @@
 	function save() {
 		showSaveMessage.set(true);
 	}
+
+	onMount(() => {
+		if ($page.data.permissions.includes(UserPermission.Administrator)) {
+			tabs.push({
+				name: 'admin',
+				component: Admin,
+				icon: 'material-symbols:shield'
+			});
+		}
+	});
 </script>
 
 {#if $showSettingsButton}
