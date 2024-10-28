@@ -1,5 +1,7 @@
 <script lang="ts">
     import { page } from '$app/stores';
+    import { UserPermission } from '$lib/enums';
+
 	import PasswordInput from '$lib/components/inputs/PasswordInput.svelte';
 </script>
 
@@ -18,6 +20,14 @@
                 </td>
                 <td>Your ID is <b class="font-semibold">{$page.data.user.id}</b></td>
             </tr>
+            {#if $page.data.permissions.includes(UserPermission.Administrator)}
+                <tr>
+                    <td>
+                        <iconify-icon icon="material-symbols:shield" class="text-xl"></iconify-icon>
+                    </td>
+                    <td>You're an <b class="font-semibold">administrator</b></td>
+                </tr>
+            {/if}
         </tbody>
     </table>
 
