@@ -20,12 +20,14 @@
 	});
 
     // API Key
-    let apiKey = $state("#################################");
+    let apiKey = $state('000000000000000000000000000000');
 
-    $effect(() => {
+	$effect(() => {
 		apiKey;
 
-		$widgetEditorData.settings.apiKey = apiKey;
+        if (apiKey != "000000000000000000000000000000") {
+            $widgetEditorData.settings.apiKey = apiKey;
+        }
 	});
 </script>
 
