@@ -50,10 +50,12 @@
 </script>
 
 <Widget {loading} {data} {onRefresh}>
-	<div id="location" class="p-2 flex items-center gap-2">
-		<iconify-icon icon="mingcute:location-fill" class="text-xl"></iconify-icon>
-		<span>{location}</span>
-	</div>
+	{#if data.settings.showLocation}
+		<div id="location" class="p-2 flex items-center gap-2">
+			<iconify-icon icon="mingcute:location-fill" class="text-xl"></iconify-icon>
+			<span>{location}</span>
+		</div>
+	{/if}
 
 	<div id="icon" class="flex justify-center items-center mb-4">
 		<div id="icon-text" class="flex flex-col w-40">

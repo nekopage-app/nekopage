@@ -49,6 +49,7 @@
 		"apiKey": "",
 		"location": "London",
 		"fahrenheit": false,
-		"mph": false
+		"mph": false,
+		"showLocation": true
 	}
 }
