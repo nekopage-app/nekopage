@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import { backIn, backOut } from 'svelte/easing';
+	import { showSaveMessage } from '$lib/stores';
 
     interface Props {
         show: boolean,
@@ -9,6 +10,13 @@
     }
 
     let { show = $bindable(), onClickReset, onClickSave }: Props = $props();
+
+	// Hide message if saved a different way
+	showSaveMessage.subscribe((value) => {
+		if (value) {
+			show = false;
+		}
+	});
 </script>
 
 {#if show}
