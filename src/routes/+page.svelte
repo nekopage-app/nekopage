@@ -65,7 +65,6 @@
 			id={column}
 			use:dndzone={{
 				items: $layout[column],
-				morphDisabled: true,
 				dragDisabled: !$inLayoutEditor,
 				flipDurationMs: 400,
 				dropTargetStyle: {},
