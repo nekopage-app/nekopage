@@ -56,7 +56,7 @@
 	>
 		<h1 class="!justify-center !text-subtext">add widgets</h1>
 
-		<div class="widget-inner !grid grid-cols-2 gap-1.5 w-72 h-48 overflow-auto">
+		<div class="widget-inner !grid grid-cols-2 gap-1.5 w-72 h-48 overflow-auto !outline-accent ring-[5px] ring-[color-mix(in_srgb,var(--accent)_30%,transparent)]">
 			{#each Object.keys(widgets) as widget}
 				<button
 					class="button !bg-base !text-text hover:brightness-95 shadow-sm"
@@ -76,7 +76,7 @@
 	>
 		<h1 class="!justify-center !text-subtext">layout editor</h1>
 
-		<div class="widget-inner !flex-row gap-1">
+		<div class="widget-inner !flex-row gap-1 !outline-accent ring-[5px] ring-[color-mix(in_srgb,var(--accent)_30%,transparent)]">
 			<button class="button" onclick={() => (showAddMenu = !showAddMenu)}> add </button>
 			<button class="button" onclick={exitLayoutEditor}> exit </button>
 		</div>
