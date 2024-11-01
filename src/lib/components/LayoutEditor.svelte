@@ -2,7 +2,7 @@
 	import { fly } from 'svelte/transition';
 	import { quadOut } from 'svelte/easing';
 
-	import { layout, showSettingsButton, showSettings, inLayoutEditor } from '$lib/stores';
+	import { layout, showSettingsButton, showSettings, inLayoutEditor, showErrorMessage, errorMessage } from '$lib/stores';
 	import { widgets } from '$lib/widgets';
 
 	import default_widget_settings_json from '$lib/data/default_widget_settings.json';
@@ -49,7 +49,8 @@
 				};
 			});
 		} else {
-			// todo: show error on client
+			showErrorMessage.set(true);
+			errorMessage.set("Failed to add widget!");
 		}
 	}
 </script>

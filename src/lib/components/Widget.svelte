@@ -2,7 +2,7 @@
 	import { type Snippet } from 'svelte';
 
 	import type { Column } from '$lib/enums';
-	import { inLayoutEditor, inWidgetEditor, layout, widgetEditorData } from '$lib/stores';
+	import { errorMessage, inLayoutEditor, inWidgetEditor, layout, showErrorMessage, widgetEditorData } from '$lib/stores';
 	
 	import Loading from '$lib/components/Loading.svelte';
 	import ConfirmModal from './ConfirmModal.svelte';
@@ -48,7 +48,8 @@
 				};
 			});
 		} else {
-			// todo: show error on client
+			showErrorMessage.set(true);
+			errorMessage.set("Failed to delete widget!")
 		}
 	}
 

@@ -14,6 +14,7 @@
 	import Settings from '$lib/components/settings/Settings.svelte';
 	import LayoutEditor from '$lib/components/LayoutEditor.svelte';
 	import SaveMessage from '$lib/components/SaveMessage.svelte';
+	import ErrorMessage from '$lib/components/ErrorMessage.svelte';
 
 	// Set layout
 	let { data }: { data: PageData } = $props();
@@ -58,6 +59,7 @@
 <Settings />
 <LayoutEditor />
 <SaveMessage />
+<ErrorMessage />
 
 {#each Object.values(Column) as column}
 	{#if show}
