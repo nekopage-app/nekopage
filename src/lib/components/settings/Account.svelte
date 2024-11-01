@@ -9,20 +9,20 @@
     <table>
         <tbody>
             <tr>
-                <td class="w-8">
+                <td class="w-8 flex items-center">
                     <iconify-icon icon="mdi:hand-wave" class="text-xl"></iconify-icon>
                 </td>
                 <td>Hey there, <b class="font-semibold">{$page.data.user.username}</b></td>
             </tr>
             <tr>
-                <td>
+                <td class="flex items-center">
                     <iconify-icon icon="teenyicons:id-solid" class="text-xl"></iconify-icon>
                 </td>
                 <td>Your ID is <b class="font-semibold">{$page.data.user.id}</b></td>
             </tr>
             {#if $page.data.permissions.includes(UserPermission.Administrator)}
                 <tr>
-                    <td>
+                    <td class="flex items-center">
                         <iconify-icon icon="material-symbols:shield" class="text-xl"></iconify-icon>
                     </td>
                     <td>You're an <b class="font-semibold">administrator</b></td>
