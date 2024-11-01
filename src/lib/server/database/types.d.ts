@@ -6,6 +6,11 @@ interface DatabaseUser {
 	session_created: string;
 }
 
+interface DatabaseGetUser {
+	id: number;
+	username: string;
+}
+
 interface DatabaseLayout {
 	id: number;
 	name: string;

@@ -100,7 +100,7 @@ export async function createUser(username: string, password: string): Promise<nu
  * @returns User ID and name
  */
 export function getUsers(): DatabaseGetUser[] {
-	const sql = `SELECT id, username FROM users`;
+	const sql = `SELECT id, username FROM users ORDER BY id ASC`;
 	const rows = database.prepare(sql).all() as DatabaseGetUser[];
 
 	return rows;
