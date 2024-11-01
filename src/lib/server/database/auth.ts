@@ -93,3 +93,15 @@ export async function createUser(username: string, password: string): Promise<nu
 		return -1;
 	}
 }
+
+/**
+ * Get all of the users in the database.
+ * 
+ * @returns User ID and name
+ */
+export function getUsers(): DatabaseGetUser[] {
+	const sql = `SELECT id, username FROM users`;
+	const rows = database.prepare(sql).all() as DatabaseGetUser[];
+
+	return rows;
+}
