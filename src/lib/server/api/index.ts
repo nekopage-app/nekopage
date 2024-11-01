@@ -61,7 +61,7 @@ export async function init() {
 
 	requestAll();
 
-	// Clear responses every 24 horus to save memory
+	// Clear responses every 24 hours to save memory
 	setInterval(
 		() => {
 			responses = {};
