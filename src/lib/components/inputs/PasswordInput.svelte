@@ -1,8 +1,8 @@
 <script lang="ts">
 	interface Props {
 		placeholder: string,
-		value: string,
-		onInput: () => void
+		value?: string,
+		onInput?: () => void
 	}
 
 	let { placeholder, value = $bindable(), onInput }: Props = $props();
