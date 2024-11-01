@@ -6,6 +6,10 @@ import { database } from '.';
  * Checks if a user has permission to do something.
  */
 export function hasPermission(userId: number, permission: UserPermission): boolean {
+	// If a user is administrator, they will have all the permissions automatically
+	if (permission != UserPermission.Administrator)
+		if (hasPermission(userId, UserPermission.Administrator)) return true;
+
 	const sql = `SELECT 1 FROM permissions WHERE user_id = ? AND permission = ?`;
 	const row = database.prepare(sql).get(userId, permission);
 
