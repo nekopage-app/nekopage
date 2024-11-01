@@ -12,6 +12,13 @@
 	// Layout editor
 	let showAddMenu = $state(false);
 
+	let addMenuSearchValue = $state('');
+	let filteredWidgets = $derived(
+		Object.keys(widgets).filter((widget) =>
+			widget.toLocaleLowerCase().includes(addMenuSearchValue.toLocaleLowerCase())
+		)
+	);
+
 	function exitLayoutEditor() {
 		showSettings.set(true);
 		showSettingsButton.set(true);
@@ -56,13 +63,22 @@
 	>
 		<h1 class="!justify-center !text-accent">add widgets</h1>
 
-		<div class="widget-inner !grid grid-cols-2 gap-1.5 w-72 h-48 overflow-auto !outline-accent ring-[5px] ring-[color-mix(in_srgb,var(--accent)_30%,transparent)]">
-			{#each Object.keys(widgets) as widget}
-				<button
-					class="button !bg-accent !text-crust shadow-sm"
-					onclick={() => addWidget(widget)}>{widget}</button
-				>
-			{/each}
+		<div
+			class="widget-inner w-72 h-96 overflow-auto !outline-accent ring-[5px] ring-[color-mix(in_srgb,var(--accent)_30%,transparent)]"
+		>
+			<div class="input">
+				<input type="text" placeholder="search..." bind:value={addMenuSearchValue} />
+			</div>
+
+			<hr class="m-2" />
+
+			<div class="!grid grid-cols-2 gap-1.5">
+				{#each filteredWidgets as widget}
+					<button class="button !bg-accent !text-crust shadow-sm" onclick={() => addWidget(widget)}
+						>{widget}</button
+					>
+				{/each}
+			</div>
 		</div>
 	</div>
 {/if}
@@ -76,8 +92,12 @@
 	>
 		<h1 class="!justify-center !text-accent">layout editor</h1>
 
-		<div class="widget-inner !flex-row gap-1 !outline-accent ring-[5px] ring-[color-mix(in_srgb,var(--accent)_30%,transparent)]">
-			<button class="button !bg-accent !text-crust" onclick={() => (showAddMenu = !showAddMenu)}> add </button>
+		<div
+			class="widget-inner !flex-row gap-1 !outline-accent ring-[5px] ring-[color-mix(in_srgb,var(--accent)_30%,transparent)]"
+		>
+			<button class="button !bg-accent !text-crust" onclick={() => (showAddMenu = !showAddMenu)}>
+				add
+			</button>
 			<button class="button !bg-accent !text-crust" onclick={exitLayoutEditor}> exit </button>
 		</div>
 	</div>
