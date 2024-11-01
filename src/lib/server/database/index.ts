@@ -6,6 +6,7 @@ import * as layouts from "./layouts";
 import * as settings from "./settings";
 import * as uploads from "./uploads";
 import * as permissions from "./permissions";
+import { UserPermission } from "$lib/enums";
 
 export const database = new Database(env.DATABASE_PATH, { verbose: console.log });
 
@@ -14,7 +15,7 @@ export { auth, layouts, settings, uploads, permissions };
 /**
  * Initalize database - adds tables if not found
  */
-export function init() {
+export async function init() {
 	// Users
 	database.exec(`
 		CREATE TABLE IF NOT EXISTS "users" (
@@ -86,7 +87,9 @@ export function init() {
 	const userCountResult = database.prepare(userCountSql).get() as any;
 
 	if (userCountResult["COUNT(*)"] === 0) {
-		auth.createUser("neko", "meow");
+		const userId = await auth.createUser("neko", "meow");
+		permissions.addPermission(userId, UserPermission.Administrator);
+
 		console.info("[database]: default account created");
 	}
 }
