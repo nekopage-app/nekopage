@@ -14,9 +14,10 @@ export const PATCH: RequestHandler = async ({ locals, params, url }) => {
 	if (!locals.layout)
 		return json({ success: false, error: 'No layout was found' }, { status: 400 });
 	if (
-		locals.user &&
-		!database.layouts.hasLayout(locals.user.id, locals.layout.id) &&
-		!database.layouts.hasWidget(locals.user.id, widgetId)
+		!locals.user ||
+		(locals.user &&
+			!database.layouts.hasLayout(locals.user.id, locals.layout.id) &&
+			!database.layouts.hasWidget(locals.user.id, widgetId))
 	)
 		return json({ success: false, error: 'Unauthorized' }, { status: 401 });
 

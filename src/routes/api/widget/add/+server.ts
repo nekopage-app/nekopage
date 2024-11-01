@@ -10,7 +10,10 @@ export const POST: RequestHandler = async ({ locals, url }) => {
 		return json({ success: false, error: 'No widget type was specified' }, { status: 400 });
 	if (!locals.layout)
 		return json({ success: false, error: 'No layout was found' }, { status: 400 });
-	if (locals.user && !database.layouts.hasLayout(locals.user.id, locals.layout.id))
+	if (
+		!locals.user ||
+		(locals.user && !database.layouts.hasLayout(locals.user.id, locals.layout.id))
+	)
 		return json({ success: false, error: 'Unauthorized' }, { status: 401 });
 
 	// Get current layout and create widget
