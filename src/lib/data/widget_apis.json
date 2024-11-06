@@ -1,4 +1,12 @@
 {
+    "AdGuardHome": {
+        "custom": {
+            "url": "{{ settings.url }}/control/stats",
+            "headers": {
+                "Authorization": "Basic {{base64 (concat settings.username \":\" settings.password) }}"
+            }
+        }
+    },
     "Astronomy": {
         "weatherapi.com": {
             "url": "https://api.weatherapi.com/v1/astronomy.json?key={{ settings.apiKey }}&q={{ settings.location }}&days=1&aqi=no&alerts=false",

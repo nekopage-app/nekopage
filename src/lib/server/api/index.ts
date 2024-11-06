@@ -4,12 +4,14 @@ import template from '$lib/utils/handlebars';
 import widgetAPIsJSON from '$lib/data/widget_apis.json';
 const widgetAPIs: WidgetAPIsList = widgetAPIsJSON;
 
+import adguardhome from './parsers/adguardhome';
 import astronomy from './parsers/astronomy';
 import rss from './parsers/rss';
 import weather from './parsers/weather';
 
 export let responses: Record<string, any> = {};
 export const parsers = {
+	AdGuardHome: adguardhome,
 	Astronomy: astronomy,
 	RSS: rss,
 	Weather: weather
@@ -52,7 +54,6 @@ export async function request(widget: WidgetData, check = false) {
 	} catch (error) {
 		console.error(`[api]: failed to fetch ${widget.type} data for widget ID: ${widget.id}`, error);
 	}
-
 }
 
 export async function init() {

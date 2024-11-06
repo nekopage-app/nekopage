@@ -1,4 +1,11 @@
 {
+	"AdGuardHome": {
+		"title": "adguard home",
+		"api": "custom",
+		"url": "",
+		"username": "",
+		"password": ""
+	},
 	"Astronomy": {
 		"title": "astronomy",
 		"api": "",

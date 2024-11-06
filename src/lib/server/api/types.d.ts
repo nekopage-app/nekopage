@@ -10,15 +10,16 @@ type WidgetAPIsList = Record<
 	>
 >;
 
+interface AdGuardHomeJSON {
+	queries: number;
+	blocked: number;
+}
+
 interface AstronomyJSON {
 	moonPhase: string;
 	icon: string;
 	sunrise: number;
 	sunset: number;
-}
-
-interface JellyfinJSON {
-	items: number;
 }
 
 interface WeatherJSON {
