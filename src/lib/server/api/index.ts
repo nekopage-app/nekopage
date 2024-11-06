@@ -1,6 +1,6 @@
 import * as database from '$lib/server/database';
 
-import template from '$lib/utils/template';
+import template from '$lib/utils/handlebars';
 import widgetAPIsJSON from '$lib/data/widget_apis.json';
 const widgetAPIs: WidgetAPIsList = widgetAPIsJSON;
 
@@ -22,15 +22,19 @@ export const parsers = {
  * @param {boolean} check - Check if API has already been requested
  */
 export async function request(widget: WidgetData, check = false) {
-	// If URL in widget settings not found, that means it is probably hard coded in widget_apis.json
-	let url = widget.settings.url ?? null;
+	let { url, headers } = widget.settings;
+	const apiConfig = widgetAPIs[widget.type]?.[widget.settings.api];
 
-	if (!url) {
-		const requestSettings = widgetAPIs[widget.type]?.[widget.settings.api];
-		if (!requestSettings) return;
+	if (!url && !apiConfig) return;
 
-		url = template(widget, requestSettings.url);
-	}
+	// Template variables
+	url = template(widget, apiConfig?.url ?? url ?? '');
+	headers = apiConfig?.headers ?? headers ?? {};
+
+	// Template each header
+	Object.keys(headers).forEach((key) => {
+		headers[key] = template(widget, headers[key]);
+	});
 
 	// Return if no URL is found or the response is already fetched
 	if (!url || (check && responses[url])) return;
@@ -38,7 +42,7 @@ export async function request(widget: WidgetData, check = false) {
 	console.info(`[api]: fetching ${widget.type} data for widget ID: ${widget.id}`);
 
 	try {
-		const response = await fetch(url);
+		const response = await fetch(url, { headers });
 
 		const contentType = response.headers.get('Content-Type');
 		if (!contentType) throw Error('No Content-Type header found');
@@ -48,6 +52,7 @@ export async function request(widget: WidgetData, check = false) {
 	} catch (error) {
 		console.error(`[api]: failed to fetch ${widget.type} data for widget ID: ${widget.id}`, error);
 	}
+
 }
 
 export async function init() {
