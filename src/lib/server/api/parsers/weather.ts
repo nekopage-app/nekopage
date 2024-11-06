@@ -3,17 +3,10 @@
 import { responses } from '..';
 import weatherapicomIcons from '$lib/data/weather/weatherapi.com.json';
 
-import template from '$lib/utils/template';
+import template from '$lib/utils/handlebars';
 import widgetAPIsJSON from '$lib/data/widget_apis.json';
 const widgetAPIs: WidgetAPIsList = widgetAPIsJSON;
 
-/**
- * Fetch astronomy data for a widget
- *
- * @param {WidgetData} widget - The widget data
- *
- * @returns {Promise<AstronomyJSON | object>} - The data returned
- */
 export default async function (widget: WidgetData): Promise<WeatherJSON | object> {
 	const response = responses[template(widget, widgetAPIs[widget.type][widget.settings.api].url)];
 

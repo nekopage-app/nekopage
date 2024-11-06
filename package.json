@@ -45,5 +45,8 @@
 		"overrides": {
 			"cookie": "0.7.0"
 		}
+	},
+	"dependencies": {
+		"handlebars": "^4.7.8"
 	}
 }

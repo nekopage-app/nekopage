@@ -1,13 +1,6 @@
 import { responses } from '..';
 import { XMLParser } from 'fast-xml-parser';
 
-/**
- * Parses an RSS feed for a widget
- *
- * @param {WidgetData} widget - The widget data
- *
- * @returns {Promise<object>} - The data returned
- */
 export default function (widget: WidgetData): object {
 	try {
 		const response = responses[widget.settings.url];
