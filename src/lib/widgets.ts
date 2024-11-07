@@ -4,6 +4,7 @@ import AdGuardHome from './widgets/AdGuardHome.svelte';
 import Astronomy from '$lib/widgets/Astronomy.svelte';
 import Bookmarks from '$lib/widgets/Bookmarks.svelte';
 import Calendar from '$lib/widgets/Calendar.svelte';
+import LastFM from '$lib/widgets/LastFM.svelte';
 import Picture from '$lib/widgets/Picture.svelte';
 import RSS from '$lib/widgets/RSS.svelte';
 import Search from '$lib/widgets/Search.svelte';
@@ -16,6 +17,7 @@ export const widgets: Record<string, Component<{ data: WidgetData | any }>> = {
 	Astronomy,
 	Bookmarks,
 	Calendar,
+	LastFM,
 	Picture,
 	RSS,
 	Search,

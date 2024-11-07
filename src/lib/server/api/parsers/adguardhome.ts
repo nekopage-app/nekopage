@@ -5,7 +5,7 @@ import widgetAPIsJSON from '$lib/data/widget_apis.json';
 const widgetAPIs: WidgetAPIsList = widgetAPIsJSON;
 
 export default function (widget: WidgetData): AdGuardHomeJSON {
-	const response = responses[template(widget, widgetAPIs[widget.type][widget.settings.api].url)];
+	const response = responses[template(widget, widgetAPIs[widget.type].apis[widget.settings.api].url)];
 
     return {
         queries: response.num_dns_queries,

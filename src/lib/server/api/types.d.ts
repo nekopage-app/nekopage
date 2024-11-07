@@ -1,13 +1,16 @@
 type WidgetAPIsList = Record<
 	string,
-	Record<
-		string,
-		{
-			url: string;
-			headers: Record<string, string>;
-			[key: string]: any;
-		}
-	>
+	{
+		interval: number;
+		apis: Record<
+			string,
+			{
+				url: string;
+				headers: Record<string, string>;
+				[key: string]: any;
+			}
+		>;
+	}
 >;
 
 interface AdGuardHomeJSON {
@@ -20,6 +23,15 @@ interface AstronomyJSON {
 	icon: string;
 	sunrise: number;
 	sunset: number;
+}
+
+interface LastFMJSON {
+	playing: number;
+	scrobbles: number;
+	name: string;
+	artist: string;
+	album: string;
+	albumCover: string;
 }
 
 interface WeatherJSON {

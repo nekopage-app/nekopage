@@ -28,6 +28,13 @@
 	"Calendar": {
 		"title": "calendar"
 	},
+	"LastFM": {
+		"title": "last.fm",
+		"api": "custom",
+		"apiKey": "",
+		"username": "",
+		"cd": false
+	},
 	"Picture": {
 		"title": "picture",
 		"height": 200,

@@ -6,6 +6,7 @@ const widgetAPIs: WidgetAPIsList = widgetAPIsJSON;
 
 import adguardhome from './parsers/adguardhome';
 import astronomy from './parsers/astronomy';
+import lastfm from './parsers/lastfm';
 import rss from './parsers/rss';
 import weather from './parsers/weather';
 
@@ -13,6 +14,7 @@ export let responses: Record<string, any> = {};
 export const parsers = {
 	AdGuardHome: adguardhome,
 	Astronomy: astronomy,
+	LastFM: lastfm,
 	RSS: rss,
 	Weather: weather
 };
@@ -26,6 +28,7 @@ export const parsers = {
 export async function request(widget: WidgetData, check = false) {
 	let { url, headers } = widget.settings;
 	const apiConfig = widgetAPIs[widget.type]?.[widget.settings.api];
+	const apiConfig = widgetAPIs[widget.type]?.apis[widget.settings.api];
 
 	if (!url && !apiConfig) return;
 
