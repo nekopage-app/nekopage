@@ -20,7 +20,7 @@
 
 	async function onRefresh() {
 		// Tell API to fetch the widget's API again
-		await fetch(`/api/widget/api?data=${JSON.stringify(data)}`, {
+		await fetch(`/api/widget/${data.id}/api?data=${JSON.stringify(data)}`, {
 			method: 'PUT'
 		});
 
