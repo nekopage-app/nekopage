@@ -9,6 +9,7 @@
 	style="
         --accent: #f5bde6;
         --red: #e78284;
+		--green: #a6d189;
         --text: #c6d0f5;
         --subtext: #a5adce;
         --overlay: #737994;

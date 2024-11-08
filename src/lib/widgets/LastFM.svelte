@@ -38,15 +38,32 @@
 	});
 </script>
 
-<Widget {loading} {data} {onRefresh} class="!flex-row gap-2">
-    <div data-tooltip={album} class="h-16">
-        <img id="album-cover" src={albumCover} alt="album cover" class="h-full max-w-fit rounded-lg {data.settings.cd ? "animate-[spin_20s_linear_infinite] !rounded-full cd" : ""}">
+<Widget {loading} {data} {onRefresh} class="gap-2">
+    <div class="flex gap-2">
+        <div data-tooltip={album} class="h-16">
+            <img id="album-cover" src={albumCover} alt="album cover" class="h-16 w-16 bg-base rounded-lg {data.settings.cd ? "animate-[spin_20s_linear_infinite] !rounded-full cd" : ""}">
+        </div>
+    
+        <div>
+            <p class="text-xl font-semibold">{name}</p>
+            <p class="text-sm">{artist}</p>
+        </div>
+    
+        <div id="ping" class="ping {playing ? "bg-green" : "bg-red"}"></div>
+        
+        {#if playing}
+            <div id="ping-animation" class="ping animate-[ping_2.5s_cubic-bezier(0,0,0.2,1)_infinite] bg-green"></div>
+        {/if}
     </div>
 
-    <div>
-        <p class="text-lg font-semibold">{name}</p>
-        <p class="text-sm">{artist}</p>
-    </div>
+    {#if data.settings.showScrobbles}
+        <hr class="m-1">
+
+        <div class="flex gap-2 w-min" data-tooltip="Scrobbles">
+            <iconify-icon icon="iconamoon:music-1-fill" class="text-2xl"></iconify-icon>
+            <span>{scrobbles}</span>
+        </div>
+    {/if}
 </Widget>
 
 <style lang="postcss">
@@ -57,5 +74,9 @@
             white 10px,
             black
         );
+    }
+
+    .ping {
+        @apply w-3 h-3 aspect-square block rounded-full absolute right-2 top-2;
     }
 </style>

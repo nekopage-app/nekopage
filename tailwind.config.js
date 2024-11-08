@@ -6,6 +6,7 @@ export default {
       transparent: "transparent",
       accent: "var(--accent)",
       red: "var(--red)",
+      green: "var(--green)",
       text: "var(--text)",
       subtext: "var(--subtext)",
       overlay: "var(--overlay)",
