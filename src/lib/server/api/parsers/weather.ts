@@ -7,7 +7,7 @@ import template from '$lib/utils/handlebars';
 import widgetAPIsJSON from '$lib/data/widget_apis.json';
 const widgetAPIs: WidgetAPIsList = widgetAPIsJSON;
 
-export default async function (widget: WidgetData): Promise<WeatherJSON | object> {
+export default function (widget: WidgetData): WeatherJSON | object {
 	const response = responses[template(widget, widgetAPIs[widget.type].apis[widget.settings.api].url)];
 
 	switch (widget.settings.api) {
