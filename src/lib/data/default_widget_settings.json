@@ -33,7 +33,8 @@
 		"api": "custom",
 		"apiKey": "",
 		"username": "",
-		"cd": false
+		"cd": false,
+		"showScrobbles": true
 	},
 	"Picture": {
 		"title": "picture",
