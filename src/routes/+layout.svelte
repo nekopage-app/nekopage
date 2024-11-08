@@ -91,7 +91,7 @@
 	}
 
 	:global([data-tooltip]:before) {
-		@apply absolute top-[125%] left-1/2 px-2 py-1.5 rounded bg-subtext text-crust shadow-lg text-center text-sm font-normal whitespace-nowrap;
+		@apply absolute top-[125%] left-1/2 px-2 py-1.5 rounded bg-subtext text-crust shadow-lg text-center text-sm font-normal whitespace-nowrap z-50;
 		content: attr(data-tooltip);
 	}
 
