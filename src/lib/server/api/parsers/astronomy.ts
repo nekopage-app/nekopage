@@ -7,7 +7,14 @@ import template from '$lib/utils/handlebars';
 import widgetAPIsJSON from '$lib/data/widget_apis.json';
 const widgetAPIs: WidgetAPIsList = widgetAPIsJSON;
 
-export default function (widget: WidgetData): AstronomyJSON | object {
+interface AstronomyJSON {
+	moonPhase: string;
+	icon: string;
+	sunrise: number;
+	sunset: number;
+}
+
+export default function (widget: WidgetData): AstronomyJSON | undefined {
 	const response = responses[template(widget, widgetAPIs[widget.type].apis[widget.settings.api].url)];
 
 	switch (widget.settings.api) {
@@ -25,6 +32,6 @@ export default function (widget: WidgetData): AstronomyJSON | object {
 
 		default:
 			console.error('[api]: api property not valid for astronomy widget');
-			return {};
+			return;
 	}
 }

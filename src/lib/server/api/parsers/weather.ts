@@ -7,7 +7,18 @@ import template from '$lib/utils/handlebars';
 import widgetAPIsJSON from '$lib/data/widget_apis.json';
 const widgetAPIs: WidgetAPIsList = widgetAPIsJSON;
 
-export default function (widget: WidgetData): WeatherJSON | object {
+interface WeatherJSON {
+	place: string;
+	country: string;
+	condition: string;
+	icon: string;
+	temperature: number;
+	rainChance: number;
+	wind: number;
+	humidity: number;
+}
+
+export default function (widget: WidgetData): WeatherJSON | undefined {
 	const response = responses[template(widget, widgetAPIs[widget.type].apis[widget.settings.api].url)];
 
 	switch (widget.settings.api) {
@@ -28,6 +39,6 @@ export default function (widget: WidgetData): WeatherJSON | object {
 
 		default:
 			console.error('[api]: api property not valid for weather widget');
-			return {};
+			return;
 	}
 }

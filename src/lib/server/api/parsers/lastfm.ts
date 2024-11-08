@@ -4,6 +4,15 @@ import template from '$lib/utils/handlebars';
 import widgetAPIsJSON from '$lib/data/widget_apis.json';
 const widgetAPIs: WidgetAPIsList = widgetAPIsJSON;
 
+interface LastFMJSON {
+	playing: number;
+	scrobbles: number;
+	name: string;
+	artist: string;
+	album: string;
+	albumCover: string;
+}
+
 export default function (widget: WidgetData): LastFMJSON {
 	const response = responses[template(widget, widgetAPIs[widget.type].apis[widget.settings.api].url)];
 

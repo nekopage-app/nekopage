@@ -1,7 +1,7 @@
 import { responses } from '..';
 import { XMLParser } from 'fast-xml-parser';
 
-export default function (widget: WidgetData): object {
+export default function (widget: WidgetData): object | undefined {
 	try {
 		const response = responses[widget.settings.url];
 
@@ -14,6 +14,6 @@ export default function (widget: WidgetData): object {
 		console.error(
 			`[api]: failed to read RSS feed. widget id: ${widget.id}, url: ${widget.settings.url}, error: ${error}`
 		);
-		return {};
+		return;
 	}
 }
