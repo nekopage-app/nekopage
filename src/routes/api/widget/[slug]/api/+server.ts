@@ -14,14 +14,11 @@ export const GET: RequestHandler = async ({ locals, params }) => {
 	const widgetData = database.layouts.getWidget(widgetId);
 
 	if (widgetData) {
-		const parse = api.parsers[widgetData.type as keyof typeof api.parsers];
-
-		if (!parse)
-			return json({ success: false, error: 'Could not parse widget data!' }, { status: 500 });
-
-		const apiData = await parse(widgetData);
+		const apiData = api.parse(widgetData);
 		if (apiData) {
 			return json({ success: true, api: apiData });
+		} else {
+			return json({ success: false, error: 'Could not parse widget API response!' }, { status: 500 });
 		}
 	} else {
 		return json({ success: false, error: 'Could not find widget in database!' }, { status: 500 });

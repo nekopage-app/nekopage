@@ -27,7 +27,6 @@ export const parsers = {
  */
 export async function request(widget: WidgetData, check = false) {
 	let { url, headers } = widget.settings;
-	const apiConfig = widgetAPIs[widget.type]?.[widget.settings.api];
 	const apiConfig = widgetAPIs[widget.type]?.apis[widget.settings.api];
 
 	if (!url && !apiConfig) return;
@@ -78,4 +77,14 @@ export async function init() {
 		},
 		1000 * 60 * 60 * 24
 	);
+}
+
+export function parse(widget: WidgetData): object | undefined {
+	try {
+		const parser = parsers[widget.type as keyof typeof parsers];
+		return parser(widget);
+	} catch (error) {
+		console.error(`[api]: failed to parse ${widget.type} data for widget id ${widget.id}`, error);
+		return;
+	}
 }
