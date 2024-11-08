@@ -19,7 +19,7 @@ export default function (widget: WidgetData): LastFMJSON {
     const currentTrack = response.recenttracks.track[0];
 
     return {
-        playing: currentTrack["@attr"].nowplaying ?? false,
+        playing: currentTrack?.["@attr"]?.nowplaying ?? false,
         scrobbles: response.recenttracks["@attr"].total,
         name: currentTrack.name,
         artist: currentTrack.artist["#text"],
