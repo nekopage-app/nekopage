@@ -1,5 +1,7 @@
-import { responses } from '..';
+import chalk from 'chalk';
 import { XMLParser } from 'fast-xml-parser';
+
+import { responses } from '..';
 
 export default function (widget: WidgetData): object | undefined {
 	try {
@@ -13,7 +15,9 @@ export default function (widget: WidgetData): object | undefined {
 		return items;
 	} catch (error) {
 		console.error(
-			`[api]: failed to read RSS feed. widget id: ${widget.id}, url: ${widget.settings.url}, error: ${error}`
+			chalk.red(
+				`[api]: failed to read RSS feed. widget id: ${widget.id}, url: ${widget.settings.url}, error: ${error}`
+			)
 		);
 		return;
 	}

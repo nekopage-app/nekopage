@@ -54,7 +54,7 @@ export async function request(widget: WidgetData, check = false) {
 		const data = contentType == 'application/json' ? await response.json() : await response.text();
 		responses[url] = data;
 	} catch (error) {
-		console.error(`[api]: failed to fetch ${widget.type} data for widget ID: ${widget.id}`, error);
+		console.error(chalk.red(`[api]: failed to fetch widget API data! id: ${widget.id}, url: ${url}, error:`), error);
 	}
 }
 
@@ -84,7 +84,7 @@ export function parse(widget: WidgetData): object | undefined {
 		const parser = parsers[widget.type as keyof typeof parsers];
 		return parser(widget);
 	} catch (error) {
-		console.error(`[api]: failed to parse ${widget.type} data for widget id ${widget.id}`, error);
+		console.error(chalk.red(`[api]: failed to parse data for widget! id: ${widget.id}, type: ${widget.type}, error:`), error);
 		return;
 	}
 }
@@ -94,6 +94,6 @@ export function getResponse(widget: WidgetData): any {
 	const url = template(widget, widgetAPI.url);
 	const response = responses[url];
 	
-	if (response === undefined) console.warn(`[api]: failed to get response for URL ${url} for widget ID ${widget.id}`);
+	if (response === undefined) console.warn(chalk.yellow(`[api]: failed to get response for widget! id: ${widget.id}, url: ${url}`));
 	return response;
 }

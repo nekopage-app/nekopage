@@ -1,5 +1,6 @@
 import argon2 from "argon2";
 import crypto from "crypto";
+import chalk from "chalk";
 
 import { database, layouts } from ".";
 
@@ -89,7 +90,7 @@ export async function createUser(username: string, password: string): Promise<nu
 
 		return userId;
 	} catch (error) {
-		console.error(`Unable to create user under name ${username}: ${error}`);
+		console.error(chalk.red(`[database]: unable to create user! name: ${username}, error:`), error);
 		return -1;
 	}
 }

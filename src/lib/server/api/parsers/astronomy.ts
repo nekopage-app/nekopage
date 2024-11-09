@@ -1,4 +1,4 @@
-// Parses astronomy data into a unified format
+import chalk from 'chalk';
 
 import { getResponse, } from '..';
 import moonIcons from '$lib/data/moon_icons.json';
@@ -28,7 +28,7 @@ export default function (widget: WidgetData): AstronomyJSON | undefined {
 		}
 
 		default:
-			console.error('[api]: api property not valid for astronomy widget');
+			console.error(chalk.red(`[api]: api property not valid for astronomy widget! id: ${widget.id}`));
 			return;
 	}
 }

@@ -1,4 +1,4 @@
-// Parses weather data into a unified format
+import chalk from 'chalk';
 
 import { getResponse } from '..';
 import weatherapicomIcons from '$lib/data/weather/weatherapi.com.json';
@@ -35,7 +35,7 @@ export default function (widget: WidgetData): WeatherJSON | undefined {
 		}
 
 		default:
-			console.error('[api]: api property not valid for weather widget');
+			console.error(chalk.red(`[api]: api property not valid for weather widget! id: ${widget.id}`));
 			return;
 	}
 }

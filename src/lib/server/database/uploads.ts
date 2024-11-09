@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import crypto from 'crypto';
 import sharp from 'sharp';
+import chalk from 'chalk';
 
 import { database } from '.';
 
@@ -36,7 +37,7 @@ export async function uploadImage(userId: number, buffer: Buffer): Promise<strin
 
 		return fileName;
 	} catch (error) {
-		console.error(`[database]: error while processing image: ${error}`);
+		console.error(chalk.red(`[database]: error while uploading image! error:`), error);
         return false;
 	}
 }
