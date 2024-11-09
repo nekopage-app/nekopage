@@ -10,10 +10,6 @@ overrides:
 importers:
 
   .:
-    dependencies:
-      handlebars:
-        specifier: ^4.7.8
-        version: 4.7.8
     devDependencies:
       '@sveltejs/adapter-node':
         specifier: ^5.2.8
@@ -60,6 +56,9 @@ importers:
       globals:
         specifier: ^15.11.0
         version: 15.11.0
+      handlebars:
+        specifier: ^4.7.8
+        version: 4.7.8
       iconify-icon:
         specifier: ^2.1.0
         version: 2.1.0
