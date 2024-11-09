@@ -4,6 +4,7 @@ import { XMLParser } from 'fast-xml-parser';
 export default function (widget: WidgetData): object | undefined {
 	try {
 		const response = responses[widget.settings.url];
+		if (response === undefined) return;
 
 		const parser = new XMLParser({ ignoreAttributes: false });
 		const rss = parser.parse(response);

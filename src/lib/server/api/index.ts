@@ -88,3 +88,12 @@ export function parse(widget: WidgetData): object | undefined {
 		return;
 	}
 }
+
+export function getResponse(widget: WidgetData): any {
+	const widgetAPI = widgetAPIs[widget.type].apis[widget.settings.api];
+	const url = template(widget, widgetAPI.url);
+	const response = responses[url];
+	
+	if (response === undefined) console.warn(`[api]: failed to get response for URL ${url} for widget ID ${widget.id}`);
+	return response;
+}

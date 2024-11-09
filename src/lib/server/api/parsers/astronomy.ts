@@ -1,11 +1,7 @@
 // Parses astronomy data into a unified format
 
-import { responses } from '..';
+import { getResponse, } from '..';
 import moonIcons from '$lib/data/moon_icons.json';
-
-import template from '$lib/utils/handlebars';
-import widgetAPIsJSON from '$lib/data/widget_apis.json';
-const widgetAPIs: WidgetAPIsList = widgetAPIsJSON;
 
 interface AstronomyJSON {
 	moonPhase: string;
@@ -15,7 +11,8 @@ interface AstronomyJSON {
 }
 
 export default function (widget: WidgetData): AstronomyJSON | undefined {
-	const response = responses[template(widget, widgetAPIs[widget.type].apis[widget.settings.api].url)];
+	const response = getResponse(widget);
+	if (response === undefined) return;
 
 	switch (widget.settings.api) {
 		case 'weatherapi.com': {

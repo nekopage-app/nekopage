@@ -1,11 +1,7 @@
 // Parses weather data into a unified format
 
-import { responses } from '..';
+import { getResponse } from '..';
 import weatherapicomIcons from '$lib/data/weather/weatherapi.com.json';
-
-import template from '$lib/utils/handlebars';
-import widgetAPIsJSON from '$lib/data/widget_apis.json';
-const widgetAPIs: WidgetAPIsList = widgetAPIsJSON;
 
 interface WeatherJSON {
 	place: string;
@@ -19,7 +15,8 @@ interface WeatherJSON {
 }
 
 export default function (widget: WidgetData): WeatherJSON | undefined {
-	const response = responses[template(widget, widgetAPIs[widget.type].apis[widget.settings.api].url)];
+	const response = getResponse(widget);
+	if (response === undefined) return;
 
 	switch (widget.settings.api) {
 		case 'weatherapi.com': {

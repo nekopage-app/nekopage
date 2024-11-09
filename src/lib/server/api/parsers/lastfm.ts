@@ -1,8 +1,4 @@
-import { responses } from '..';
-
-import template from '$lib/utils/handlebars';
-import widgetAPIsJSON from '$lib/data/widget_apis.json';
-const widgetAPIs: WidgetAPIsList = widgetAPIsJSON;
+import { getResponse } from '..';
 
 interface LastFMJSON {
 	playing: number;
@@ -14,7 +10,8 @@ interface LastFMJSON {
 }
 
 export default function (widget: WidgetData): LastFMJSON {
-	const response = responses[template(widget, widgetAPIs[widget.type].apis[widget.settings.api].url)];
+	const response = getResponse(widget);
+	if (response === undefined) return;
 
     const currentTrack = response.recenttracks.track[0];
 

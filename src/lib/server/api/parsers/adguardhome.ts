@@ -1,16 +1,13 @@
-import { responses } from '..';
-
-import template from '$lib/utils/handlebars';
-import widgetAPIsJSON from '$lib/data/widget_apis.json';
-const widgetAPIs: WidgetAPIsList = widgetAPIsJSON;
+import { getResponse } from '..';
 
 interface AdGuardHomeJSON {
 	queries: number;
 	blocked: number;
 }
 
-export default function (widget: WidgetData): AdGuardHomeJSON {
-	const response = responses[template(widget, widgetAPIs[widget.type].apis[widget.settings.api].url)];
+export default function (widget: WidgetData): AdGuardHomeJSON | undefined {
+	const response = getResponse(widget);
+	if (response === undefined) return;
 
     return {
         queries: response.num_dns_queries,
