@@ -1,3 +1,5 @@
+import chalk from "chalk";
+
 import * as database from '$lib/server/database';
 
 import template from '$lib/utils/handlebars';
@@ -59,11 +61,24 @@ export async function request(widget: WidgetData, check = false) {
 }
 
 export async function init() {
+	const activeIntervals: Record<number, NodeJS.Timeout> = {};
+
 	function requestAll() {
 		const widgets = database.layouts.getAllWidgets();
 
 		for (const widget of widgets) {
-			request(widget, true);
+			const apiConfig = widgetAPIs[widget.type];
+			if (!apiConfig) continue;
+
+			// Clear existing interval
+			if (activeIntervals[widget.id]) clearInterval(activeIntervals[widget.id]);
+
+			// Set interval to request widget's API
+			activeIntervals[widget.id] = setInterval(() => {
+				request(widget);
+			}, apiConfig?.interval);
+
+			request(widget);
 		}
 	}
 
