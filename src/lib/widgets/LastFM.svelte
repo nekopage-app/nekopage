@@ -33,8 +33,8 @@
 
 	onMount(() => {
 		onRefresh();
-		const interval = setInterval(onRefresh, 1000 * 60 * 5); // Run every 5 minutes
-		return clearInterval(interval);
+		const interval = setInterval(onRefresh, 1000 * 60 * 3); // Run every 3 minutes
+		return () => clearInterval(interval);
 	});
 </script>
 

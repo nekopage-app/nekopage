@@ -32,7 +32,7 @@
 	onMount(() => {
 		onRefresh();
 		const interval = setInterval(onRefresh, 1000 * 60 * 60 * 12); // Run every 12 hours
-		return clearInterval(interval);
+		return () => clearInterval(interval);
 	});
 </script>
 
