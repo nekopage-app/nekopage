@@ -48,7 +48,7 @@ export async function request(widget: WidgetData, check = false) {
 	console.info(`[api]: fetching ${widget.type} data for widget ID: ${widget.id}`);
 
 	try {
-		const response = await fetch(url, { headers });
+		const response = await fetch(url, { headers, cache: "no-store" });
 
 		const contentType = response.headers.get('Content-Type');
 		if (!contentType) throw Error('No Content-Type header found');
