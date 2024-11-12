@@ -1,0 +1,144 @@
+{
+	"AdGuardHome": {
+		"name": "AdGuard Home",
+		"api": {
+			"interval": 3600000,
+			"apis": {
+				"custom": {
+					"url": "{{ settings.url }}/control/stats",
+					"headers": {
+						"Authorization": "Basic {{base64 (concat settings.username \":\" settings.password) }}"
+					}
+				}
+			}
+		},
+		"settings": {
+			"title": "adguard home",
+			"api": "custom",
+			"url": "",
+			"username": "",
+			"password": ""
+		}
+	},
+	"Astronomy": {
+		"name": "Astronomy",
+		"api": {
+			"interval": 43200000,
+			"apis": {
+				"weatherapi.com": {
+					"url": "https://api.weatherapi.com/v1/astronomy.json?key={{ settings.apiKey }}&q={{ settings.location }}&days=1&aqi=no&alerts=false",
+					"headers": {}
+				}
+			}
+		},
+		"settings": {
+			"title": "astronomy",
+			"api": "",
+			"apiKey": "",
+			"location": "London"
+		}
+	},
+	"Bookmarks": {
+		"name": "Bookmarks",
+        "api": {},
+		"settings": {
+			"title": "bookmarks",
+			"columns": 4,
+			"icons": true,
+			"bookmarks": {
+				"My Category": {
+					"nekopage": {
+						"url": "https://github.com/nekopage-app/nekopage",
+						"icon": "mdi:git"
+					}
+				}
+			}
+		}
+	},
+	"Calendar": {
+		"name": "Calendar",
+        "api": {},
+		"settings": {
+			"title": "calendar"
+		}
+	},
+	"LastFM": {
+		"name": "Last.fm",
+		"api": {
+			"interval": 180000,
+			"apis": {
+				"custom": {
+					"url": "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user={{ settings.username }}&api_key={{ settings.apiKey }}&format=json&limit=1",
+					"headers": {}
+				}
+			}
+		},
+		"settings": {
+			"title": "last.fm",
+			"api": "custom",
+			"apiKey": "",
+			"username": "",
+			"cd": false,
+			"showScrobbles": true
+		}
+	},
+	"Picture": {
+		"name": "Picture",
+        "api": {},
+		"settings": {
+			"title": "picture",
+			"height": 200,
+			"image": "https://placehold.co/600x400"
+		}
+	},
+	"RSS": {
+		"name": "RSS Feed",
+        "api": {},
+		"settings": {
+			"title": "rss",
+			"url": "https://feeds.bbci.co.uk/news/rss.xml",
+			"columns": 2,
+			"items": 4,
+			"showImages": true,
+			"showDescriptions": true,
+			"showPublished": true
+		}
+	},
+	"Search": {
+		"name": "Search",
+        "api": {},
+		"settings": {
+			"title": "search",
+			"redirect": "https://www.google.com/search?q="
+		}
+	},
+	"Text": {
+		"name": "Text",
+        "api": {},
+		"settings": {
+			"title": "text",
+			"text": "Meow meow meow meow meow meow meow."
+		}
+	},
+	"Weather": {
+		"name": "Weather",
+		"api": {
+			"interval": 43200000,
+			"apis": {
+				"weatherapi.com": {
+					"url": "http://api.weatherapi.com/v1/forecast.json?key={{ settings.apiKey }}&q={{ settings.location }}&days=1&aqi=no&alerts=false",
+					"headers": {}
+				}
+			}
+		},
+		"settings": {
+			"title": "weather",
+			"api": "",
+			"apiKey": "",
+			"location": "London",
+			"fahrenheit": false,
+			"mph": false,
+			"showLocation": true
+		}
+	}
+}

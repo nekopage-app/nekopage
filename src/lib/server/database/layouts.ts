@@ -3,8 +3,8 @@ import { Column } from '$lib/enums';
 import { database } from '.';
 import * as api from "../api";
 
-import default_widget_settings_json from '$lib/data/default_widget_settings.json';
-const default_widget_settings: Record<string, WidgetSettings> = default_widget_settings_json;
+import widgetsJSON from '$lib/data/widgets.json';
+const widgetsData: WidgetsJSON = widgetsJSON;
 
 /**
  * Checks if a user has a layout in the database tied to them.
@@ -175,7 +175,7 @@ export function setWidgetSettings(widgetId: number, settings: WidgetSettings): b
  */
 export function createWidget(layoutId: number, type: string): number {
 	const sql = `INSERT INTO widgets (layout_id, type, settings) VALUES (?, ?, ?)`;
-	const row = database.prepare(sql).run(layoutId, type, JSON.stringify(default_widget_settings[type]));
+	const row = database.prepare(sql).run(layoutId, type, JSON.stringify(widgetsData[type].settings));
 
 	const id = Number(row.lastInsertRowid);
 
@@ -183,7 +183,7 @@ export function createWidget(layoutId: number, type: string): number {
 	api.request({
 		type,
 		id,
-		settings: default_widget_settings[type]
+		settings: widgetsData[type].settings
 	}, true);
 
 	return id;

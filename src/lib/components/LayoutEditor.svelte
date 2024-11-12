@@ -3,20 +3,19 @@
 	import { quadOut } from 'svelte/easing';
 
 	import { layout, showSettingsButton, showSettings, inLayoutEditor, showErrorMessage, errorMessage } from '$lib/stores';
-	import { widgets } from '$lib/widgets';
+	import widgetsJSON from '$lib/data/widgets.json';
+	const widgetsData: WidgetsJSON = widgetsJSON;
 
-	import default_widget_settings_json from '$lib/data/default_widget_settings.json';
 	import WidgetEditor from './widget-editor/WidgetEditor.svelte';
-	const default_widget_settings: Record<string, WidgetSettings> = default_widget_settings_json;
 
 	// Layout editor
 	let showAddMenu = $state(false);
 
 	let addMenuSearchValue = $state('');
 	let filteredWidgets = $derived(
-		Object.keys(widgets).filter((widget) =>
-			widget.toLocaleLowerCase().includes(addMenuSearchValue.toLocaleLowerCase())
-		)
+		Object.entries(widgetsData).filter(([_, widget]) =>
+			widget.name.toLocaleLowerCase().includes(addMenuSearchValue.toLocaleLowerCase())
+		).map(([type, widget]) => ({ type, name: widget.name }))
 	);
 
 	function exitLayoutEditor() {
@@ -33,7 +32,7 @@
 		const data = await response.json();
 
 		if (data.id) {
-			const settings = default_widget_settings[widgetType];
+			const settings = widgetsData[widgetType].settings;
 
 			layout.update((currentLayout) => {
 				return {
@@ -75,8 +74,8 @@
 
 			<div class="!grid grid-cols-2 gap-1.5">
 				{#each filteredWidgets as widget}
-					<button class="button !bg-accent !text-crust shadow-sm" onclick={() => addWidget(widget)}
-						>{widget}</button
+					<button class="button !bg-accent !text-crust shadow-sm" onclick={() => addWidget(widget.type)}
+						>{widget.name}</button
 					>
 				{/each}
 			</div>

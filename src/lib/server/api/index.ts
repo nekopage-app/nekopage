@@ -3,8 +3,8 @@ import chalk from "chalk";
 import * as database from '$lib/server/database';
 
 import template from '$lib/utils/handlebars';
-import widgetAPIsJSON from '$lib/data/widget_apis.json';
-const widgetAPIs: WidgetAPIsList = widgetAPIsJSON;
+import widgetsJSON from '$lib/data/widgets.json';
+const widgetsData: WidgetsJSON = widgetsJSON;
 
 import adguardhome from './parsers/adguardhome';
 import astronomy from './parsers/astronomy';
@@ -29,7 +29,7 @@ export const parsers = {
  */
 export async function request(widget: WidgetData, check = false) {
 	let { url, headers } = widget.settings;
-	const apiConfig = widgetAPIs[widget.type]?.apis[widget.settings.api];
+	const apiConfig = widgetsData[widget.type]?.api.apis[widget.settings.api];
 
 	if (!url && !apiConfig) return;
 
@@ -67,8 +67,8 @@ export async function init() {
 		const widgets = database.layouts.getAllWidgets();
 
 		for (const widget of widgets) {
-			const apiConfig = widgetAPIs[widget.type];
-			if (!apiConfig) continue;
+			const apiConfig = widgetsData[widget.type].api;
+			if (!apiConfig?.interval) continue;
 
 			// Clear existing interval
 			if (activeIntervals[widget.id]) clearInterval(activeIntervals[widget.id]);
@@ -105,7 +105,7 @@ export function parse(widget: WidgetData): object | undefined {
 }
 
 export function getResponse(widget: WidgetData): any {
-	const widgetAPI = widgetAPIs[widget.type].apis[widget.settings.api];
+	const widgetAPI = widgetsData[widget.type]?.api.apis[widget.settings.api];
 	const url = template(widget, widgetAPI.url);
 	const response = responses[url];
 	

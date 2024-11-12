@@ -16,5 +16,24 @@ interface WidgetSettings {
 }
 
 interface WidgetEditorComponentProps {
-	onClickSave: () => void
+	onClickSave: () => void;
 }
+
+type WidgetsJSON = Record<
+	string,
+	{
+		name: string;
+		api: {
+			interval: number;
+			apis: Record<
+				string,
+				{
+					url: string;
+					headers: Record<string, string>;
+					[key: string]: any;
+				}
+			>;
+		} | any;
+		settings: WidgetSettings;
+	}
+>;
