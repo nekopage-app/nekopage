@@ -44,7 +44,7 @@
         <input type="text" name="username">
     </div>
 
-    <button class="button h-9 mb-[1px]">Save username</button>
+    <button class="button h-9">Save username</button>
 </div>
 
 <hr>
