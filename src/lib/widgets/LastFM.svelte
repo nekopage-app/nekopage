@@ -13,6 +13,7 @@
     let artist = $state("");
     let album = $state("");
 	let albumCover = $state("");
+    let url = $state("");
 
 	async function onRefresh() {
 		const response = await fetch(`/api/widget/${data.id}/api`);
@@ -26,6 +27,7 @@
 			artist = responseData.api.artist;
             album = responseData.api.album;
 			albumCover = responseData.api.albumCover;
+            url = responseData.api.url;
 
 			loading = false;
 		}
@@ -45,7 +47,7 @@
         </div>
     
         <div>
-            <p class="text-xl font-semibold">{name}</p>
+            <a class="text-xl font-semibold" href={url}>{name}</a>
             <p class="text-sm">{artist}</p>
         </div>
     

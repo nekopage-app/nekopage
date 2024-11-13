@@ -7,9 +7,10 @@ interface LastFMJSON {
 	artist: string;
 	album: string;
 	albumCover: string;
+    url: string;
 }
 
-export default function (widget: WidgetData): LastFMJSON {
+export default function (widget: WidgetData): LastFMJSON | undefined {
 	const response = getResponse(widget);
 	if (response === undefined) return;
 
@@ -21,6 +22,7 @@ export default function (widget: WidgetData): LastFMJSON {
         name: currentTrack.name,
         artist: currentTrack.artist["#text"],
         album: currentTrack.album["#text"],
-        albumCover: currentTrack.image[1]["#text"]
+        albumCover: currentTrack.image[1]["#text"],
+        url: currentTrack["url"]
     }
 }
