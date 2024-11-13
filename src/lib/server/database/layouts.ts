@@ -25,6 +25,8 @@ export function hasWidget(userId: number, widgetId: number): boolean {
 
 	if (row) {
 		const layout = getLayout(row.layout_id);
+		if (!layout) return false;
+		
 		return layout.user_id == userId;
 	}
 
@@ -48,7 +50,7 @@ export function getLayouts(userId: number): DatabaseGetLayout[] {
 /**
  * Gets a layout by ID and parses the properties to JSON.
  */
-export function getLayout(id: number): DatabaseLayout {
+export function getLayout(id: number): DatabaseLayout | undefined {
 	const sql = `SELECT * FROM layouts WHERE id = ?`;
 	const row = database.prepare(sql).get(id) as DatabaseLayout;
 
@@ -57,7 +59,7 @@ export function getLayout(id: number): DatabaseLayout {
 		row.middle = JSON.parse(row.middle as unknown as string);
 		row.right = JSON.parse(row.right as unknown as string);
 	} else {
-		throw new Error(`No layout found for id ${id}!`);
+		return;
 	}
 
 	return row;
@@ -105,8 +107,10 @@ export function getAllWidgets(): WidgetData[] {
 /**
  * Parses widgets and layouts into the Layout type.
  */
-export function getParsedLayout(layoutId: number): Layout {
+export function getParsedLayout(layoutId: number): Layout | undefined {
 	const layout = getLayout(layoutId);
+	if (!layout) return;
+
 	const widgets = getWidgets(layoutId);
 
 	const parsedLayout: Layout = {
@@ -192,21 +196,27 @@ export function createWidget(layoutId: number, type: string): number {
 /**
  * Creates a layout
  */
-export function createLayout(userId: number): boolean {
+export function createLayout(userId: number): DatabaseGetLayout | undefined {
 	const layouts = getLayouts(userId);
+	const layoutName = `My layout #${layouts.length + 1}`;
 
 	const sql = `INSERT INTO layouts (name, user_id) VALUES (?, ?)`;
-	const row = database.prepare(sql).run(`My layout #${layouts.length + 1}`, userId);
+	const row = database.prepare(sql).run(layoutName, userId);
 
 	if (row.changes > 0) {
 		const layoutId = Number(row.lastInsertRowid);
 
 		const widgetId = createWidget(layoutId, 'Text');
 		setWidgetSettings(widgetId, { title: 'getting started', text: 'Welcome to nekopage!' });
-		return setColumnWidgets(layoutId, Column.Left, [widgetId]);
+		setColumnWidgets(layoutId, Column.Left, [widgetId]);
+
+		return {
+			name: layoutName,
+			id: layoutId
+		};
 	}
 
-	return false;
+	return;
 }
 
 /**

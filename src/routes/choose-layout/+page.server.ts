@@ -22,6 +22,7 @@ export const actions = {
 		const id = Number(data.get('id'));
 
 		const layout = database.layouts.getLayout(id);
+		if (!layout) throw redirect(500, '/login');
 
         cookies.set("layout", JSON.stringify({ id: layout.id, name: layout.name }), {
             path: "/",
