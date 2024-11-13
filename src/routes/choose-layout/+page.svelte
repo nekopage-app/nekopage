@@ -12,6 +12,7 @@
 	let show = $state(false);
 	let formElement = $state<HTMLFormElement>();
 
+	let layouts = $state(data.layouts);
 	let chosenLayoutId = $state(-1);
 
 	$effect(() => {
@@ -27,6 +28,20 @@
 	function onClick(layoutId: number) {
 		show = false;
 		chosenLayoutId = layoutId;
+	}
+
+	async function createLayout() {
+		const response = await fetch("/api/layout/add", { method: "POST" });
+		const data = await response.json();
+
+		if (data.success) {
+			console.log(data);
+
+			layouts.push({
+				name: data.name,
+				id: data.id
+			});
+		}
 	}
 </script>
 
@@ -55,7 +70,7 @@
 			<p class="mb-4">Welcome, {data.user.username}.</p>
 
 			<div class="grid grid-cols-2 gap-2">
-				{#each data.layouts as layout}
+				{#each layouts as layout}
 					<button
 						onclick={() => onClick(layout.id)}
 						class="bg-crust p-4 flex justify-center items-center h-16 text-xl font-medium border border-base rounded-lg shadow"
@@ -64,6 +79,8 @@
 					</button>
 				{/each}
 			</div>
+
+			<button type="button" onclick={createLayout} class="button w-40 !bg-accent mt-2">Create Layout</button>
 		</form>
 
 		<Footer />
