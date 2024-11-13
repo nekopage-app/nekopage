@@ -29,7 +29,7 @@ export const parsers = {
  */
 export async function request(widget: WidgetData, check = false) {
 	let { url, headers } = widget.settings;
-	const apiConfig = widgetsData[widget.type]?.api.apis[widget.settings.api];
+	const apiConfig = widgetsData[widget.type].api.apis?.[widget.settings.api];
 
 	if (!url && !apiConfig) return;
 
