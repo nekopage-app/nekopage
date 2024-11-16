@@ -3,6 +3,8 @@
     import { UserPermission } from '$lib/enums';
 
 	import PasswordInput from '$lib/components/inputs/PasswordInput.svelte';
+
+    let newUsername = $state($page.data.user.username);
 </script>
 
 <div class="flex justify-between items-center">
@@ -41,7 +43,7 @@
 <div class="grid grid-cols-4 gap-2 items-end">
     <div class="input input-vertical col-span-3">
         <label for="username">Username</label>
-        <input type="text" name="username">
+        <input type="text" name="username" bind:value={newUsername}>
     </div>
 
     <button class="button h-9">Save username</button>
