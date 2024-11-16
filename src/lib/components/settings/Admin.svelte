@@ -91,7 +91,7 @@
 
 	<div class="grid grid-cols-2 gap-2 mt-auto">
 		<button class="button" onclick={() => (showCreateUserModal = false)}>Cancel</button>
-		<button class="button" onclick={createUser}>Create</button>
+		<button class="button !bg-accent" onclick={createUser}>Create</button>
 	</div>
 </Modal>
 
