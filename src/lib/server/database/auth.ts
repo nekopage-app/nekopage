@@ -1,15 +1,35 @@
-import argon2 from "argon2";
-import crypto from "crypto";
-import chalk from "chalk";
+import argon2 from 'argon2';
+import crypto from 'crypto';
+import chalk from 'chalk';
 
-import { database, layouts } from ".";
+import { database, layouts } from '.';
 
 /**
  * Checks if a user's credentials are correct by verifying the hash.
+ * 
+ * @returns The user ID. Returns -1 if false.
  */
 export async function checkUserCredentials(username: string, password: string): Promise<number> {
 	const sql = `SELECT * FROM users WHERE username = ?`;
 	const row = database.prepare(sql).get(username) as DatabaseUser;
+
+	if (row) {
+		if (await argon2.verify(row.password, password)) {
+			return row.id;
+		}
+	}
+
+	return -1;
+}
+
+/**
+ * Checks if a user's credentials are correct by verifying the hash.
+ * 
+ * @returns The user ID. Returns -1 if false.
+ */
+export async function checkUserPassword(id: number, password: string): Promise<number> {
+	const sql = `SELECT * FROM users WHERE id = ?`;
+	const row = database.prepare(sql).get(id) as DatabaseUser;
 
 	if (row) {
 		if (await argon2.verify(row.password, password)) {
@@ -32,7 +52,7 @@ export async function checkSessionId(sessionId: string): Promise<DatabaseUser | 
 			if (await argon2.verify(user.session_id, sessionId)) {
 				const sessionCreated = new Date(user.session_created);
 				const now = new Date();
-				const expirationDate = new Date(sessionCreated.getTime() + 30 * 24 * 60 * 60 * 1000);	// 30 days
+				const expirationDate = new Date(sessionCreated.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days
 
 				if (now <= expirationDate) {
 					return user;
@@ -60,22 +80,22 @@ export function removeSession(userId: number): boolean {
  * @throws {Error}
  */
 export async function generateSessionId(userId: number): Promise<string> {
-	const sessionId = crypto.randomBytes(32).toString("hex");
+	const sessionId = crypto.randomBytes(32).toString('hex');
 	const hash = await argon2.hash(sessionId);
 
 	const sql = `UPDATE users SET session_id = ?, session_created = CURRENT_TIMESTAMP WHERE id = ?`;
 	const row = database.prepare(sql).run(hash, userId);
 
 	if (row.changes > 0) {
-        return sessionId;
-    }
+		return sessionId;
+	}
 
-	throw new Error("Failed to generate and store session ID");
+	throw new Error('Failed to generate and store session ID');
 }
 
 /**
  * Creates a new user with a hashed password.
- * 
+ *
  * @returns The user ID. Returns -1 if failed to create.
  */
 export async function createUser(username: string, password: string): Promise<number> {
@@ -96,8 +116,20 @@ export async function createUser(username: string, password: string): Promise<nu
 }
 
 /**
+ * Change a user's password
+ */
+export async function changePassword(userId: number, newPassword: string): Promise<boolean> {
+	const hashedPassword = await argon2.hash(newPassword);
+
+	const sql = `UPDATE users SET password = ? WHERE id = ?`;
+	const row = database.prepare(sql).run(hashedPassword, userId);
+
+	return row.changes > 0;
+}
+
+/**
  * Get all of the users in the database.
- * 
+ *
  * @returns User ID and name
  */
 export function getUsers(): DatabaseGetUser[] {
