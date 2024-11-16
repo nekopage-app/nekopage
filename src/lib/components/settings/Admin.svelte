@@ -11,7 +11,7 @@
 	let users = $state([]);
 
 	onMount(async () => {
-		const response = await fetch('/api/admin/users');
+		const response = await fetch('/api/user/list');
 		const data = await response.json();
 
 		users = data.users;
@@ -25,7 +25,7 @@
 	async function createUser() {
 		showCreateUserModal = false;
 
-        const response = await fetch("/api/admin/users", { method: "POST", body: JSON.stringify({ username: createUserUsername, password: createUserPassword }) });
+        const response = await fetch("/api/user/create", { method: "POST", body: JSON.stringify({ username: createUserUsername, password: createUserPassword }) });
         const data = await response.json();
 
         if (!data.success) {

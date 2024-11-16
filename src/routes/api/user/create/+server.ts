@@ -8,17 +8,6 @@ const usernameFilter = /^[a-zA-Z0-9_]{3,32}$/;
 // Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and, one special character
 const passwordFilter = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-export const GET: RequestHandler = async ({ locals }) => {
-	if (
-		!locals.user ||
-		(locals.user &&
-			!database.permissions.hasPermission(locals.user.id, UserPermission.Administrator))
-	)
-		return json({ success: false, error: 'Unauthorized' }, { status: 401 });
-
-	return json({ success: true, users: database.auth.getUsers() });
-};
-
 export const POST: RequestHandler = async ({ locals, request }) => {
 	const { username, password } = await request.json();
 
