@@ -57,6 +57,10 @@
 		@apply bg-base text-text placeholder:text-overlay h-9 font-medium text-[0.938rem] border-2 border-solid border-surface rounded-md flex-grow !outline-none p-1.5 transition duration-300 focus:border-accent focus:ring-[3px] ring-[color-mix(in_srgb,var(--accent)_30%,transparent)];
 	}
 
+	:global(input:disabled) {
+		@apply text-subtext brightness-90;
+	}
+
 	:global(.input) {
 		@apply flex justify-between items-center gap-1;
 	}
