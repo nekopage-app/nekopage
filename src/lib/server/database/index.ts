@@ -8,7 +8,7 @@ import * as uploads from "./uploads";
 import * as permissions from "./permissions";
 import { UserPermission } from "$lib/enums";
 
-export const database = new Database(env.DATABASE_PATH, { verbose: console.log });
+export const database = new Database(env.DATABASE_PATH ?? "./nekopage.db", { verbose: console.log });
 
 export { auth, layouts, settings, uploads, permissions };
 
