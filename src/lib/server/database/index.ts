@@ -1,19 +1,22 @@
 import Database from "better-sqlite3";
+import argon2 from "argon2";
+import chalk from "chalk";
+
 import { env } from "$env/dynamic/private";
+import { UserPermission } from "$lib/enums";
 
 import * as auth from "./auth";
 import * as layouts from "./layouts";
 import * as settings from "./settings";
 import * as uploads from "./uploads";
 import * as permissions from "./permissions";
-import { UserPermission } from "$lib/enums";
 
 export const database = new Database(env.DATABASE_PATH ?? "./nekopage.db", { verbose: console.log });
 
 export { auth, layouts, settings, uploads, permissions };
 
 /**
- * Initalize database - adds tables if not found
+ * Initalize database - adds tables if not found and creates default user
  */
 export async function init() {
 	// Users
@@ -82,7 +85,7 @@ export async function init() {
 
 	console.info("[database]: checked and created missing tables in database");
 
-    // Create default user
+    // Create default user if no users exist
 	const userCountSql = `SELECT COUNT(*) FROM users`;
 	const userCountResult = database.prepare(userCountSql).get() as any;
 
@@ -90,6 +93,16 @@ export async function init() {
 		const userId = await auth.createUser("neko", "meow");
 		permissions.addPermission(userId, UserPermission.Administrator);
 
-		console.info("[database]: default account created");
+		console.warn(chalk.yellow(`[database]: default account created. ${chalk.red(chalk.bold("update the account immediately for security!"))}`));
+	}
+
+	// If default user does exist, send warning
+	const defaultUserSql = `SELECT password FROM users WHERE username = ?`;
+	const defaultUserResult = database.prepare(defaultUserSql).get("neko") as { password: string };
+
+	if (defaultUserResult.password) {
+		if (await argon2.verify(defaultUserResult.password, "meow")) {
+			console.warn(chalk.yellow(`[database]: default account's password is unchanged. ${chalk.red(chalk.bold("change it!"))}`));
+		}
 	}
 }
