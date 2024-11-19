@@ -1,3 +1,4 @@
+import axios from "axios";
 import chalk from "chalk";
 
 import * as database from '$lib/server/database';
@@ -36,6 +37,7 @@ export async function request(widget: WidgetData, check = false) {
 		const api = apisList[apiName];
 
 		const url = template(widget, api.url);
+		const method = api.method ?? "GET";
 		let headers = api.headers ?? {};
 
 		// Template each header
@@ -49,13 +51,13 @@ export async function request(widget: WidgetData, check = false) {
 		console.info(`[api]: fetching ${widget.type} data for widget ID: ${widget.id}`);
 
 		try {
-			const response = await fetch(url, { headers, cache: "no-store" });
+			const response = await axios({
+				url,
+				method,
+				headers
+			});
 	
-			const contentType = response.headers.get('Content-Type');
-			if (!contentType) throw Error('No Content-Type header found');
-	
-			const data = contentType == 'application/json' ? await response.json() : await response.text();
-			responses[url] = data;
+			responses[url] = response.data;
 		} catch (error) {
 			console.error(chalk.red(`[api]: failed to fetch widget API data! id: ${widget.id}, type: ${widget.type}, url: ${url}, error:`), error);
 		}
