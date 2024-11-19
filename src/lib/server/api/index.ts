@@ -3,7 +3,7 @@ import chalk from "chalk";
 
 import * as database from '$lib/server/database';
 
-import template from '$lib/utils/handlebars';
+import { template, templateRecords } from '$lib/utils/handlebars';
 import widgetsJSON from '$lib/data/widgets.json';
 const widgetsData: WidgetsJSON = widgetsJSON;
 
@@ -11,6 +11,7 @@ import adguardhome from './parsers/adguardhome';
 import astronomy from './parsers/astronomy';
 import lastfm from './parsers/lastfm';
 import rss from './parsers/rss';
+import torrent from "./parsers/torrent";
 import weather from './parsers/weather';
 
 export let responses: Record<string, any> = {};
@@ -19,11 +20,12 @@ export const parsers = {
 	Astronomy: astronomy,
 	LastFM: lastfm,
 	RSS: rss,
+	Torrent: torrent,
 	Weather: weather
 };
 
 /**
- * Request API for a specific widget
+ * Request APIs for a specific widget
  *
  * @param {WidgetData} widget - The widget data
  * @param {boolean} check - Check if API has already been requested
@@ -33,23 +35,28 @@ export async function request(widget: WidgetData, check = false) {
 	const apisList = widgetsData[widget.type].apis.list;
 	if (!apisList && !apis) return;
 
+	// Go through each specified API in widget's settings
 	for (const apiName of apis) {
 		const api = apisList[apiName];
 
 		const url = template(widget, api.url);
 		const method = api.method ?? "GET";
 		let headers = api.headers ?? {};
+		let cookies = api.cookies ?? {};
 
-		// Template each header
-		Object.keys(headers).forEach((key) => {
-			headers[key] = template(widget, headers[key]);
-		});
+		// Template objects
+		templateRecords(headers, widget);
+		templateRecords(cookies, widget);
+
+		// Add cookies as a header
+		headers["Cookie"] = Object.entries(cookies).map(([key, value]) => `${key}=${value}`).join("; ");
 
 		// Return if no URL is set or the URL is already fetched
 		if (!url || (check && responses[url])) return;
 
 		console.info(`[api]: fetching ${widget.type} data for widget ID: ${widget.id}`);
 
+		// Fetch API
 		try {
 			const response = await axios({
 				url,
@@ -59,7 +66,7 @@ export async function request(widget: WidgetData, check = false) {
 	
 			responses[url] = response.data;
 		} catch (error) {
-			console.error(chalk.red(`[api]: failed to fetch widget API data! id: ${widget.id}, type: ${widget.type}, url: ${url}, error:`), error);
+			console.error(chalk.red(`[api]: failed to fetch widget API data! id: ${widget.id}, type: ${widget.type}, api: ${apiName}, url: ${url}, error:`));
 		}
 	}
 }
