@@ -28,46 +28,49 @@ export const parsers = {
  * @param {boolean} check - Check if API has already been requested
  */
 export async function request(widget: WidgetData, check = false) {
-	let { url, headers } = widget.settings;
-	const apiConfig = widgetsData[widget.type].api.apis?.[widget.settings.api];
+	const { apis } = widget.settings;
+	const apisList = widgetsData[widget.type].apis.list;
+	if (!apisList && !apis) return;
 
-	if (!url && !apiConfig) return;
+	for (const apiName of apis) {
+		const api = apisList[apiName];
 
-	// Template variables
-	url = template(widget, apiConfig?.url ?? url ?? '');
-	headers = apiConfig?.headers ?? headers ?? {};
+		const url = template(widget, api.url);
+		let headers = api.headers ?? {};
 
-	// Template each header
-	Object.keys(headers).forEach((key) => {
-		headers[key] = template(widget, headers[key]);
-	});
+		// Template each header
+		Object.keys(headers).forEach((key) => {
+			headers[key] = template(widget, headers[key]);
+		});
 
-	// Return if no URL is found or the response is already fetched
-	if (!url || (check && responses[url])) return;
+		// Return if no URL is set or the URL is already fetched
+		if (!url || (check && responses[url])) return;
 
-	console.info(`[api]: fetching ${widget.type} data for widget ID: ${widget.id}`);
+		console.info(`[api]: fetching ${widget.type} data for widget ID: ${widget.id}`);
 
-	try {
-		const response = await fetch(url, { headers, cache: "no-store" });
-
-		const contentType = response.headers.get('Content-Type');
-		if (!contentType) throw Error('No Content-Type header found');
-
-		const data = contentType == 'application/json' ? await response.json() : await response.text();
-		responses[url] = data;
-	} catch (error) {
-		console.error(chalk.red(`[api]: failed to fetch widget API data! id: ${widget.id}, url: ${url}, error:`), error);
+		try {
+			const response = await fetch(url, { headers, cache: "no-store" });
+	
+			const contentType = response.headers.get('Content-Type');
+			if (!contentType) throw Error('No Content-Type header found');
+	
+			const data = contentType == 'application/json' ? await response.json() : await response.text();
+			responses[url] = data;
+		} catch (error) {
+			console.error(chalk.red(`[api]: failed to fetch widget API data! id: ${widget.id}, type: ${widget.type}, url: ${url}, error:`), error);
+		}
 	}
 }
 
 export async function init() {
 	const activeIntervals: Record<number, NodeJS.Timeout> = {};
 
+	// Request all widgets and start intervals for fetching all of them
 	function requestAll() {
 		const widgets = database.layouts.getAllWidgets();
 
 		for (const widget of widgets) {
-			const apiConfig = widgetsData[widget.type].api;
+			const apiConfig = widgetsData[widget.type].apis;
 			if (!apiConfig?.interval) continue;
 
 			// Clear existing interval
@@ -94,6 +97,21 @@ export async function init() {
 	);
 }
 
+/**
+ * Get response for widget
+ */
+export function getResponse(widget: WidgetData): any {
+	const widgetAPI = widgetsData[widget.type]?.apis.list[widget.settings.api];
+	const url = template(widget, widgetAPI.url);
+	const response = responses[url];
+	
+	if (response === undefined) console.warn(chalk.yellow(`[api]: failed to get response for widget! id: ${widget.id}, url: ${url}`));
+	return response;
+}
+
+/**
+ * Parse response for widget
+ */
 export function parse(widget: WidgetData): object | undefined {
 	try {
 		const parser = parsers[widget.type as keyof typeof parsers];
@@ -102,13 +120,4 @@ export function parse(widget: WidgetData): object | undefined {
 		console.error(chalk.red(`[api]: failed to parse data for widget! id: ${widget.id}, type: ${widget.type}, error:`), error);
 		return;
 	}
-}
-
-export function getResponse(widget: WidgetData): any {
-	const widgetAPI = widgetsData[widget.type]?.api.apis[widget.settings.api];
-	const url = template(widget, widgetAPI.url);
-	const response = responses[url];
-	
-	if (response === undefined) console.warn(chalk.yellow(`[api]: failed to get response for widget! id: ${widget.id}, url: ${url}`));
-	return response;
 }

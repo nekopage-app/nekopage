@@ -1,10 +1,10 @@
 {
 	"AdGuardHome": {
 		"name": "AdGuard Home",
-		"api": {
+		"apis": {
 			"interval": 3600000,
-			"apis": {
-				"custom": {
+			"list": {
+				"stats": {
 					"url": "{{ settings.url }}/control/stats",
 					"headers": {
 						"Authorization": "Basic {{base64 (concat settings.username \":\" settings.password) }}"
@@ -14,7 +14,9 @@
 		},
 		"settings": {
 			"title": "adguard home",
-			"api": "custom",
+			"apis": [
+				"stats"
+			],
 			"url": "",
 			"username": "",
 			"password": ""
@@ -22,29 +24,29 @@
 	},
 	"Astronomy": {
 		"name": "Astronomy",
-		"api": {
+		"apis": {
 			"interval": 43200000,
-			"apis": {
+			"list": {
 				"weatherapi.com": {
-					"url": "https://api.weatherapi.com/v1/astronomy.json?key={{ settings.apiKey }}&q={{ settings.location }}&days=1&aqi=no&alerts=false",
-					"headers": {}
+					"url": "https://api.weatherapi.com/v1/astronomy.json?key={{ settings.apiKey }}&q={{ settings.location }}&days=1&aqi=no&alerts=false"
 				}
 			}
 		},
 		"settings": {
 			"title": "astronomy",
-			"api": "",
+			"apis": [],
 			"apiKey": "",
 			"location": "London"
 		}
 	},
 	"Bookmarks": {
 		"name": "Bookmarks",
-        "api": {},
+        "apis": {},
 		"settings": {
 			"title": "bookmarks",
 			"columns": 4,
 			"icons": true,
+			"categories": true,
 			"bookmarks": {
 				"My Category": {
 					"nekopage": {
@@ -57,25 +59,26 @@
 	},
 	"Calendar": {
 		"name": "Calendar",
-        "api": {},
+        "apis": {},
 		"settings": {
 			"title": "calendar"
 		}
 	},
 	"LastFM": {
 		"name": "Last.fm",
-		"api": {
+		"apis": {
 			"interval": 180000,
-			"apis": {
-				"custom": {
-					"url": "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user={{ settings.username }}&api_key={{ settings.apiKey }}&format=json&limit=1",
-					"headers": {}
+			"list": {
+				"recent-tracks": {
+					"url": "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user={{ settings.username }}&api_key={{ settings.apiKey }}&format=json&limit=1"
 				}
 			}
 		},
 		"settings": {
 			"title": "last.fm",
-			"api": "custom",
+			"apis": [
+				"recent-tracks"
+			],
 			"apiKey": "",
 			"username": "",
 			"cd": false,
@@ -84,7 +87,7 @@
 	},
 	"Picture": {
 		"name": "Picture",
-        "api": {},
+        "apis": {},
 		"settings": {
 			"title": "picture",
 			"height": 200,
@@ -93,9 +96,19 @@
 	},
 	"RSS": {
 		"name": "RSS Feed",
-        "api": {},
+        "apis": {
+			"interval": 10800000,
+			"list": {
+				"fetch": {
+					"url": "{{ settings.url }}"
+				}
+			}
+		},
 		"settings": {
 			"title": "rss",
+			"apis": [
+				"fetch"
+			],
 			"url": "https://feeds.bbci.co.uk/news/rss.xml",
 			"columns": 2,
 			"items": 4,
@@ -106,7 +119,7 @@
 	},
 	"Search": {
 		"name": "Search",
-        "api": {},
+        "apis": {},
 		"settings": {
 			"title": "search",
 			"redirect": "https://www.google.com/search?q="
@@ -114,7 +127,7 @@
 	},
 	"Text": {
 		"name": "Text",
-        "api": {},
+        "apis": {},
 		"settings": {
 			"title": "text",
 			"text": "Meow meow meow meow meow meow meow."
@@ -122,12 +135,11 @@
 	},
 	"Weather": {
 		"name": "Weather",
-		"api": {
+		"apis": {
 			"interval": 43200000,
-			"apis": {
+			"list": {
 				"weatherapi.com": {
-					"url": "http://api.weatherapi.com/v1/forecast.json?key={{ settings.apiKey }}&q={{ settings.location }}&days=1&aqi=no&alerts=false",
-					"headers": {}
+					"url": "http://api.weatherapi.com/v1/forecast.json?key={{ settings.apiKey }}&q={{ settings.location }}&days=1&aqi=no&alerts=false"
 				}
 			}
 		},

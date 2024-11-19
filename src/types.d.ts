@@ -23,13 +23,14 @@ type WidgetsJSON = Record<
 	string,
 	{
 		name: string;
-		api: {
+		apis: {
 			interval: number;
-			apis: Record<
+			list: Record<
 				string,
 				{
 					url: string;
-					headers: Record<string, string>;
+					headers?: Record<string, string>;
+					cookies?: Record<string, string>;
 					[key: string]: any;
 				}
 			>;
