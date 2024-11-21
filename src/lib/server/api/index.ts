@@ -66,7 +66,11 @@ export async function request(widget: WidgetData, check = false) {
 	
 			responses[url] = response.data;
 		} catch (error) {
-			console.error(chalk.red(`[api]: failed to fetch widget API data! id: ${widget.id}, type: ${widget.type}, api: ${apiName}, url: ${url}, error:`));
+			if (error.response) {
+				console.error(chalk.red(`[api]: failed to fetch widget API data! id: ${widget.id}, type: ${widget.type}, api: ${apiName}, url: ${url}, status: ${error.response.status}`));
+			} else {
+				console.error(chalk.red(`[api]: failed to fetch widget API data! id: ${widget.id}, type: ${widget.type}, api: ${apiName}, url: ${url}, error:`), error);
+			}
 		}
 	}
 }
