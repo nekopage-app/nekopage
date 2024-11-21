@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 
-import { getResponse, } from '..';
 import moonIcons from '$lib/data/moon_icons.json';
 
 interface AstronomyJSON {
@@ -10,18 +9,15 @@ interface AstronomyJSON {
 	sunset: number;
 }
 
-export default function (widget: WidgetData): AstronomyJSON | undefined {
-	const response = getResponse(widget);
-	if (response === undefined) return;
-
+export default function (widget: WidgetData, response: WidgetAPIResponse): AstronomyJSON | undefined {
 	switch (widget.settings.api) {
 		case 'weatherapi.com': {
-			const sunrise = new Date(`01 Jan 1970 ${response.astronomy.astro.sunrise}`);
-			const sunset = new Date(`01 Jan 1970 ${response.astronomy.astro.sunset}`);
+			const sunrise = new Date(`01 Jan 1970 ${response.data.astronomy.astro.sunrise}`);
+			const sunset = new Date(`01 Jan 1970 ${response.data.astronomy.astro.sunset}`);
 
 			return {
-				moonPhase: response.astronomy.astro.moon_phase,
-				icon: moonIcons[response.astronomy.astro.moon_phase as keyof typeof moonIcons],
+				moonPhase: response.data.astronomy.astro.moon_phase,
+				icon: moonIcons[response.data.astronomy.astro.moon_phase as keyof typeof moonIcons],
 				sunrise: sunrise.getTime(),
 				sunset: sunset.getTime()
 			};

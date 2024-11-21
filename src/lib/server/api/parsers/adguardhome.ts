@@ -1,16 +1,11 @@
-import { getResponse } from '..';
-
 interface AdGuardHomeJSON {
 	queries: number;
 	blocked: number;
 }
 
-export default function (widget: WidgetData): AdGuardHomeJSON | undefined {
-	const response = getResponse(widget);
-	if (response === undefined) return;
-
+export default function (widget: WidgetData, response: WidgetAPIResponse): AdGuardHomeJSON | undefined {
     return {
-        queries: response.num_dns_queries,
-        blocked: response.num_blocked_filtering
+        queries: response.data.num_dns_queries,
+        blocked: response.data.num_blocked_filtering
     }
 }

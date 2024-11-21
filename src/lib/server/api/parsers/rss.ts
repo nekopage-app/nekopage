@@ -1,15 +1,10 @@
 import chalk from 'chalk';
 import { XMLParser } from 'fast-xml-parser';
 
-import { responses } from '..';
-
-export default function (widget: WidgetData): object | undefined {
+export default function (widget: WidgetData, response: WidgetAPIResponse): object | undefined {
 	try {
-		const response = responses[widget.settings.url];
-		if (response === undefined) return;
-
 		const parser = new XMLParser({ ignoreAttributes: false });
-		const rss = parser.parse(response);
+		const rss = parser.parse(response.data);
 
 		const items = rss.rss.channel.item.slice(0, widget.settings.items);
 		return items;

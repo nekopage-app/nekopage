@@ -80,8 +80,6 @@ export async function request(widget: WidgetData, check = false) {
 				cookies,
 				data: response.data
 			};
-
-			console.log(responses[url])
 		} catch (error) {
 			if (error.response) {
 				console.error(chalk.red(`[api]: failed to fetch widget api data! id: ${widget.id}, type: ${widget.type}, api: ${apiName}, url: ${url}, status: ${error.response.status}`));
@@ -128,24 +126,20 @@ export async function init() {
 }
 
 /**
- * Get response for widget
- */
-export function getResponse(widget: WidgetData): any {
-	const widgetAPI = widgetsData[widget.type]?.apis.list[widget.settings.api];
-	const url = template(widget, widgetAPI.url);
-	const response = responses[url].data;
-	
-	if (response === undefined) console.warn(chalk.yellow(`[api]: failed to get response for widget! id: ${widget.id}, url: ${url}`));
-	return response;
-}
-
-/**
  * Parse response for widget
  */
 export function parse(widget: WidgetData): object | undefined {
 	try {
 		const parser = parsers[widget.type as keyof typeof parsers];
-		return parser(widget);
+
+		// Get response
+		const widgetAPI = widgetsData[widget.type]?.apis.list[widget.settings.api];
+		const url = template(widget, widgetAPI.url);
+		const response = responses[url].data;
+		
+		if (response === undefined) console.warn(chalk.yellow(`[api]: failed to get response for widget! id: ${widget.id}, url: ${url}`));
+
+		return parser(widget, response);
 	} catch (error) {
 		console.error(chalk.red(`[api]: failed to parse data for widget! id: ${widget.id}, type: ${widget.type}, error:`), error);
 		return;

@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 
-import { getResponse } from '..';
 import weatherapicomIcons from '$lib/data/weather/weatherapi.com.json';
 
 interface WeatherJSON {
@@ -14,23 +13,20 @@ interface WeatherJSON {
 	humidity: number;
 }
 
-export default function (widget: WidgetData): WeatherJSON | undefined {
-	const response = getResponse(widget);
-	if (response === undefined) return;
-
+export default function (widget: WidgetData, response: WidgetAPIResponse): WeatherJSON | undefined {
 	switch (widget.settings.api) {
 		case 'weatherapi.com': {
 			return {
-				place: response.location.name,
-				country: response.location.country,
-				condition: response.current.condition.text,
+				place: response.data.location.name,
+				country: response.data.location.country,
+				condition: response.data.current.condition.text,
 				icon: weatherapicomIcons[
-					response.current.condition.code as keyof typeof weatherapicomIcons
+					response.data.current.condition.code as keyof typeof weatherapicomIcons
 				],
-				temperature: Math.floor(response.current.temp_c),
-				rainChance: response.forecast.forecastday[0].day.daily_will_it_rain,
-				wind: response.current.wind_kph,
-				humidity: response.current.humidity
+				temperature: Math.floor(response.data.current.temp_c),
+				rainChance: response.data.forecast.forecastday[0].day.daily_will_it_rain,
+				wind: response.data.current.wind_kph,
+				humidity: response.data.current.humidity
 			};
 		}
 

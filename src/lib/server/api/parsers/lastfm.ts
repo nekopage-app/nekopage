@@ -1,5 +1,3 @@
-import { getResponse } from '..';
-
 interface LastFMJSON {
 	playing: number;
 	scrobbles: number;
@@ -10,15 +8,12 @@ interface LastFMJSON {
     url: string;
 }
 
-export default function (widget: WidgetData): LastFMJSON | undefined {
-	const response = getResponse(widget);
-	if (response === undefined) return;
-
-    const currentTrack = response.recenttracks.track[0];
+export default function (widget: WidgetData, response: WidgetAPIResponse): LastFMJSON | undefined {
+    const currentTrack = response.data.recenttracks.track[0];
 
     return {
         playing: currentTrack?.["@attr"]?.nowplaying ?? false,
-        scrobbles: response.recenttracks["@attr"].total,
+        scrobbles: response.data.recenttracks["@attr"].total,
         name: currentTrack.name,
         artist: currentTrack.artist["#text"],
         album: currentTrack.album["#text"],
