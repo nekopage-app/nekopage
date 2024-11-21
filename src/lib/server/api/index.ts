@@ -1,5 +1,6 @@
 import axios from "axios";
 import chalk from "chalk";
+import * as cookie from "cookie";
 
 import * as database from '$lib/server/database';
 
@@ -14,7 +15,7 @@ import rss from './parsers/rss';
 import torrent from "./parsers/torrent";
 import weather from './parsers/weather';
 
-export let responses: Record<string, any> = {};
+export let responses: Record<string, WidgetAPIResponse> = {};
 export const parsers = {
 	AdGuardHome: adguardhome,
 	Astronomy: astronomy,
@@ -43,33 +44,49 @@ export async function request(widget: WidgetData, check = false) {
 		const method = api.method ?? "GET";
 		let headers = api.headers ?? {};
 		let cookies = api.cookies ?? {};
+		let body = api.body ?? {};
+
+		// Return if no URL is set or the URL is already fetched
+		if (!url || (check && responses[url])) return;
 
 		// Template objects
 		templateRecords(headers, widget);
 		templateRecords(cookies, widget);
 
+		// Template body differently if it is an object
+		if (typeof body === "object")
+			templateRecords(body, widget);
+		else
+			template(widget, body);
+
 		// Add cookies as a header
 		headers["Cookie"] = Object.entries(cookies).map(([key, value]) => `${key}=${value}`).join("; ");
 
-		// Return if no URL is set or the URL is already fetched
-		if (!url || (check && responses[url])) return;
-
-		console.info(`[api]: fetching ${widget.type} data for widget ID: ${widget.id}`);
+		console.info(`[api]: fetching widget api data. id: ${widget.id}, type: ${widget.type}, api: ${apiName}, url: ${url}`);
 
 		// Fetch API
 		try {
 			const response = await axios({
 				url,
 				method,
-				headers
+				headers,
+				data: body
 			});
+
+			const cookies = cookie.parse(response.headers["Set-Cookie"] ?? "");
 	
-			responses[url] = response.data;
+			// Add data and cookies to responses variable
+			responses[url] = {
+				cookies,
+				data: response.data
+			};
+
+			console.log(responses[url])
 		} catch (error) {
 			if (error.response) {
-				console.error(chalk.red(`[api]: failed to fetch widget API data! id: ${widget.id}, type: ${widget.type}, api: ${apiName}, url: ${url}, status: ${error.response.status}`));
+				console.error(chalk.red(`[api]: failed to fetch widget api data! id: ${widget.id}, type: ${widget.type}, api: ${apiName}, url: ${url}, status: ${error.response.status}`));
 			} else {
-				console.error(chalk.red(`[api]: failed to fetch widget API data! id: ${widget.id}, type: ${widget.type}, api: ${apiName}, url: ${url}, error:`), error);
+				console.error(chalk.red(`[api]: failed to fetch widget api data! id: ${widget.id}, type: ${widget.type}, api: ${apiName}, url: ${url}, error:`), error);
 			}
 		}
 	}
@@ -116,7 +133,7 @@ export async function init() {
 export function getResponse(widget: WidgetData): any {
 	const widgetAPI = widgetsData[widget.type]?.apis.list[widget.settings.api];
 	const url = template(widget, widgetAPI.url);
-	const response = responses[url];
+	const response = responses[url].data;
 	
 	if (response === undefined) console.warn(chalk.yellow(`[api]: failed to get response for widget! id: ${widget.id}, url: ${url}`));
 	return response;

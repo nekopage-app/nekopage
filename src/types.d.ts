@@ -32,6 +32,7 @@ type WidgetsJSON = Record<
 					method?: string;
 					headers?: Record<string, string>;
 					cookies?: Record<string, string>;
+					body?: Record<string, any> | string;
 					[key: string]: any;
 				}
 			>;
