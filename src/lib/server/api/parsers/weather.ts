@@ -13,20 +13,22 @@ interface WeatherJSON {
 	humidity: number;
 }
 
-export default function (widget: WidgetData, response: WidgetAPIResponse): WeatherJSON | undefined {
-	switch (widget.settings.api) {
+export default function (widget: WidgetData, responses: WidgetApiResponsesByName): WeatherJSON | undefined {
+	const [ apiName, api ] = Object.entries(responses)[0];
+
+	switch (apiName) {
 		case 'weatherapi.com': {
 			return {
-				place: response.data.location.name,
-				country: response.data.location.country,
-				condition: response.data.current.condition.text,
+				place: api.data.location.name,
+				country: api.data.location.country,
+				condition: api.data.current.condition.text,
 				icon: weatherapicomIcons[
-					response.data.current.condition.code as keyof typeof weatherapicomIcons
+					api.data.current.condition.code as keyof typeof weatherapicomIcons
 				],
-				temperature: Math.floor(response.data.current.temp_c),
-				rainChance: response.data.forecast.forecastday[0].day.daily_will_it_rain,
-				wind: response.data.current.wind_kph,
-				humidity: response.data.current.humidity
+				temperature: Math.floor(api.data.current.temp_c),
+				rainChance: api.data.forecast.forecastday[0].day.daily_will_it_rain,
+				wind: api.data.current.wind_kph,
+				humidity: api.data.current.humidity
 			};
 		}
 

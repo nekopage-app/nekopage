@@ -15,7 +15,7 @@ import rss from './parsers/rss';
 import torrent from "./parsers/torrent";
 import weather from './parsers/weather';
 
-export let responses: Record<string, WidgetAPIResponse> = {};
+export let responses: Record<number, WidgetApiResponsesByName> = {};
 export const parsers = {
 	AdGuardHome: adguardhome,
 	Astronomy: astronomy,
@@ -34,30 +34,31 @@ export const parsers = {
 export async function request(widget: WidgetData, check = false) {
 	const { apis } = widget.settings;
 	const apisList = widgetsData[widget.type].apis.list;
-	if (!apisList && !apis) return;
+	if (!apisList || !apis) return;
 
 	// Go through each specified API in widget's settings
 	for (const apiName of apis) {
 		const api = apisList[apiName];
+		const widgetResponses = responses[widget.id] ?? {};
 
-		const url = template(widget, api.url);
+		const url = template(api.url, widget);
 		const method = api.method ?? "GET";
 		let headers = api.headers ?? {};
 		let cookies = api.cookies ?? {};
 		let body = api.body ?? {};
 
 		// Return if no URL is set or the URL is already fetched
-		if (!url || (check && responses[url])) return;
+		if (!url || (check && responses[widget.id])) return;
 
 		// Template objects
-		templateRecords(headers, widget);
-		templateRecords(cookies, widget);
+		templateRecords(headers, widget, widgetResponses);
+		templateRecords(cookies, widget, widgetResponses);
 
 		// Template body differently if it is an object
 		if (typeof body === "object")
-			templateRecords(body, widget);
+			templateRecords(body, widget, widgetResponses);
 		else
-			template(widget, body);
+			template(body, widget, widgetResponses);
 
 		// Add cookies as a header
 		headers["Cookie"] = Object.entries(cookies).map(([key, value]) => `${key}=${value}`).join("; ");
@@ -73,13 +74,17 @@ export async function request(widget: WidgetData, check = false) {
 				data: body
 			});
 
-			const cookies = cookie.parse(response.headers["Set-Cookie"] ?? "");
-	
+			const setCookieHeader = response.headers["set-cookie"] ?? [];
+			const cookies = cookie.parse(setCookieHeader[0] ?? "");
+
 			// Add data and cookies to responses variable
-			responses[url] = {
+			responses[widget.id] = responses[widget.id] ?? {};
+			responses[widget.id][apiName] = {
 				cookies,
 				data: response.data
 			};
+
+			console.log(JSON.stringify(cookies));
 		} catch (error) {
 			if (error.response) {
 				console.error(chalk.red(`[api]: failed to fetch widget api data! id: ${widget.id}, type: ${widget.type}, api: ${apiName}, url: ${url}, status: ${error.response.status}`));
@@ -133,13 +138,10 @@ export function parse(widget: WidgetData): object | undefined {
 		const parser = parsers[widget.type as keyof typeof parsers];
 
 		// Get response
-		const widgetAPI = widgetsData[widget.type]?.apis.list[widget.settings.api];
-		const url = template(widget, widgetAPI.url);
-		const response = responses[url].data;
-		
-		if (response === undefined) console.warn(chalk.yellow(`[api]: failed to get response for widget! id: ${widget.id}, url: ${url}`));
+		const widgetResponses = responses[widget.id];
+		if (widgetResponses === undefined) console.warn(chalk.yellow(`[api]: failed to get response for widget! id: ${widget.id}`));
 
-		return parser(widget, response);
+		return parser(widget, widgetResponses);
 	} catch (error) {
 		console.error(chalk.red(`[api]: failed to parse data for widget! id: ${widget.id}, type: ${widget.type}, error:`), error);
 		return;

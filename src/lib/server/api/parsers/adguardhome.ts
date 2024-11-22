@@ -3,9 +3,9 @@ interface AdGuardHomeJSON {
 	blocked: number;
 }
 
-export default function (widget: WidgetData, response: WidgetAPIResponse): AdGuardHomeJSON | undefined {
+export default function (widget: WidgetData, responses: WidgetApiResponsesByName): AdGuardHomeJSON | undefined {
     return {
-        queries: response.data.num_dns_queries,
-        blocked: response.data.num_blocked_filtering
+        queries: responses["stats"].data.num_dns_queries,
+        blocked: responses["stats"].data.num_blocked_filtering
     }
 }

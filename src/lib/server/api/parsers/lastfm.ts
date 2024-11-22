@@ -8,12 +8,12 @@ interface LastFMJSON {
     url: string;
 }
 
-export default function (widget: WidgetData, response: WidgetAPIResponse): LastFMJSON | undefined {
-    const currentTrack = response.data.recenttracks.track[0];
+export default function (widget: WidgetData, responses: WidgetApiResponsesByName): LastFMJSON | undefined {
+    const currentTrack = responses["fetch"].data.recenttracks.track[0];
 
     return {
         playing: currentTrack?.["@attr"]?.nowplaying ?? false,
-        scrobbles: response.data.recenttracks["@attr"].total,
+        scrobbles: responses["fetch"].data.recenttracks["@attr"].total,
         name: currentTrack.name,
         artist: currentTrack.artist["#text"],
         album: currentTrack.album["#text"],
