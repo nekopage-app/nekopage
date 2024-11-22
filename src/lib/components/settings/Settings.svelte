@@ -4,6 +4,7 @@
 
 	import { page } from '$app/stores';
 	import { showSaveMessage, showSettings, showSettingsButton } from '$lib/stores';
+	import { UserPermission } from '$lib/enums';
 
 	import FloatingMenu from '$lib/components/FloatingMenu.svelte';
 
@@ -18,7 +19,6 @@
 	import Layout from './Layout.svelte';
 	import Account from './Account.svelte';
 	import Admin from './Admin.svelte';
-	import { UserPermission } from '$lib/enums';
 
 	const tabs: Tab[] = [
 		{
@@ -37,8 +37,6 @@
 			icon: 'heroicons:user-solid'
 		}
 	];
-
-	let saved = $state(false);
 	let transitioning = $state(false);
 	let currentTab = $state(tabs[0]);
 

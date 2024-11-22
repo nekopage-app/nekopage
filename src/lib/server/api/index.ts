@@ -83,8 +83,6 @@ export async function request(widget: WidgetData, check = false) {
 				cookies,
 				data: response.data
 			};
-
-			console.log(JSON.stringify(cookies));
 		} catch (error) {
 			if (error.response) {
 				console.error(chalk.red(`[api]: failed to fetch widget api data! id: ${widget.id}, type: ${widget.type}, api: ${apiName}, url: ${url}, status: ${error.response.status}`));
